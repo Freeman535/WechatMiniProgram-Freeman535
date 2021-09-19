@@ -18,9 +18,15 @@
             <view>申请获取以下权限用于登录小程序</view>
             <text>获得你的公开信息(昵称，头像等)</text>
         </view>
- 
+        
+        <view class='content' >
+            <input class='content2' bindinput="bindKeyInput" id="name" maxlength='10' placeholder="请输入姓名" type="text"/>
+            <input class='content2' bindinput="bindKeyInput" id="phonenumber" maxlength='11' placeholder="请输入手机号" type="number"/>
+            <input class='content2' bindinput="bindKeyInput" id="bz" maxlength='50' placeholder="备注：例如 欧亚吉顺" type="text"/>
+        </view>
+
         <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="DBGetUserInfo">
-            授权登录
+            提交使用申请
         </button>
 
         <text class="section_text">*注：软件仅供技术交流，请勿用于商业及非法用途，如产生法律纠纷与本人无关</text>
