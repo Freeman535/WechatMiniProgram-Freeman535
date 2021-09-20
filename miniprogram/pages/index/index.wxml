@@ -25,7 +25,7 @@
             <input class='content2' bindinput="bindKeyInput" id="bz" maxlength='50' placeholder="备注：例如 欧亚吉顺" type="text"/>
         </view>
 
-        <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="DBGetUserInfo">
+        <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindtap="DBGetUserInfo">
             提交使用申请
         </button>
 

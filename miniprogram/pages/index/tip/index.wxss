@@ -1,1 +1,12 @@
 /* pages/index/tip/index.wxss */
+.header {
+  width:auto;
+  height:auto;
+  border-radius:50%;
+  overflow:hidden;
+  text-align:center;
+  display:flex;
+  justify-content: center; 
+  margin-bottom: 1%;
+  margin-top: 10%;
+}

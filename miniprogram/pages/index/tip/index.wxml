@@ -1,2 +1,21 @@
 <!--pages/index/tip/index.wxml-->
-<text>pages/index/tip/index.wxml</text>
+<view class="container">
+  <view class="page-body">
+    <view class="page-section page-section-spacing">
+      <view style="color:blue" class="text-box" scroll-y="true" scroll-top="{{scrollTop}}">
+        <view class='header'>
+          <open-data type="userAvatarUrl" class="img"></open-data>
+        </view>
+        <view class="nickname" style="display: flex;justify-content: center;margin-top:50rpx;margin-bottom:50rpx">
+          微信用户：<open-data type="userNickName" lang="zh_CN"></open-data>
+        </view>
+        <view style="display: flex;justify-content: center;margin-top:50rpx;margin-bottom:50rpx"> 
+          您已于 {{sqdate}} 申请注册过本小程序用户，请耐心等待管理员审核。
+        </view>
+        <view style="display: flex;justify-content: center;margin-top:50rpx;margin-bottom:50rpx">
+          申请姓名与电话为：{{name}}{{phonenumber}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

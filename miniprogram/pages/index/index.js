@@ -1,5 +1,7 @@
 const db = wx.cloud.database()
 const app = getApp()
+const utils = require('../../utils/utils.js');
+var util = require('../../utils/utils.js');
 Page({
   data: {
     userInfo: {},
@@ -54,7 +56,7 @@ Page({
           app.globalData.userData['shopcode'] = res.data[0]['shopcode']
           
           // 这里是有信息的，直接进入主程序
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../personal/index',
           })
         }else{
@@ -71,6 +73,7 @@ Page({
     wx.getUserProfile({
       desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
+        console.log(res)
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
@@ -81,13 +84,18 @@ Page({
 
   getUserPermissions(){
     db.collection('apply').where({
-      'openid': app.globalData.userData['OpenID']
+      _openid: app.globalData.userData['OpenID']
     })
     .get({
       success: function(res) {
         if (res.data.length > 0){
+          console.log(res)
+          app.globalData.sq_name = res.data[0]['name']
+          app.globalData.sq_bz = res.data[0]['bz']
+          app.globalData.sq_time = res.data[0]['due']
+          app.globalData.sq_phoneNumber = res.data[0]['phoneNumber']
           // 说明已经申请过，跳出申请的时间即可，提示页面。
-          wx.navigateTo({
+          wx.redirectTo({
             url: 'tip/index',
           })
         }else{
@@ -101,11 +109,36 @@ Page({
   },
 
   DBGetUserInfo(e){
+    var that = this
     console.log(this.data.rName,this.data.rPhone,this.data.rBz,)
     if (this.data.rName != '' && this.data.rPhone != '' && this.data.rBz != ''){
       // 向数据库添加信息待审批
-
-
+      wx.getUserProfile({
+        desc: '用于完善会员资料',
+        success:(res) => {
+          console.log(res)
+          db.collection('apply').add({
+            // data 字段表示需新增的 JSON 数据
+            data: {
+              name: that.data.rName,
+              phoneNumber: that.data.rPhone,
+              bz: that.data.rBz,
+              due: utils.formatDateTime("YYYY-mm-dd HH:MM:S", new Date()),
+            },
+            success: function(res) {
+              // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+              console.log(res)
+              app.globalData.sq_name = that.data.rName
+              app.globalData.sq_bz = that.data.rBz
+              app.globalData.sq_time = utils.formatDateTime("YYYY-mm-dd HH:MM:SS", new Date())
+              app.globalData.sq_phoneNumber = that.data.rPhone
+              wx.redirectTo({
+                url: 'tip/index',
+              })
+            }
+          })
+        }
+      })
     }else{
       wx.showModal({
         title: '提示',

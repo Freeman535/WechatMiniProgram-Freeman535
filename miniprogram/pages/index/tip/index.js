@@ -1,18 +1,34 @@
 // pages/index/tip/index.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    bz:'',
+    sqdate:'',
+    name:'',
+    phonenumber:''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setNavigationBarTitle({
+      title: "提示"
+    })
+    wx.hideHomeButton({
+      success: (res) => {},
+    })
 
+    this.setData({
+      bz: app.globalData.sq_bz,
+      sqdate:app.globalData.sq_time,
+      name: app.globalData.sq_name,
+      phonenumber: app.globalData.sq_phoneNumber,
+    })
   },
 
   /**
