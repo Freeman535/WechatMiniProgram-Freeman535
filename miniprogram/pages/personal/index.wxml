@@ -1,5 +1,13 @@
 <!--pages/personal/index.wxml-->
-<view>
-  这是个人中心
+<view class="line0">
+  <view class="line1">
+    请选择操作平台：
+  </view>
+  <block wx:for="{{ud}}">
+    <view bindtap="GoTo" data-PROP="{{item}}" class="line2">
+      {{list_PROP[item]}}
+    </view>
+    <view style="border: 3rpx solid lightgray;margin-left: 15%;margin-right: 15%;"></view>
+  </block>
 </view>
-<text>pages/personal/index.wxml</text>
+

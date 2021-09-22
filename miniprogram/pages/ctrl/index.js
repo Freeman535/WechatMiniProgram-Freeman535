@@ -1,14 +1,10 @@
-// pages/personal/index.js
-const db = wx.cloud.database()
-const app = getApp()
-
+// pages/ctrl/index.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    list_PROP : {"ctrl":"内部工具集","oy":"欧亚工具集"}
 
   },
 
@@ -17,13 +13,10 @@ Page({
    */
   onLoad: function (options) {
     wx.setNavigationBarTitle({
-      title: "请选择操作平台"
+      title: "内部工具集"
     })
     wx.hideHomeButton({
       success: (res) => {},
-    })
-    this.setData({
-      ud:app.globalData['userData']['PROP']
     })
   },
 
@@ -33,36 +26,11 @@ Page({
   onReady: function () {
 
   },
-  GoTo: function(e){
-    console.log(e)
-    if (e.target['dataset']['prop'] == 'oy'){
-      wx.redirectTo({
-        url: '../oy/index',
-      })
-    }else if(e.target['dataset']['prop'] == 'ctrl'){
-      wx.redirectTo({
-        url: '../ctrl/index',
-      })
-    }
-  },
-
-  cleanPROP: function(){
-
-    if (app.globalData['userData']['PROP'].length = 1){
-      // 如果就为一个，则直接进入，后续可加多项
-      if (app.globalData['userData']['PROP'][0] == 'oy'){
-        wx.navigateTo({
-          url: '../oy/index',
-        })
-      }
-    }
-
-  },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 

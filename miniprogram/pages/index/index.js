@@ -1,7 +1,6 @@
 const db = wx.cloud.database()
 const app = getApp()
 const utils = require('../../utils/utils.js');
-var util = require('../../utils/utils.js');
 Page({
   data: {
     userInfo: {},
@@ -54,6 +53,7 @@ Page({
           app.globalData.userData['phonenumber'] = res.data[0]['phonenumber']
           app.globalData.userData['quyu'] = res.data[0]['quyu']
           app.globalData.userData['shopcode'] = res.data[0]['shopcode']
+          app.globalData.userData['PROP'] = res.data[0]['PROP']
           
           // 这里是有信息的，直接进入主程序
           wx.redirectTo({
