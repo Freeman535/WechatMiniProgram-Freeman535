@@ -16,10 +16,37 @@ function FormaDatetime(fmt, date){
     };
   };
   return fmt;
+}
 
+function LgbaoChackToken(token){
+  wx.request({
+    url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/comm/menu/getWldwSysMenuId',
+    method:"POST",
+    header:{
+      'Host': 'lgb.oywanhao.com',
+      'Connection': 'keep-alive',
+      'Content-Length': 0,
+      'Accept': '*/*',
+      'X-Requested-With': 'XMLHttpRequest',
+      'shopCode': '',
+      'token': token,
+      'Origin': 'https://lgb.oywanhao.com',
+      'Referer': 'https://lgb.oywanhao.com/ghsBase/process/Login/oy_index.html',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+    },
+    success (res) {
+      if ( res.data.statusCode != 200){
+        return 0
+      }else{
+        return 1
+      }
+    }
+  })
 }
 
 module.exports = {
   formatDateTime: FormaDatetime,
-  'out':'in'
+  'out':'in',
+  LgbaoChackToken: LgbaoChackToken
 }

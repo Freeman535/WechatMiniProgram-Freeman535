@@ -1,2 +1,4 @@
 <!--pages/oy/index.wxml-->
 <text>pages/oy/index.wxml</text>
+<verifycode wx:if="{{verifycode}}"></verifycode>
+<cloudTip></cloudTip>

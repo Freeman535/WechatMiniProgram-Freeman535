@@ -1,4 +1,7 @@
 // pages/oy/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
 Page({
 
   /**
@@ -6,18 +9,39 @@ Page({
    */
   data: {
 
+    verifycode: false
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    app.globalData.CanIUseOyToken = 0
     wx.setNavigationBarTitle({
       title: "欧亚工具集"
     })
     wx.hideHomeButton({
       success: (res) => {},
     })
+    this.getToken()
+  },
+
+  getToken: function () {
+
+    if (app.globalData.CanIUseOyToken == 0){
+      db.collection('Token').doc('lgbao').get({
+        success: function(res) {
+          if (utils.LgbaoChackToken(res.data['token']) == 0){
+            // 启用输入验证码获取
+          }else{
+            app.globalData.CanIUseOyToken = 1
+            app.globalData.OyToken = res.data['token']
+          }
+        }
+      })
+    }
+
   },
 
   /**

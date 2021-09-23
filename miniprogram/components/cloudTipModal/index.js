@@ -7,7 +7,7 @@ Component({
    * 页面的初始数据
    */
   data: {
-    showUploadTip: false,
+    showUploadTip: true,
     tipText: isMac ? 'sh ./uploadCloudFunction.sh' : './uploadCloudFunction.bat'
   },
   properties: {
