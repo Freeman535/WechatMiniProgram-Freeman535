@@ -9,7 +9,8 @@ Page({
    */
   data: {
 
-    verifycode: true
+    verifycode: false,
+    src: '' //https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=52036152321107
 
   },
 
@@ -17,6 +18,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
     app.globalData.CanIUseOyToken = 0
     wx.setNavigationBarTitle({
       title: "欧亚工具集"
@@ -27,17 +29,39 @@ Page({
     this.getToken()
   },
 
-  getToken: function () {
+  //获取验证码地址
+  get_chache(){
+    var now = new Date();
+    var uuid1 = '' + now.getDay() + now.getHours() + now.getMinutes() + now.getSeconds() + now.getMilliseconds() + Math.round(Math.random() * 10000);
+    this.setData({
+      uuid : uuid1,
+      src : 'https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=' + uuid1
+    })
+},
+  postCode(event){
+    console.log(event.detail)
+    // 获取到验证码就可以登陆了
+  },
 
+  getToken: function () {
+    var that = this
     if (app.globalData.CanIUseOyToken == 0){
       db.collection('Token').doc('lgbao').get({
         success: function(res) {
-          if (utils.LgbaoChackToken(res.data['token']) == 0){
-            // 启用输入验证码获取
-          }else{
-            app.globalData.CanIUseOyToken = 1
-            app.globalData.OyToken = res.data['token']
-          }
+          var tempToken = res.data['token']
+          // 判断token是否可以使用。
+          utils.LgbaoChackToken(tempToken).then(res =>{
+            if(res == 0){
+            //启用输入验证码获取
+              that.setData({
+                verifycode: true
+              })
+              that.get_chache()
+            }else{
+              app.globalData.CanIUseOyToken = 1
+              app.globalData.OyToken = tempToken
+            }
+            })
         }
       })
     }
@@ -48,7 +72,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.verify = this.selectComponent("#verifycode");
   },
 
   /**

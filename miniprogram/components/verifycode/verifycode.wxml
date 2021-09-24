@@ -4,15 +4,14 @@
   <view class="install_tip_detail">
     <view class="install_tip_detail_title">请输入验证码</view>
     <view class="pic1">
-      <image src="https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=51016493577494" style="width: 125px;height: 51.5px;"></image>
+      <image src="{{src}}" style="width: 210rpx;height: 100rpx;"></image>
     </view>
     <view class="install_tip_detail_shell">
-      <input placeholder="请在此输入验证码" class="input1" type="text"/>
+      <input placeholder="请在此输入验证码" class="input1" bindinput="bindKeyInput" value="{{inputValue}}" type="text"/>
     </view>
     <view style="display: flex;">
-      <view bindtap="onChangeShowUploadTip" class="install_tip_detail_button">刷新验证码</view>
-      <view bindtap="onChangeShowUploadTip" class="install_tip_detail_button">提交验证码</view>
+      <button style="width:40%" bindtap="reCODE" class="install_tip_detail_button">刷新验证码</button>
+      <button style="width:40%" bindtap="onChangeShowUploadTip" class="install_tip_detail_button">提交验证码</button>
     </view>
-
   </view>
 </view>
