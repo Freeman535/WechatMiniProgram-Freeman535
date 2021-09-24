@@ -9,7 +9,7 @@ Page({
    */
   data: {
 
-    verifycode: false
+    verifycode: true
 
   },
 
