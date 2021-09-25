@@ -2,3 +2,4 @@
 <text>pages/oy/index.wxml</text>
 <verifycode bind:recode="get_chache" bind:postCode='postCode' src="{{src}}" wx:if="{{verifycode}}"></verifycode>
 
+

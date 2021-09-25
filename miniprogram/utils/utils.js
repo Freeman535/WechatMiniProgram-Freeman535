@@ -47,8 +47,28 @@ function LgbaoChackToken(token){
   })
 }
 
+function LgbaoLogin(uin, pw, chache, uuid){
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/ghsLogin',
+      data:{"userName":uin,"password":pw,"captcha":chache,"ip":"","uuid":uuid},
+      header:{'Content-Type':'application/json'},
+      method:"POST",
+      fail (res){
+        resolve(res.data)
+      },
+      success (res){
+        resolve(res.data)
+      }
+    })
+  })
+}
+
+
+
 module.exports = {
   formatDateTime: FormaDatetime,
   'out':'in',
-  LgbaoChackToken: LgbaoChackToken
+  LgbaoChackToken: LgbaoChackToken,
+  LgbaoLogin: LgbaoLogin
 }

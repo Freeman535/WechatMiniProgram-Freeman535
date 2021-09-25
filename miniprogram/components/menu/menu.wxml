@@ -1,0 +1,14 @@
+<!--components/menu/menu.wxml-->
+<view>
+  <view>
+    {{title}}
+  </view>
+  <view>
+    <view wx:for="{{arrList}}">
+      <view>
+        <image style="width: 210rpx;height: 100rpx;" src="{{item['pic']}}"></image>
+        <text>{{item['name']}}</text>
+      </view>
+    </view>
+  </view>
+</view>

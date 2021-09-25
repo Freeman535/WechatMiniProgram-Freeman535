@@ -8,18 +8,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-
     verifycode: false,
     src: '' //https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=52036152321107
-
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    app.globalData.CanIUseOyToken = 0
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     wx.setNavigationBarTitle({
       title: "欧亚工具集"
     })
@@ -29,7 +29,6 @@ Page({
     this.getToken()
   },
 
-  //获取验证码地址
   get_chache(){
     var now = new Date();
     var uuid1 = '' + now.getDay() + now.getHours() + now.getMinutes() + now.getSeconds() + now.getMilliseconds() + Math.round(Math.random() * 10000);
@@ -37,35 +36,81 @@ Page({
       uuid : uuid1,
       src : 'https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=' + uuid1
     })
-},
+  },
+  
   postCode(event){
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    var that = this
     console.log(event.detail)
     // 获取到验证码就可以登陆了
+    utils.LgbaoLogin(app.globalData.OyUin, app.globalData.OyPw, event.detail, this.data.uuid).then(res => {
+      wx.hideLoading({
+      })
+      if (res.meta.code == 200){
+        // 验证码正确
+        app.globalData.CanIUseOyToken = 1
+        app.globalData.OyToken = res.data.token
+        wx.showToast({
+          title: '成功',
+          icon: 'success',
+          duration: 2000,
+          mask: false
+        })
+        db.collection('Token').doc('lgbao').update({
+          // data 传入需要局部更新的数据
+          data: {
+            token: res.data.token
+          },
+          success: function(res) {
+            console.log(res.data)
+          }
+        })
+        that.setData({
+          verifycode: false
+        })
+      }else{
+        // 验证码错误
+        wx.showToast({
+          title: '验证码错误！',
+          icon: 'error',
+          duration: 2000,
+          mask: false
+        })
+      }
+    })
   },
 
   getToken: function () {
     var that = this
-    if (app.globalData.CanIUseOyToken == 0){
+    if (app.globalData.CanIUseOyToken != 1){
       db.collection('Token').doc('lgbao').get({
         success: function(res) {
           var tempToken = res.data['token']
+          app.globalData.OyUin = res.data['uin']
+          app.globalData.OyPw = res.data['pw']
           // 判断token是否可以使用。
           utils.LgbaoChackToken(tempToken).then(res =>{
             if(res == 0){
-            //启用输入验证码获取
+              wx.hideLoading()
+              //启用输入验证码获取
               that.setData({
                 verifycode: true
               })
               that.get_chache()
             }else{
+              wx.hideLoading()
               app.globalData.CanIUseOyToken = 1
               app.globalData.OyToken = tempToken
             }
             })
         }
       })
+    }else{
+      wx.hideLoading()
     }
-
   },
 
   /**
