@@ -1,5 +1,4 @@
 <!--pages/oy/index.wxml-->
-<text>pages/oy/index.wxml</text>
 <verifycode bind:recode="get_chache" bind:postCode='postCode' src="{{src}}" wx:if="{{verifycode}}"></verifycode>
-
+<menu title="{{title}}" arrList="{{arrList}}" bind:goToPage="goToPage"></menu>
 

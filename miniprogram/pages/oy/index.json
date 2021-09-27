@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "verifycode":"../../components/verifycode/verifycode",
-    "cloudTip": "../../components/cloudTipModal/index"
+    "cloudTip": "../../components/cloudTipModal/index",
+    "menu": "../../components/menu/menu"
   }
 }

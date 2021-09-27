@@ -6,29 +6,14 @@ Component({
   properties: {
     title: {
       type:String,
-      value:'测试项目'
+      value:'MenuComponents'
     },
     arrList:{
       type:Array,
       value:{
-        4:{
-          pic:'../../images/captcha.jpg',
-          name:'test4',
-          gt: '../../pages/oy/index'
-        },
-        3:{
-          pic:'../../images/captcha.jpg',
-          name:'test3',
-          gt: '../../pages/oy/index'
-        },
-        2:{
-          pic:'../../images/captcha.jpg',
-          name:'test2',
-          gt: '../../pages/oy/index'
-        },
-        1:{
-          pic:'../../images/captcha.jpg',
-          name:'test1',
+        0:{
+          pic:'../../images/OrderManagement.png',
+          name:'Project',
           gt: '../../pages/oy/index'
         }
       }
@@ -46,6 +31,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    GT(e){
+      // console.log(e.currentTarget.dataset.gt)
+      this.triggerEvent("goToPage",e.currentTarget.dataset.gt)
+    }
   }
 })

@@ -1,13 +1,16 @@
 <!--components/menu/menu.wxml-->
 <view>
-  <view>
+  <view class="m-title">
     {{title}}
   </view>
-  <view>
-    <view wx:for="{{arrList}}">
-      <view>
-        <image style="width: 210rpx;height: 100rpx;" src="{{item['pic']}}"></image>
-        <text>{{item['name']}}</text>
+  <view class="m-list-out">
+    <view class="box1" wx:for="{{arrList}}" data-gt="{{item['gt']}}" bindtap="GT">
+      <view     class="m-list-for">
+        <image style="width: 128rpx;height: 127rpx;" src="{{item['pic']}}"></image>
+        <view style="width: 80%;justify-content: center;display: flex;">
+          <text style="text-align: center;justify-content: center;display: flex;align-items: center;">{{item['name']}}</text>
+        </view>
+
       </view>
     </view>
   </view>

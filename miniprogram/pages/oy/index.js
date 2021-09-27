@@ -9,7 +9,20 @@ Page({
    */
   data: {
     verifycode: false,
-    src: '' //https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=52036152321107
+    src: '', //https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=52036152321107
+    arrList:[
+        {
+          pic:'../../images/OrderManagement.png',
+          name:'1',
+          gt: '../../pages/oy/index'
+        },
+        {
+          pic:'../../images/OrderManagement.png',
+          name:'1',
+          gt: '../../pages/oy/index'
+        }
+      ],
+    title: '欧亚工具集'
   },
 
   /**
@@ -35,6 +48,12 @@ Page({
     this.setData({
       uuid : uuid1,
       src : 'https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=' + uuid1
+    })
+  },
+
+  goToPage(event){
+    wx.navigateTo({
+      url: event.detail,
     })
   },
   
@@ -118,6 +137,7 @@ Page({
    */
   onReady: function () {
     this.verify = this.selectComponent("#verifycode");
+    this.menu = this.selectComponent('#menu')
   },
 
   /**
