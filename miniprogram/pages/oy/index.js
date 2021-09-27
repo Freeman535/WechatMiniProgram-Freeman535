@@ -9,7 +9,7 @@ Page({
    */
   data: {
     verifycode: false,
-    src: '', //https://lgb.oywanhao.com/bmcporasrv/prod/auth/account/captcha.jpg?uuid=52036152321107
+    src: '', 
     arrList:[
         {
           pic:'../../images/OrderManagement.png',
