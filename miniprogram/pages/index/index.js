@@ -54,7 +54,7 @@ Page({
           app.globalData.userData['quyu'] = res.data[0]['quyu']
           app.globalData.userData['shopcode'] = res.data[0]['shopcode']
           app.globalData.userData['PROP'] = res.data[0]['PROP']
-          
+          app.globalData.userData['auth'] = res.data[0]['authority']
           // 这里是有信息的，直接进入主程序
           wx.redirectTo({
             url: '../personal/index',

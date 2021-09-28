@@ -10,17 +10,9 @@ Page({
   data: {
     verifycode: false,
     src: '', 
+    menu_all: ['personal', 'OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'ABOUT', 'InspectionReport', 'Public'],
     arrList:[
-        {
-          pic:'../../images/OrderManagement.png',
-          name:'1',
-          gt: '../../pages/oy/index'
-        },
-        {
-          pic:'../../images/OrderManagement.png',
-          name:'1',
-          gt: '../../pages/oy/index'
-        }
+
       ],
     title: '欧亚工具集'
   },
@@ -39,6 +31,10 @@ Page({
     wx.hideHomeButton({
       success: (res) => {},
     })
+    var arrlist = utils.checkMenu(this.data.menu_all)
+    this.setData({
+      arrList: arrlist
+    })
     this.getToken()
   },
 
@@ -52,9 +48,17 @@ Page({
   },
 
   goToPage(event){
-    wx.navigateTo({
-      url: event.detail,
-    })
+    console.log(event.detail)
+    if ((event.detail).indexOf('personal') == -1){
+      wx.navigateTo({
+        url: event.detail,
+      })
+    }else{
+      wx.redirectTo({
+        url: event.detail,
+      })
+    }
+
   },
   
   postCode(event){
