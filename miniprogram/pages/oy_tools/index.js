@@ -1,18 +1,46 @@
-// pages/oy_tools/index.js
+// pages/order/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    arrList:[
 
+    ],
+    title: '欧亚工具',
+    menu_all: ['OY_IfCodeInKC', 'OY_SaleUR', 'OY_DD2', 'OY_KC2', 'OY_SALE2', 'OY_FML2', 'OY_ANA_KC']
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.setNavigationBarTitle({
+      title: "欧亚工具"
+    })
+    wx.hideHomeButton({
+      success: (res) => {},
+    })
+    var arrlist = utils.checkMenu(this.data.menu_all, 3)
+    this.setData({
+      arrList: arrlist
+    })
+  },
+  goToPage(event){
+    console.log(event.detail)
+    if ((event.detail).indexOf('personal') == -1){
+      wx.navigateTo({
+        url: event.detail,
+      })
+    }else{
+      wx.redirectTo({
+        url: event.detail,
+      })
+    }
   },
 
   /**

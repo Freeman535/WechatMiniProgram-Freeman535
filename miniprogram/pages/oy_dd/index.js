@@ -1,4 +1,7 @@
 // pages/oy_dd/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
 Page({
 
   /**

@@ -1,2 +1,2 @@
 <!--pages/um/index.wxml-->
-<text>pages/um/index.wxml</text>
+<menu title="{{title}}" arrList="{{arrList}}" bind:goToPage="goToPage"></menu>

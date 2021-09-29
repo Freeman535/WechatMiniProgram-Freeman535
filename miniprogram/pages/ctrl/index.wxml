@@ -1,2 +1,2 @@
 <!--pages/ctrl/index.wxml-->
-<menu></menu>
+<menu title="{{title}}" arrList="{{arrList}}" bind:goToPage="goToPage"></menu>

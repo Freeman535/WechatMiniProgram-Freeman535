@@ -1,2 +1,3 @@
-<!--pages/oy_tools/index.wxml-->
-<text>pages/oy_tools/index.wxml</text>
+
+<menu title="{{title}}" arrList="{{arrList}}" bind:goToPage="goToPage"></menu>
+

@@ -3,7 +3,7 @@
   <view class="line1">
     请选择操作平台：
   </view>
-  <block wx:for="{{ud}}">
+  <block wx:for="{{ud}}" wx:key="key">
     <view bindtap="GoTo" data-PROP="{{item}}" class="line2">
       {{list_PROP[item]}}
     </view>

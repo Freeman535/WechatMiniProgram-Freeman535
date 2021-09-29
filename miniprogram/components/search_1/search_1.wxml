@@ -1,0 +1,63 @@
+<!--components/search_1/search_1.wxml-->
+<view>
+  <!--门店选择器-->
+  <view>
+    <view>请选择门店</view>
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+      <view class="picker">
+        当前选择：{{array[index]}}
+      </view>
+    </picker>
+  </view>
+
+  <!--开始日期选择器-->
+  <view>
+  <view>请选择开始日期</view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+    <view class="picker">
+      当前选择: {{date}}
+    </view>
+  </picker>
+</view>
+
+  <!--结束日期选择器-->
+  <view>
+  <view>请选择结束日期</view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+    <view class="picker">
+      当前选择: {{date}}
+    </view>
+  </picker>
+  </view>
+
+  <!--单据编号-->
+  <view>
+    <input bindinput="bindinput" type="number" placeholder="请输入单号" />
+  </view>
+
+  <!--商品条码-->
+  <view>
+    <input bindinput="bindinput" type="number" placeholder="请输入条码" />
+  </view>
+
+  <!--商品代码-->
+  <view>
+    <input bindinput="bindinput" type="number" placeholder="请输入编码" />
+  </view>
+
+  <!--商品名称-->
+  <view>
+    <input bindinput="bindinput" type="text" placeholder="请输入名称" />
+  </view>
+
+  <button bindtap="search_post" type="primary" plain="true">查询</button>
+
+</view>
+
+<view>
+  <view>
+    <!--在结果中查询-->
+    <input bindinput="bindinput" type="text" placeholder="请输入条码或名称"/>
+    <button bindtap="search_in" type="default" ></button>
+  </view>
+</view>

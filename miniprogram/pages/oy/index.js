@@ -31,7 +31,8 @@ Page({
     wx.hideHomeButton({
       success: (res) => {},
     })
-    var arrlist = utils.checkMenu(this.data.menu_all)
+    
+    var arrlist = utils.checkMenu(this.data.menu_all,0)
     this.setData({
       arrList: arrlist
     })
@@ -76,6 +77,7 @@ Page({
         // 验证码正确
         app.globalData.CanIUseOyToken = 1
         app.globalData.OyToken = res.data.token
+        utils.LgbaoGetFDH()
         wx.showToast({
           title: '成功',
           icon: 'success',
@@ -127,6 +129,7 @@ Page({
               wx.hideLoading()
               app.globalData.CanIUseOyToken = 1
               app.globalData.OyToken = tempToken
+              utils.LgbaoGetFDH()
             }
             })
         }
