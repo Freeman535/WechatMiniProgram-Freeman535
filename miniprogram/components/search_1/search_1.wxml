@@ -55,9 +55,278 @@
 </view>
 
 <view>
-  <view>
+  <view wx:if="{{canSearch==1}}">
     <!--在结果中查询-->
     <input bindinput="bindinput" type="text" placeholder="请输入条码或名称"/>
     <button bindtap="search_in" type="default" ></button>
+
+    <view wx:if="{{back==4}}"> 
+      <view wx:for="{{back_list_s}}">
+      <view>
+        {{item.code}}
+      </view>
+      <view>
+        {{item.name}}
+      </view>
+      <view>
+        {{item.number}}
+      </view>
+      <view>
+        {{item.yye}}
+      </view>
+      <view>
+        {{item.zkje}}
+      </view>
+      <view>
+        {{item.date}}
+      </view>
+      </view>
+    </view>
+    <view wx:elif="{{back==5}}">
+      <view wx:for="{{back_list_s}}">
+      <view>
+        {{item.riqi}}
+      </view>
+      <view>
+        {{item.code}}
+      </view>
+      <view>
+        {{item.name}}
+      </view>
+      <view>
+        {{item.number}}
+      </view>
+      <view>
+        {{item.yye}}
+      </view>
+      <view>
+        {{item.hscb}}
+      </view>
+      <view>
+        {{item.zkje}}
+      </view>
+      <view>
+        {{item.fml}}
+      </view>
+      </view>
+    </view>
+    <view wx:elif="{{back==6}}">
+      <view wx:for="{{back_list_s}}">
+        <view>
+        {{item.code69}}
+      </view>
+      <view>
+        {{item.code}}
+      </view>
+      <view>
+        {{item.name}}
+      </view>
+      <view>
+        {{item.jcsl}}
+      </view>
+      <view>
+        {{item.je}}
+      </view>
+      <view>
+        {{item.hsfs}}
+      </view>
+      </view>
+    </view>
   </view>
+</view>
+
+<view>
+
+  <!--0为订单返回-->
+  <view wx:if="{{back==0}}" >
+    <view wx:for="{{back_list}}">
+      <view>
+        <view>
+          单号:{{item}}
+        </view>
+        <view>
+          门店:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          确认日期:{{item}}
+        </view>
+        <view>
+          订货日期:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          数量:{{item}}
+        </view>
+        <view>
+          执行情况:{{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!--1为进仓单返回-->
+  <view wx:elif="{{back==1}}" >
+    <view wx:for="{{back_list}}">
+      <view>
+        <view>
+          单号:{{item}}
+        </view>
+        <view>
+          门店:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          确认日期:{{item}}
+        </view>
+        <view>
+          金额:{{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!--2为返厂单返回-->
+  <view wx:elif="{{back==2}}" >
+    <view wx:for="{{back_list}}">
+      <view>
+        <view>
+          单号:{{item}}
+        </view>
+        <view>
+          门店:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          数量:{{item}}
+        </view>
+        <view>
+          金额:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          日期:{{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!--3为变价单返回-->
+  <view wx:elif="{{back==3}}" >
+    <view wx:for="{{back_list}}">
+      <view>
+        <view>
+          单号:{{item}}
+        </view>
+        <view>
+          门店:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          库存数量变化:{{item}}
+        </view>
+        <view>
+          库存金额变化:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          销售数量变化:{{item}}
+        </view>
+        <view>
+          销售金额变化:{{item}}
+        </view>
+      </view>
+      <view>
+        <view>
+          日期: {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!--4为变价单返回-->
+  <view wx:elif="{{back==4}}" >
+    <view wx:for="{{back_list}}">
+      <view>
+        {{item.code}}
+      </view>
+      <view>
+        {{item.name}}
+      </view>
+      <view>
+        {{item.number}}
+      </view>
+      <view>
+        {{item.yye}}
+      </view>
+      <view>
+        {{item.zkje}}
+      </view>
+      <view>
+        {{item.date}}
+      </view>
+    </view>
+  </view>
+
+  <!--5为负毛利返回-->
+  <view wx:elif="{{back==5}}" >
+    <view wx:for="{{back_list}}">
+      <view>
+        {{item.riqi}}
+      </view>
+      <view>
+        {{item.code}}
+      </view>
+      <view>
+        {{item.name}}
+      </view>
+      <view>
+        {{item.number}}
+      </view>
+      <view>
+        {{item.yye}}
+      </view>
+      <view>
+        {{item.hscb}}
+      </view>
+      <view>
+        {{item.zkje}}
+      </view>
+      <view>
+        {{item.fml}}
+      </view>
+    </view>
+  </view>
+
+  <!--6为库存返回-->
+  <view wx:elif="{{back==6}}" >
+    <view wx:for="{{back_list}}">
+      <view>
+        {{item.code69}}
+      </view>
+      <view>
+        {{item.code}}
+      </view>
+      <view>
+        {{item.name}}
+      </view>
+      <view>
+        {{item.jcsl}}
+      </view>
+      <view>
+        {{item.je}}
+      </view>
+      <view>
+        {{item.hsfs}}
+      </view>
+    </view>
+  </view>
+
 </view>

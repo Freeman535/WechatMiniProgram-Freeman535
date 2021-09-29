@@ -5,13 +5,16 @@ Component({
    */
   properties: {
 
+  
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-
+    canSearch:1,
+    back:4
+  
   },
 
   /**
