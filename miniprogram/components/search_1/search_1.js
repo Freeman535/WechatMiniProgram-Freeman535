@@ -4,7 +4,15 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    canSearch: {
+      type: Number,
+      value: 1
+    },
+    back: {
+      type: Number,
+      value: 4
+    },
+    
   
   },
 
@@ -12,8 +20,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    canSearch:1,
-    back:4
+
   
   },
 
