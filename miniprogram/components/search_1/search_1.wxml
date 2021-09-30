@@ -1,56 +1,56 @@
 <!--components/search_1/search_1.wxml-->
-<view>
+<view class="input-list">
   <!--门店选择器-->
-  <view>
-    <view>请选择门店</view>
-    <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+  <view class="input-list-main">
+    <view></view>
+    <picker data-id="0" bindchange="bindChange" value="{{index}}" range="{{fdarray['FDMC']}}">
       <view class="picker">
-        当前选择：{{array[index]}}
+         门店当前选择：{{fdarray[showText[0]]['FDMC']}}
       </view>
     </picker>
   </view>
 
   <!--开始日期选择器-->
-  <view>
-  <view>请选择开始日期</view>
-  <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+  <view wx:if="useS_RQ==true" class="input-list-main">
+  <view></view>
+  <picker data-id="1" mode="date" value="{{s_rqValue}}" start="2019-01-01" end="2025-09-01" bindchange="bindChange">
     <view class="picker">
-      当前选择: {{date}}
+      开始日期: {{showText[1]}}
     </view>
   </picker>
 </view>
 
   <!--结束日期选择器-->
-  <view>
-  <view>请选择结束日期</view>
-  <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+  <view class="input-list-main">
+  <view></view>
+  <picker data-id="2" mode="date" value="{{e_rqValue}}" start="2019-01-01" end="2025-09-01" bindchange="bindChange">
     <view class="picker">
-      当前选择: {{date}}
+      结束日期: {{showText[2]}}
     </view>
   </picker>
   </view>
 
   <!--单据编号-->
-  <view>
-    <input bindinput="bindinput" type="number" placeholder="请输入单号" />
+  <view class="input-list-main">
+    <input data-id="3" bindinput="bindChange" value="{{showText[3]}}" type="number" placeholder="请输入单号" />
   </view>
 
   <!--商品条码-->
-  <view>
-    <input bindinput="bindinput" type="number" placeholder="请输入条码" />
+  <view class="input-list-main">
+    <input data-id="4" bindinput="bindChange" value="{{showText[4]}}" type="number" placeholder="请输入条码" />
   </view>
 
   <!--商品代码-->
-  <view>
-    <input bindinput="bindinput" type="number" placeholder="请输入编码" />
+  <view class="input-list-main">
+    <input data-id="5" bindinput="bindChange" value="{{showText[5]}}" type="number" placeholder="请输入编码" />
   </view>
 
   <!--商品名称-->
-  <view>
-    <input bindinput="bindinput" type="text" placeholder="请输入名称" />
+  <view class="input-list-main">
+    <input data-id="6" bindinput="bindChange" value="{{showText[6]}}" type="text" placeholder="请输入名称" />
   </view>
 
-  <button bindtap="search_post" type="primary" plain="true">查询</button>
+  <button bindtap="bindSearch" type="primary" plain="true">查询</button>
 
 </view>
 
@@ -61,7 +61,7 @@
     <button bindtap="search_in" type="default" ></button>
 
     <view wx:if="{{back==4}}"> 
-      <view wx:for="{{back_list_s}}">
+      <view wx:for="{{back_list_s}}" wx:key="key">
       <view>
         {{item.code}}
       </view>
@@ -253,7 +253,7 @@
 
   <!--4为变价单返回-->
   <view wx:elif="{{back==4}}" >
-    <view wx:for="{{back_list}}">
+    <view wx:for="{{back_list}}" wx:key="key">
       <view>
         {{item.code}}
       </view>

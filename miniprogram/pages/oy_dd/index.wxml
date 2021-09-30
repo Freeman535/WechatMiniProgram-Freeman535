@@ -1,2 +1,2 @@
 <!--pages/oy_dd/index.wxml-->
-<search_1></search_1>
+<search_1 fdarray="{{fdarray}}" ></search_1>
