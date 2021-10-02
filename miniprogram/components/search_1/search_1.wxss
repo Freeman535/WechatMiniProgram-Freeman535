@@ -11,3 +11,27 @@
   margin-bottom: 20rpx;
   border-bottom:1px solid #ccc
 }
+
+.back-0{
+  padding-bottom: 8px;
+  margin-top: 8px;
+  border-bottom: blue 1px solid;
+}
+.back-1{
+  display: flex;
+}
+
+.back-001{
+  margin: 2%;
+
+  font-size: 25rpx;
+}
+.back-2{
+  width: 50%;
+}
+.back-3{
+  background: linear-gradient(45deg, #bbfcff9e, #ffc4ea9e);
+  border-radius: 8px;
+  /* border: 2%; */
+  margin: 1%;
+}

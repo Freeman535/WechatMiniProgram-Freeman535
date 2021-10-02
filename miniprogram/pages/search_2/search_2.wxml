@@ -1,0 +1,25 @@
+<!--miniprogram/pages/search_2/search_2.wxml-->
+<view>
+  <view>
+  单据编号:{{dhd}}
+  </view>
+  <view>
+    <canvas class='canvas' style="width:200px; height:200px;" canvas-id='canvas' bindlongtap='save'></canvas>
+  </view>
+</view>
+<view style="font-size:25rpx">
+  <view class="LIST-0" wx:for="{{backList}}" wx:key="key">
+    <view style="width:25%">
+      {{item.BARCODE}}
+    </view>
+    <view style="width:55%">
+      {{item.NAME}}
+    </view>
+    <view style="width:10%">
+      {{item.JHDJ_HS}}
+    </view>
+    <view style="width:10%">
+      {{item.SPXS}}
+    </view>
+  </view>
+</view>

@@ -396,6 +396,69 @@ function LgbaoGetFDH(){
   })
 }
 
+function LgbaoSearchDDList(arrTemp){
+  return new Promise((resolve, reject) => {
+    wx.showLoading({title: '请稍等...',mask:true, icon: 'loading', duration: 10000});
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/bh80/dhd/searchMain',
+      method:"POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'token': app.globalData.OyToken,
+        'Accept': 'application/json, text/javascript, */*; q=0.01'
+      },
+      
+      data:'SHOPAndGHS=000003_000376&' +
+      'FDBH=' + arrTemp[0] + '&' +
+      'BMDM=&' +
+      'BMJB=1&' +
+      'JLBH=' + arrTemp[3] + '&' +
+      'STATUS=&' +
+      'HTH=-1&' +
+      'ZXQK=&' +
+      'SP_HH=&' +
+      'RQ_S=' + arrTemp[1] + '&' +
+      'RQ_E=' + arrTemp[2] + '&' +
+      'SP_NAME=' + arrTemp[6] + '&' +
+      'SP_CODE=' + arrTemp[5] + '&' +
+      'SP_BARCODE=' + arrTemp[4] + '&' +
+      'HZFS=1&' +
+      'HSFS=0%2C1%2C2%2C&' +
+      'SHOPCODE=000003&' +
+      'GHDWDM=000376&' +
+      'page=1&' +
+      'rows=1000000',
+      success(res){
+        wx.hideLoading()
+        var back = res.data.data.data.list
+        resolve(back)
+      }
+    })
+  })
+}
+
+function LgbaoSearchDDMain(ddh){
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/bh80/dhd/searchItem',
+      method: "POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'token': app.globalData.OyToken
+      },
+      data: 'JLBH=' + ddh + '&SHOPCODE=000003&DHDH='+ ddh,
+      success(res){
+
+        var back = res.data.data.data.list
+        resolve(back)
+      }
+    })
+  })
+}
+
 
 
 module.exports = {
@@ -404,6 +467,8 @@ module.exports = {
   LgbaoChackToken: LgbaoChackToken,
   LgbaoLogin: LgbaoLogin,
   checkMenu: checkMenu,
-  LgbaoGetFDH: LgbaoGetFDH
+  LgbaoGetFDH: LgbaoGetFDH,
+  LgbaoSearchDDList: LgbaoSearchDDList,
+  LgbaoSearchDDMain: LgbaoSearchDDMain
 
 }

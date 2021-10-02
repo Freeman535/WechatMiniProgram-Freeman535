@@ -30,7 +30,9 @@
     "pages/oy_kc2/index",
     "pages/oy_sale2/index",
     "pages/oy_fml2/index",
-    "pages/oy_ana_kc/index"
+    "pages/oy_ana_kc/index",
+    "pages/search_2/search_2"
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

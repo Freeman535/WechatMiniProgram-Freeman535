@@ -3,7 +3,7 @@
   <!--门店选择器-->
   <view class="input-list-main">
     <view></view>
-    <picker data-id="0" bindchange="bindChange" value="{{index}}" range="{{fdarray['FDMC']}}">
+    <picker data-id="0" bindchange="pickerChange" value="{{index}}" range="{{fdarray}}" range-key="FDMC">
       <view class="picker">
          门店当前选择：{{fdarray[showText[0]]['FDMC']}}
       </view>
@@ -135,33 +135,33 @@
   </view>
 </view>
 
-<view>
+<view class="back-3">
 
   <!--0为订单返回-->
-  <view wx:if="{{back==0}}" >
-    <view wx:for="{{back_list}}">
-      <view>
-        <view>
-          单号:{{item}}
+  <view wx:if="{{back==0}}" class="back-001">
+    <view data-ddh="{{item.JLBH}}" bindtap="getIn" class="back-0" wx:for="{{back_list}}" wx:key="key">
+      <view class="back-1">
+        <view class="back-2">
+          单号:{{item.JLBH}}
         </view>
         <view>
-          门店:{{item}}
-        </view>
-      </view>
-      <view>
-        <view>
-          确认日期:{{item}}
-        </view>
-        <view>
-          订货日期:{{item}}
+          门店:{{item.FDMC}}
         </view>
       </view>
-      <view>
-        <view>
-          数量:{{item}}
+      <view class="back-1">
+        <view  class="back-2">
+          确认日期:{{item.OPENDATE}}
         </view>
         <view>
-          执行情况:{{item}}
+          订货日期:{{item.DHRQ}}
+        </view>
+      </view>
+      <view class="back-1">
+        <view  class="back-2">
+          数量:{{item.DHDSL}}
+        </view>
+        <view>
+          执行情况:{{item.ZXQK_SM}}
         </view>
       </view>
     </view>

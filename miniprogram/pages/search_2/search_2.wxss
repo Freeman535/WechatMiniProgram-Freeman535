@@ -1,0 +1,6 @@
+/* miniprogram/pages/search_2/search_2.wxss */
+.LIST-0 {
+  display:flex;
+  margin-top: 10rpx;
+  text-align: center;
+}

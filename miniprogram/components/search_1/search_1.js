@@ -1,5 +1,7 @@
 // components/search_1/search_1.js
+const db = wx.cloud.database()
 const app = getApp()
+const utils = require('../../utils/utils.js');
 
 // 此组件应用需传入
 // 门店列表和开始日期 
@@ -10,36 +12,60 @@ Component({
    * 组件的属性列表
    */
   properties: {
+
+    // 是否显示内搜索功能
     canSearch: {
       type: Number,
       value: 0
     },
+
+    // 搜索模式  0为订单  1为进仓单  2为返厂单  3为变价单  4销售  5负毛利  6库存  
     back: {
       type: Number,
-      value: 4
+      value: 0
     },
+
+    // 
     nowdate:{
       type:String,
       
     },
+
+    back_list: {
+      type:Array
+    },
+
+    // 开始日期
     useS_RQ: {
       type:Boolean,
     },
+
+    // 结束日期
     useE_RQ: {
       type:Boolean,
     },
+
+    // 单号 
     useDH: {
       type:Boolean,
     },
+
+    // 69码
     use69CODE: {
       type:Boolean,
     },
+
+    // 00条码
     useCODE: {
       type:Boolean,
     },
+
+    // 名
     useNAME: {
       type:Boolean,
     },
+
+    //分店集合
     fdarray:{
       type:Array,
     }
@@ -52,7 +78,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    showText:[0, '2021-09-30', '', '', '', '', ''],
+    showText:['0', '2021-09-30', '', '', '', '', ''],
   },
 
   /**
@@ -78,8 +104,49 @@ Component({
       })
     },
 
+    pickerChange(e){
+      console.log(e)
+      var tempShow = this.data.showText
+      tempShow[0] = this.data.fdarray[e.detail.value]['FDBH']
+      this.setData({
+        showText: tempShow
+      })
+    },
+
     bindSearch(){
-      console.log(this.data.showText)
+      var that = this
+      if (this.data.showText[0] == '0'){
+        var tempShow = this.data.showText
+        tempShow[0] = '-10'
+        this.setData({
+          showText: tempShow
+        })
+        console.log(this.data.showText)
+        // back为0
+        if (this.data.back == 0){
+          utils.LgbaoSearchDDList(this.data.showText).then(res =>{
+            var back0 = res
+            if(back0.length > 0){
+              that.setData({
+                back_list: back0
+              })
+            }
+          })
+
+     
+
+        }
+      }
+
+
+
+    },
+
+    getIn(e){
+      console.log(e.currentTarget.dataset.ddh)
+      wx.navigateTo({
+        url: '../../pages/search_2/search_2?back=' + this.data.back + '&dhd=' + e.currentTarget.dataset.ddh,
+      })
     }
   }
 })
