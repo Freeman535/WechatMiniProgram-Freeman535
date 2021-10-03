@@ -16,18 +16,21 @@ Component({
     // 是否显示内搜索功能
     canSearch: {
       type: Number,
-      value: 0
+
     },
 
     // 搜索模式  0为订单  1为进仓单  2为返厂单  3为变价单  4销售  5负毛利  6库存  
     back: {
       type: Number,
-      value: 0
+    
     },
 
     // 
     nowdate:{
       type:String,
+      observer(newdata, olddata){
+        this.reSet()
+      }
       
     },
 
@@ -38,6 +41,7 @@ Component({
     // 开始日期
     useS_RQ: {
       type:Boolean,
+
     },
 
     // 结束日期
@@ -78,7 +82,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    showText:['0', '2021-09-30', '', '', '', '', ''],
+    showText:['0', '', '', '', '', '', ''],
   },
 
   /**
@@ -122,24 +126,39 @@ Component({
           showText: tempShow
         })
         console.log(this.data.showText)
-        // back为0
-        if (this.data.back == 0){
-          utils.LgbaoSearchDDList(this.data.showText).then(res =>{
-            var back0 = res
-            if(back0.length > 0){
-              that.setData({
-                back_list: back0
-              })
-            }
-          })
-
-     
-
-        }
       }
 
-
-
+      // back为0
+      if (this.data.back == 0){
+        utils.LgbaoSearchDDList(this.data.showText).then(res =>{
+          var back0 = res
+          that.setData({
+            back_list: back0
+          })
+          if(back0.length == 0){
+            wx.showToast({
+              title: '查询无结果',
+              icon: 'error',
+              duration: 2000
+            })            
+          }
+        })
+      }else if(this.data.back == 1){
+        utils.LgbaoSearcJCDList(this.data.showText).then(res =>{
+          var back0 = res
+          console.log(back0)
+          that.setData({
+            back_list: back0
+          })
+          if(back0.length == 0){
+            wx.showToast({
+              title: '查询无结果',
+              icon: 'error',
+              duration: 2000
+            })            
+          }
+        })
+      }
     },
 
     getIn(e){

@@ -3,7 +3,7 @@
   <view>
   单据编号:{{dhd}}
   </view>
-  <view>
+  <view hidden="{{qrh}}">
     <canvas class='canvas' style="width:200px; height:200px;" canvas-id='canvas' bindlongtap='save'></canvas>
   </view>
 </view>
@@ -18,8 +18,11 @@
     <view style="width:10%">
       {{item.JHDJ_HS}}
     </view>
-    <view style="width:10%">
+    <view hidden="{{qrh}}" style="width:10%">
       {{item.SPXS}}
+    </view>
+    <view hidden="{{!qrh}}" style="width:10%">
+      {{item.RKXS}}
     </view>
   </view>
 </view>

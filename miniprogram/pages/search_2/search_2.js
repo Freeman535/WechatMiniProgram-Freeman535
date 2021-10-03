@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    qrh: true
   },
 
   /**
@@ -34,10 +34,23 @@ Page({
         var res1 = res
         res1.unshift({BARCODE:'条码',NAME:'名称', JHDJ_HS:'含税进货单价', SPXS:'数量'})
         that.setData({
+          qrh: false,
           backList : res1,
           dhd: options.dhd
         })
       })
+    }else if(options.back == 1){
+
+      utils.LgbaoSearchJCDMain(options.dhd).then(res => {
+        console.log(res)
+        var res1 = res
+        res1.unshift({BARCODE:'条码',NAME:'名称', JHDJ_HS:'含税进货单价', SPXS:'数量', RKXS:'入库系数'})
+        that.setData({
+          backList : res1,
+          dhd: options.dhd
+        })
+      })
+
     }
   },
 

@@ -11,7 +11,7 @@
   </view>
 
   <!--开始日期选择器-->
-  <view wx:if="useS_RQ==true" class="input-list-main">
+  <view hidden='{{!useS_RQ}}' class="input-list-main">
   <view></view>
   <picker data-id="1" mode="date" value="{{s_rqValue}}" start="2019-01-01" end="2025-09-01" bindchange="bindChange">
     <view class="picker">
@@ -21,7 +21,7 @@
 </view>
 
   <!--结束日期选择器-->
-  <view class="input-list-main">
+  <view hidden='{{!useE_RQ}}' class="input-list-main">
   <view></view>
   <picker data-id="2" mode="date" value="{{e_rqValue}}" start="2019-01-01" end="2025-09-01" bindchange="bindChange">
     <view class="picker">
@@ -31,22 +31,22 @@
   </view>
 
   <!--单据编号-->
-  <view class="input-list-main">
+  <view hidden='{{!useDH}}' class="input-list-main">
     <input data-id="3" bindinput="bindChange" value="{{showText[3]}}" type="number" placeholder="请输入单号" />
   </view>
 
   <!--商品条码-->
-  <view class="input-list-main">
+  <view hidden='{{!use69CODE}}' class="input-list-main">
     <input data-id="4" bindinput="bindChange" value="{{showText[4]}}" type="number" placeholder="请输入条码" />
   </view>
 
   <!--商品代码-->
-  <view class="input-list-main">
+  <view hidden='{{!useCODE}}' class="input-list-main">
     <input data-id="5" bindinput="bindChange" value="{{showText[5]}}" type="number" placeholder="请输入编码" />
   </view>
 
   <!--商品名称-->
-  <view class="input-list-main">
+  <view hidden='{{!useNAME}}' class="input-list-main">
     <input data-id="6" bindinput="bindChange" value="{{showText[6]}}" type="text" placeholder="请输入名称" />
   </view>
 
@@ -168,22 +168,22 @@
   </view>
 
   <!--1为进仓单返回-->
-  <view wx:elif="{{back==1}}" >
-    <view wx:for="{{back_list}}">
-      <view>
-        <view>
-          单号:{{item}}
+  <view class="back-001" wx:elif="{{back==1}}" >
+    <view data-ddh="{{item.JLBH}}" bindtap="getIn" class="back-0" wx:for="{{back_list}}" wx:key="key">
+      <view class="back-1">
+        <view class="back-2">
+          单号:{{item.JLBH}}
         </view>
         <view>
-          门店:{{item}}
+          门店:{{item.FDMC}}
         </view>
       </view>
-      <view>
-        <view>
-          确认日期:{{item}}
+      <view class="back-1">
+        <view class="back-2">
+          确认日期:{{item.ZXRQ}}
         </view>
         <view>
-          金额:{{item}}
+          金额:{{item.JSHJ}}
         </view>
       </view>
     </view>

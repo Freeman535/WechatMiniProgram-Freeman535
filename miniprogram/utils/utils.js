@@ -301,6 +301,7 @@ var all_menu = [
 const app = getApp()
 
 function FormaDatetime(fmt, date){
+  // var ndt = utils.formatDateTime('YY-mm-dd HH:MM:SS', new Date())
   let ret;
   const opt = {
     "Y+": date.getFullYear().toString(),        // 年
@@ -459,6 +460,71 @@ function LgbaoSearchDDMain(ddh){
   })
 }
 
+function LgbaoSearcJCDList(arrTemp){
+  return new Promise((resolve, reject) => {
+    wx.showLoading({title: '请稍等...',mask:true, icon: 'loading', duration: 10000});
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/bh80/jhd/searchMain',
+      method:"POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'token': app.globalData.OyToken,
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+      },
+      
+      data:'SHOPAndGHS=000003_000376&' +
+      'FDBH=' + arrTemp[0] + '&' +
+      'BMDM=&' +
+      'BMJB=1&' +
+      'JLBH=' + arrTemp[3] + '&' +
+      'DHDH=&' +
+      'STATUS=&' +
+      'HTH=-1&' +
+      'ZXQK=&' +
+      'SP_HH=&' +
+      'DJRQ_B=' + arrTemp[1] + '&' +
+      'DJRQ_E=' + arrTemp[2] + '&' +
+      'SP_NAME=' + arrTemp[6] + '&' +
+      'SP_CODE=' + arrTemp[5] + '&' +
+      'SP_BARCODE=' + arrTemp[4] + '&' +
+      'HZFS=1&' +
+      'doLogo=select&' +
+      'HSFS=0%2C1%2C2%2C&' +
+      'SHOPCODE=000003&' +
+      'GHDWDM=000376&' +
+      'page=1&' +
+      'rows=1000000',
+      success(res){
+        wx.hideLoading()
+        var back = (res.data.data.data.list)
+        resolve(back)
+      }
+    })
+  })
+}
+
+function LgbaoSearchJCDMain(ddh){
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/bh80/jhd/searchItem',
+      method: "POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'token': app.globalData.OyToken
+      },
+      data: 'JLBH=' + ddh + '&SHOPCODE=000003&',
+      success(res){
+
+        var back = res.data.data.data
+        resolve(back)
+      }
+    })
+  })
+}
+
 
 
 module.exports = {
@@ -469,6 +535,8 @@ module.exports = {
   checkMenu: checkMenu,
   LgbaoGetFDH: LgbaoGetFDH,
   LgbaoSearchDDList: LgbaoSearchDDList,
-  LgbaoSearchDDMain: LgbaoSearchDDMain
+  LgbaoSearchDDMain: LgbaoSearchDDMain,
+  LgbaoSearcJCDList: LgbaoSearcJCDList,
+  LgbaoSearchJCDMain: LgbaoSearchJCDMain
 
 }
