@@ -17,6 +17,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      back:options.back
+    })
     var that = this
     console.log(options)
     if (options.back == '0'){
@@ -45,6 +48,18 @@ Page({
         console.log(res)
         var res1 = res
         res1.unshift({BARCODE:'条码',NAME:'名称', JHDJ_HS:'含税进货单价', SPXS:'数量', RKXS:'入库系数'})
+        that.setData({
+          backList : res1,
+          dhd: options.dhd
+        })
+      })
+
+    }else if(options.back == 2){
+
+      utils.LgbaoSearchFCDMain(options.dhd).then(res => {
+        console.log(res)
+        var res1 = res
+        res1.unshift({BARCODE:'条码',NAME:'名称', JSHJ:'含税退货金额', THSL:'退货数量', RKXS:'入库系数'})
         that.setData({
           backList : res1,
           dhd: options.dhd

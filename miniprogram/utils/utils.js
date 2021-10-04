@@ -525,6 +525,57 @@ function LgbaoSearchJCDMain(ddh){
   })
 }
 
+function LgbaoSearcFCDList(arrTemp){
+  return new Promise((resolve, reject) => {
+    wx.showLoading({title: '请稍等...',mask:true, icon: 'loading', duration: 10000});
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/bh80/thd/searchMain',
+      method:"POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'token': app.globalData.OyToken,
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'shopCode':''
+      },
+      
+      data:'SHOPAndGHS=000003_000376&FDBH='+arrTemp[0]+'&BMDM=&BMJB=1&SP_HH=&JLBH='+arrTemp[3]+'&HTH=&DJRQ_B='+arrTemp[1]+'&DJRQ_E='+arrTemp[2]+'&SP_NAME='+arrTemp[6]+'&SP_CODE='+arrTemp[5]+'&SP_BARCODE='+arrTemp[4]+'&HZFS=1&SHOPCODE=000003&GHDWDM=000376&HSFS=0%2C1%2C3%2C5%2C&page=1&rows=1000000',
+      success(res){
+        wx.hideLoading()
+        var back = (res.data.data.data.list)
+        resolve(back)
+      }
+    })
+  })
+}
+
+function LgbaoSearchFCDMain(ddh){
+  wx.showLoading({title: '请稍等...',mask:true, icon: 'loading', duration: 10000});
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/bh80/thd/GetOneThdItem',
+      method: "POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'Content-Type': 'application/json;charset=utf-8',
+        'token': app.globalData.OyToken,
+        'shopCode': ''
+      },
+      data: {"SHOPCODE":"000003","JLBH":ddh},
+      success(res){
+        wx.hideLoading({
+          success: (res) => {},
+        })
+        var back = res.data.data.data
+        resolve(back)
+      }
+    })
+  })
+}
+
+
+
 
 
 module.exports = {
@@ -537,6 +588,8 @@ module.exports = {
   LgbaoSearchDDList: LgbaoSearchDDList,
   LgbaoSearchDDMain: LgbaoSearchDDMain,
   LgbaoSearcJCDList: LgbaoSearcJCDList,
-  LgbaoSearchJCDMain: LgbaoSearchJCDMain
+  LgbaoSearchJCDMain: LgbaoSearchJCDMain,
+  LgbaoSearcFCDList: LgbaoSearcFCDList,
+  LgbaoSearchFCDMain: LgbaoSearchFCDMain
 
 }

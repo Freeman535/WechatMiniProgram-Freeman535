@@ -7,22 +7,58 @@
     <canvas class='canvas' style="width:200px; height:200px;" canvas-id='canvas' bindlongtap='save'></canvas>
   </view>
 </view>
-<view style="font-size:25rpx">
-  <view class="LIST-0" wx:for="{{backList}}" wx:key="key">
-    <view style="width:25%">
-      {{item.BARCODE}}
+
+<view wx:if="{{back<2}}">
+  <view style="font-size:25rpx">
+    <view class="LIST-0" wx:for="{{backList}}" wx:key="key">
+
+      <view style="width:25%">
+        {{item.BARCODE}}
+      </view>
+
+      <view style="width:55%">
+        {{item.NAME}}
+      </view>
+
+      <view style="width:10%">
+        {{item.JHDJ_HS}}
+      </view>
+
+      <view hidden="{{qrh}}" style="width:10%">
+        {{item.SPXS}}
+      </view>
+
+      <view hidden="{{!qrh}}" style="width:10%">
+        {{item.RKXS}}
+      </view>
+
     </view>
-    <view style="width:55%">
-      {{item.NAME}}
-    </view>
-    <view style="width:10%">
-      {{item.JHDJ_HS}}
-    </view>
-    <view hidden="{{qrh}}" style="width:10%">
-      {{item.SPXS}}
-    </view>
-    <view hidden="{{!qrh}}" style="width:10%">
-      {{item.RKXS}}
+  </view>
+
+
+</view>
+<view wx:elif="{{back==2}}">
+  
+  <view style="font-size:25rpx">
+    <view class="LIST-0" wx:for="{{backList}}" wx:key="key">
+
+      <view style="width:25%">
+        {{item.BARCODE}}
+      </view>
+
+      <view style="width:55%">
+        {{item.NAME}}
+      </view>
+
+      <view style="width:10%">
+        {{item.JSHJ}}
+      </view>
+
+      <view style="width:10%">
+        {{item.THSL}}
+      </view>
+
+
     </view>
   </view>
 </view>

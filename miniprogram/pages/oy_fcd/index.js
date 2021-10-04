@@ -1,10 +1,14 @@
 // pages/oy_fcd/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    
 
   },
 
@@ -12,6 +16,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setNavigationBarTitle({
+      title: "欧亚返厂单"
+    })
+    var ndt = utils.formatDateTime('YY-mm-dd', new Date())
+    this.setData({
+      fdarray: app.globalData.OyFDH,
+      nowdate: ndt,
+      canSearch: 0,
+      back: 2,
+      useS_RQ: true,
+      useE_RQ: true,
+      useDH: true,
+      use69CODE: true,
+      useCODE:true,
+      useNAME:true
+    })
 
   },
 
