@@ -217,41 +217,35 @@
   </view>
 
   <!--3为变价单返回-->
-  <view wx:elif="{{back==3}}" >
-    <view wx:for="{{back_list}}">
-      <view>
-        <view>
-          单号:{{item}}
+  <view class="back-001"  wx:elif="{{back==3}}" >
+    <view data-ddh="{{item.JLBH}}" bindtap="getIn" class="back-0" wx:for="{{back_list}}" wx:key="key">
+      <view class="back-1">
+        <view class="back-2">
+          单号:{{item.JLBH}}
         </view>
         <view>
-          门店:{{item}}
-        </view>
-      </view>
-      <view>
-        <view>
-          库存数量变化:{{item}}
-        </view>
-        <view>
-          库存金额变化:{{item}}
+          门店:{{item.FDMC}}
         </view>
       </view>
-      <view>
+      <view class="back-1">
         <view>
-          销售数量变化:{{item}}
-        </view>
-        <view>
-          销售金额变化:{{item}}
+          库存金额变化:{{item.KCJEBD_HS}}
         </view>
       </view>
-      <view>
+      <view class="back-1">
         <view>
-          日期: {{item}}
+          销售金额变化:{{item.XSCBBD_HS}}
+        </view>
+      </view>
+      <view class="back-1">
+        <view>
+          日期: {{item.ZXRQ}}
         </view>
       </view>
     </view>
   </view>
 
-  <!--4为变价单返回-->
+  <!--4为销售返回-->
   <view wx:elif="{{back==4}}" >
     <view wx:for="{{back_list}}" wx:key="key">
       <view>

@@ -1,4 +1,7 @@
 // pages/oy_bjd/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
 Page({
 
   /**
@@ -12,6 +15,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setNavigationBarTitle({
+      title: "欧亚变价单"
+    })
+    var ndt = utils.formatDateTime('YY-mm-dd', new Date())
+    this.setData({
+      fdarray: app.globalData.OyFDH,
+      nowdate: ndt,
+      canSearch: 0,
+      back: 3,
+      useS_RQ: true,
+      useE_RQ: true,
+      useDH: true,
+      use69CODE: true,
+      useCODE:true,
+      useNAME:true
+    })
 
   },
 

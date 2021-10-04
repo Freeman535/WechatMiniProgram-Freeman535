@@ -66,6 +66,18 @@ Page({
         })
       })
 
+    }else if(options.back == 3){
+
+      utils.LgbaoSearchBJDMain(options.dhd).then(res => {
+        console.log(res)
+        var res1 = res.list
+        // res1.unshift({BARCODE:'条码',NAME:'名称', JSHJ:'含税退货金额', THSL:'退货数量', RKXS:'入库系数'})
+        that.setData({
+          backList : res1,
+          dhd: options.dhd
+        })
+      })
+
     }
   },
 

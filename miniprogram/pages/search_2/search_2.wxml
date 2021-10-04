@@ -62,3 +62,62 @@
     </view>
   </view>
 </view>
+
+<view wx:elif="{{back==3}}">
+  
+  <view style="font-size:25rpx">
+    <view style="margin-bottom: 5%;border:1px dashed #000;"  wx:for="{{backList}}" wx:key="key">
+
+
+      <view class="LIST-1">
+        <view style="width: 50%;">
+        条码：{{item.BARCODE}}
+        </view>
+        <view>
+          名称：{{item.NAME}}
+        </view>
+      </view>
+
+      <view class="LIST-1">
+        <view style="width: 50%;" >
+        旧进货单价：{{item.OLD_JHDJ}}
+        </view>
+
+        <view >
+          新进货单价{{item.NEW_JHDJ}}
+        </view>
+      </view>
+
+
+      <view class="LIST-1">
+        <view style="width: 33%;">
+        变价数量—结存：{{item.BJSL_JC}}
+        </view>
+        <view style="width: 33%;">
+          库存金额变动：{{item.KCJEBD}}
+        </view>
+        <view >
+          库存税金变动：{{item.KCSJBD}}
+        </view>
+      </view>
+
+
+      <view class="LIST-1">
+        <view style="width: 33%;">
+          变价数量-销售：{{item.BJSL_XS}}
+        </view>
+        <view style="width: 33%;">
+          销售成本变动：{{item.XSCBBD}}
+        </view>
+        <view >
+          销售税金变动：{{item.XSSJBD}}
+        </view>
+      </view>
+
+
+
+
+
+    </view>
+  </view>
+</view>

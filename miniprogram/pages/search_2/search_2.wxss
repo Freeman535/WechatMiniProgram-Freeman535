@@ -4,3 +4,7 @@
   margin-top: 10rpx;
   text-align: center;
 }
+.LIST-1 {
+  display:flex;
+  margin-top: 10rpx;
+}

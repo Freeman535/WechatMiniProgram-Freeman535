@@ -173,6 +173,21 @@ Component({
             })            
           }
         })
+      }else if(this.data.back == 3){
+        utils.LgbaoSearcBJDList(this.data.showText).then(res =>{
+          var back0 = res
+          console.log(back0)
+          that.setData({
+            back_list: back0
+          })
+          if(back0.length == 0){
+            wx.showToast({
+              title: '查询无结果',
+              icon: 'error',
+              duration: 2000
+            })            
+          }
+        })
       }
     },
 
