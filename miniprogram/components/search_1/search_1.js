@@ -38,6 +38,10 @@ Component({
       type:Array
     },
 
+    back_list_yye:{
+      type:Array
+    },
+
     // 开始日期
     useS_RQ: {
       type:Boolean,
@@ -72,6 +76,14 @@ Component({
     //分店集合
     fdarray:{
       type:Array,
+    },
+
+    search_value:{
+      type:String
+    },
+
+    search_yye:{
+      type:Number
     }
 
     
@@ -92,6 +104,7 @@ Component({
     reSet(){
       var tempShow = this.data.showText
       tempShow[1] = this.data.nowdate
+      tempShow[2] = this.data.nowdate
       this.setData({
         showText: tempShow
       })
@@ -118,6 +131,10 @@ Component({
     },
 
     bindSearch(){
+      this.setData({
+        back_list:0,
+        back_list_yye:null
+      })
       var that = this
       if (this.data.showText[0] == '0'){
         var tempShow = this.data.showText
@@ -188,6 +205,40 @@ Component({
             })            
           }
         })
+      }else if(this.data.back == 4){
+        var show_back_data = [0,0,0]
+        utils.LgbaoSearcSALEList(this.data.showText).then(res =>{
+          var back0 = res
+          console.log(back0)
+          that.setData({
+            back_list: back0
+          })
+          if(back0.length == 0){
+            wx.showToast({
+              title: '查询无结果',
+              icon: 'error',
+              duration: 2000
+            })            
+          }else{
+
+            for (var i in that.data.back_list){
+              if (utils.IfCodeLB(that.data.back_list[i]['NAME']) == 0){
+                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['YYE']
+                show_back_data[1] = show_back_data[1] + that.data.back_list[i]['YYE']
+              }else{
+                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['YYE']
+                show_back_data[2] = show_back_data[2] + that.data.back_list[i]['YYE']
+              }
+            }
+            show_back_data[0] = show_back_data[0].toFixed(2)
+            show_back_data[1] = show_back_data[1].toFixed(2)
+            show_back_data[2] = show_back_data[2].toFixed(2)
+            that.setData({
+              back_list_yye: show_back_data
+            })
+            // utils.IfCodeLB()
+          }
+        })
       }
     },
 
@@ -195,6 +246,42 @@ Component({
       console.log(e.currentTarget.dataset.ddh)
       wx.navigateTo({
         url: '../../pages/search_2/search_2?back=' + this.data.back + '&dhd=' + e.currentTarget.dataset.ddh,
+      })
+    },
+
+    search_in(){
+      this.setData({
+        search_yye: 0,
+        back_list_s:null
+      })
+
+      if (this.data.search_value != ''){
+        var na = new Array()
+        var nam = 0
+        var that = this
+        for (var i in this.data.back_list){
+          if(this.data.back_list[i]['BARCODE'].indexOf(this.data.search_value) != -1 || this.data.back_list[i]['NAME'].indexOf(this.data.search_value) != -1){
+            na.push({
+              code:that.data.back_list[i]['BARCODE'],
+              name:that.data.back_list[i]['NAME'],
+              number:that.data.back_list[i]['XSSL'],
+              yye:that.data.back_list[i]['YYE'],
+            })
+            nam = nam + that.data.back_list[i]['YYE']
+          }
+        }
+        this.setData({
+          search_yye: Math.floor(nam * 100) /100,
+          back_list_s: na
+  
+        })
+      }
+
+    },
+    bindinput(e){
+
+      this.setData({
+        search_value:e.detail.value
       })
     }
   }

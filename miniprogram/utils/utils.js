@@ -623,7 +623,38 @@ function LgbaoSearchBJDMain(ddh){
   })
 }
 
+function LgbaoSearcSALEList(arrTemp){
+  return new Promise((resolve, reject) => {
+    wx.showLoading({title: '请稍等...',mask:true, icon: 'loading', duration: 10000});
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/v1/report/xs/Search',
+      method:"POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'token': app.globalData.OyToken,
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'shopCode':''
+      },
+      
+      data:'SHOPAndGHS=000003_000376&BMDM=&BMJB=1&FDBH='+arrTemp[0]+'&SP_SB=&HTH=%E5%85%A8%E9%83%A8&SP_NAME='+arrTemp[6]+'&SPCODE='+arrTemp[5]+'&SP_BARCODE='+arrTemp[4]+'&SP_JHDJ=&SP_HH=&SP_GG=&RQ_S='+arrTemp[1]+'&RQ_E='+arrTemp[2]+'&SPFL=&HZFS=5&HSFS=0%2C1%2C3%2C5%2C4%2C6%2C&SHOPCODE=000003&GHDWDM=000376&page=1&rows=1000000000',
+      success(res){
+        wx.hideLoading()
+        var back = (res.data.data.data.list)
+        resolve(back)
+      }
+    })
+  })
+}
 
+// 通过名称判断条码为家清还是个护,0为家清，1为个护
+function IfCodeLB(name){
+  if(name.indexOf('动力100') != -1 ||name.indexOf('超能') != -1 ||name.indexOf('雕') != -1 ||name.indexOf('妙管家') != -1 ||name.indexOf('公道') != -1||name.indexOf('皂') != -1 ){
+    return 0
+  }else{
+    return 1
+  }
+}
 
 
 
@@ -641,6 +672,8 @@ module.exports = {
   LgbaoSearcFCDList: LgbaoSearcFCDList,
   LgbaoSearchFCDMain: LgbaoSearchFCDMain,
   LgbaoSearcBJDList: LgbaoSearcBJDList,
-  LgbaoSearchBJDMain: LgbaoSearchBJDMain
+  LgbaoSearchBJDMain: LgbaoSearchBJDMain,
+  LgbaoSearcSALEList: LgbaoSearcSALEList,
+  IfCodeLB:IfCodeLB
 
 }
