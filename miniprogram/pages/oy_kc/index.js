@@ -1,4 +1,8 @@
 // pages/oy_kc/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
+const QRCode = require('../../utils/weapp-qrcode.js')
 Page({
 
   /**
@@ -13,6 +17,23 @@ Page({
    */
   onLoad: function (options) {
 
+    wx.setNavigationBarTitle({
+      title: "欧亚库存"
+    })
+    var dateTime = new Date()
+    var ndt = utils.formatDateTime('YY-mm-dd', new Date(dateTime.setDate(dateTime.getDate()-1)))
+    this.setData({
+      fdarray: app.globalData.OyFDH,
+      nowdate: ndt,
+      canSearch: 0,
+      back: 6,
+      useS_RQ: false,
+      useE_RQ: false,
+      useDH: false,
+      use69CODE: true,
+      useCODE:true,
+      useNAME:true
+    })
   },
 
   /**

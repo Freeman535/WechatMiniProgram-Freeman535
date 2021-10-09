@@ -5,7 +5,7 @@
     <view></view>
     <picker data-id="0" bindchange="pickerChange" value="{{index}}" range="{{fdarray}}" range-key="FDMC">
       <view class="picker">
-         门店当前选择：{{fdarray[showText[0]]['FDMC']}}
+         门店当前选择：{{fdarray[fdbh_in]['FDMC']}}
       </view>
     </picker>
   </view>
@@ -271,57 +271,105 @@
   </view>
 
   <!--5为负毛利返回-->
-  <view wx:elif="{{back==5}}" >
-    <view wx:for="{{back_list}}">
-      <view>
-        {{item.riqi}}
+  <view class="back-001" wx:elif="{{back==5 && back_list_yye[0]>0}}" >
+    <view>
+      总负毛利为（0利）：{{back_list_yye[0]}}
+    </view>
+    <view>
+      家清为：{{back_list_yye[1]}}
+    </view>
+    <view>
+      个护为：{{back_list_yye[2]}}
+    </view>
+    <view class="back-0" wx:for="{{back_list}}" wx:key="key">
+
+      <view class="back-1">
+        <view class="back-2">
+        {{item.RQ}}
+        </view>
+        <view>
+          核算方式：{{item.HSFS}}
+        </view>
       </view>
-      <view>
-        {{item.code}}
+
+      <view class="back-1">
+        <view class="back-2">
+        {{item.BARCODE}}
+        </view>
+        <view>
+          销售数量：{{item.XSSL}}
+        </view>
       </view>
-      <view>
-        {{item.name}}
+
+
+      <view class="back-1">
+        <view class="back-2">
+          {{item.NAME}}
+        </view>
+        <view>
+        折扣金额：{{item.ZKJE}}
+        </view>
       </view>
-      <view>
-        {{item.number}}
+
+      <view class="back-1">
+        <view class="back-2">
+        销售成本：{{item.XSCB}}
+        </view>
+        <view>
+          营业额：{{item.YYE}}
+        </view>
       </view>
-      <view>
-        {{item.yye}}
-      </view>
-      <view>
-        {{item.hscb}}
-      </view>
-      <view>
-        {{item.zkje}}
-      </view>
-      <view>
-        {{item.fml}}
-      </view>
+
+
+
     </view>
   </view>
 
   <!--6为库存返回-->
-  <view wx:elif="{{back==6}}" >
-    <view wx:for="{{back_list}}">
-      <view>
-        {{item.code69}}
-      </view>
-      <view>
-        {{item.code}}
-      </view>
-      <view>
-        {{item.name}}
-      </view>
-      <view>
-        {{item.jcsl}}
-      </view>
-      <view>
-        {{item.je}}
-      </view>
-      <view>
-        {{item.hsfs}}
-      </view>
+  <view  class="back-001" wx:elif="{{back==6 && back_list_yye[0]>0}}" >
+    <view>
+      总库存金额：{{back_list_yye[0]}}
     </view>
+    <view>
+      家清为：{{back_list_yye[1]}}
+    </view>
+    <view>
+      个护为：{{back_list_yye[2]}}
+    </view>
+
+
+
+    <view class="back-0" wx:for="{{back_list}}" wx:key="key">
+
+      <view class="back-1">
+        <view class="back-2">
+          {{item.BARCODE}}
+        </view>
+
+        <view>
+          核算方式：{{item.HSFS}}
+        </view>
+      </view>
+
+      <view class="back-1">
+        
+        {{item.NAME}}
+        
+      </view>
+
+      <view class="back-1">
+        <view class="back-2">
+        结存数量：{{item.JCSL}}
+        </view>
+        <view>
+          结存金额：{{item.JCJE}}
+        </view>
+      </view>
+
+    </view>
+
+
+
   </view>
 
 </view>

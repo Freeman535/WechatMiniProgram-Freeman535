@@ -1,8 +1,7 @@
-// pages/oy_fml/index.js
-const db = wx.cloud.database()
-const app = getApp()
-const utils = require('../../utils/utils.js');
-const QRCode = require('../../utils/weapp-qrcode.js')
+// pages/pim/pim.js
+// 商品信息管理页面
+// 搜索商品，通过 10码  69码
+// 添加，修改，删除 商品信息
 Page({
 
   /**
@@ -16,23 +15,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    wx.setNavigationBarTitle({
-      title: "欧亚负毛利"
-    })
-    var ndt = utils.formatDateTime('YY-mm-dd', new Date())
-    this.setData({
-      fdarray: app.globalData.OyFDH,
-      nowdate: ndt,
-      canSearch: 0,
-      back: 5,
-      useS_RQ: true,
-      useE_RQ: true,
-      useDH: false,
-      use69CODE: true,
-      useCODE:true,
-      useNAME:true
-    })
 
   },
 

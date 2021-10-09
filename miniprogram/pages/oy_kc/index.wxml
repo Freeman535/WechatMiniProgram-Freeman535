@@ -1,2 +1,4 @@
 <!--pages/oy_kc/index.wxml-->
-<text>pages/oy_kc/index.wxml</text>
+
+<search_1 fdarray="{{fdarray}}" bind:reSetComponent="reSet" useNAME="{{useNAME}}" useCODE="{{useCODE}}" use69CODE="{{use69CODE}}" useDH="{{useDH}}" useS_RQ="{{useS_RQ}}" useE_RQ="{{useE_RQ}}"  nowdate="{{nowdate}}" back="{{back}}" canSearch="{{canSearch}}" ></search_1>
+

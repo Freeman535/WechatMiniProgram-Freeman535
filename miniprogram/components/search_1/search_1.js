@@ -94,7 +94,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    showText:['0', '', '', '', '', '', ''],
+    showText:['-10', '', '', '', '', '', ''],
+    fdbh_in:'0'
   },
 
   /**
@@ -126,7 +127,8 @@ Component({
       var tempShow = this.data.showText
       tempShow[0] = this.data.fdarray[e.detail.value]['FDBH']
       this.setData({
-        showText: tempShow
+        showText: tempShow,
+        fdbh_in:e.detail.value
       })
     },
 
@@ -252,16 +254,55 @@ Component({
               title: '查询无结果',
               icon: 'error',
               duration: 2000
-            })            
+            })  
+                   
           }else{
 
             for (var i in that.data.back_list){
+              var fml = that.data.back_list[i]['XSCB'] - that.data.back_list[i]['YYE']
               if (utils.IfCodeLB(that.data.back_list[i]['NAME']) == 0){
-                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['YYE']
-                show_back_data[1] = show_back_data[1] + that.data.back_list[i]['YYE']
+                show_back_data[0] = show_back_data[0] + fml
+                show_back_data[1] = show_back_data[1] + fml
               }else{
-                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['YYE']
-                show_back_data[2] = show_back_data[2] + that.data.back_list[i]['YYE']
+                show_back_data[0] = show_back_data[0] + fml
+                show_back_data[2] = show_back_data[2] + fml
+              }
+            }
+            show_back_data[0] = show_back_data[0].toFixed(2)
+            show_back_data[1] = show_back_data[1].toFixed(2)
+            show_back_data[2] = show_back_data[2].toFixed(2)
+            that.setData({
+              back_list_yye: show_back_data
+            })
+            // utils.IfCodeLB()
+          }
+        })
+      }else if(this.data.back == 6){
+        var show_back_data = [0,0,0]
+        console.log(this.data.showText)
+        utils.LgbaoSearcKCList(this.data.showText).then(res =>{
+          var back0 = res
+          console.log(back0)
+          that.setData({
+            back_list: back0
+          })
+          if(back0.length == 0){
+            wx.showToast({
+              title: '查询无结果',
+              icon: 'error',
+              duration: 2000
+            })  
+                   
+          }else{
+
+            for (var i in that.data.back_list){
+              
+              if (utils.IfCodeLB(that.data.back_list[i]['NAME']) == 0){
+                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['JCJE']
+                show_back_data[1] = show_back_data[1] + that.data.back_list[i]['JCJE']
+              }else{
+                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['JCJE']
+                show_back_data[2] = show_back_data[2] + that.data.back_list[i]['JCJE']
               }
             }
             show_back_data[0] = show_back_data[0].toFixed(2)

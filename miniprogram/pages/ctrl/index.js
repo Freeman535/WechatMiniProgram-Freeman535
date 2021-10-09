@@ -12,7 +12,7 @@ Page({
 
     ],
     title: '内部工具集',
-    menu_all: ['ABOUT', 'ORDER', 'UM', 'InspectionReport', 'OY_Tools', 'personal']
+    menu_all: ['ABOUT', 'ORDER', 'UM', 'InspectionReport', 'OY_Tools', 'personal', 'PIM']
   },
 
   /**

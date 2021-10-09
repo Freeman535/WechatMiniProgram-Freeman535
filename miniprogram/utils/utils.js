@@ -212,6 +212,12 @@ var all_menu = [
       name:'用户管理',
       gt: '../../pages/um/index'
     },
+
+    'PIM':{
+      pic:'../../images/MO.png',
+      name:'商品信息管理',
+      gt: '../../pages/pim/pim'
+    },
   
     'OY_Tools':{
       pic:'../../images/MO.png',
@@ -391,6 +397,7 @@ function LgbaoGetFDH(){
         'Accept': 'application/json, text/javascript, */*; q=0.01'
       },
       success(res){
+        console.log(res.data.data.data)
         app.globalData.OyFDH = res.data.data.data
       }
     })
@@ -663,6 +670,46 @@ function LgbaoSearcFMLList(arrTemp){
       
       data:'SHOPAndGHS=000003_000376&BMDM=&BMJB=1&SPFL=&SP_SB=&HTH=%E5%85%A8%E9%83%A8&RQ_S='+arrTemp[1]+'&RQ_E='+arrTemp[2]+'&SP_NAME='+arrTemp[6]+'&SPCODE='+arrTemp[5]+'&SP_BARCODE='+arrTemp[4]+'&SP_HH=&HZFS=1&HSFS=0%2C1%2C3%2C5%2C4%2C6%2C&FDLIST='+arrTemp[0]+'%2C&HZJG=5%2C&SHOPCODE=000003&GHDWDM=000376&page=1&rows=10000000',
       success(res){
+        var back = (res.data.data.data.list)
+        var back1 = new Array()
+        for (var i in back){
+          var yye = (back[i]['XSJE']) + (back[i]['YHJE']) + (back[i]['XSJE_PF']) + (back[i]['WRZXSJE'])
+          if (back[i]['XSCB_HS'] - yye > 0){
+            back1.push({
+              'YYE': yye,
+              'XSCB': back[i]['XSCB_HS'],
+              'ZKJE': back[i]['ZKJE'],
+              'RQ': back[i]['RQ'],
+              'NAME': back[i]['NAME'],
+              'HSFS': back[i]['HSFS'],
+              'XSSL': back[i]['XSSL'],
+              'BARCODE': back[i]['BARCODE']
+            })
+          }
+        }
+        wx.hideLoading()
+        resolve(back1)
+      }
+    })
+  })
+}
+
+function LgbaoSearcKCList(arrTemp){
+  return new Promise((resolve, reject) => {
+    wx.showLoading({title: '请稍等...',mask:true, icon: 'loading', duration: 10000});
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/v1/report/kc/SearchMain',
+      method:"POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'token': app.globalData.OyToken,
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'shopCode':''
+      },
+      
+      data:'SHOPAndGHS=000003_000376&FDBH='+arrTemp[0]+'&BMJB=1&BMDM=&SP_NAME='+arrTemp[6]+'&SPCODE='+arrTemp[5]+'&SP_BARCODE='+arrTemp[4]+'&SP_HH=&SHOWKC=1&HZFS=4&RQ_KC='+arrTemp[1]+'&HSFS=0%2C1%2C3%2C5%2C4%2C&SHOPCODE=000003&GHDWDM=000376&doLogo=select&page=1&rows=1000000000',
+      success(res){
         wx.hideLoading()
         var back = (res.data.data.data.list)
         resolve(back)
@@ -699,6 +746,7 @@ module.exports = {
   LgbaoSearchBJDMain: LgbaoSearchBJDMain,
   LgbaoSearcSALEList: LgbaoSearcSALEList,
   IfCodeLB:IfCodeLB,
-  LgbaoSearcFMLList: LgbaoSearcFMLList
+  LgbaoSearcFMLList: LgbaoSearcFMLList,
+  LgbaoSearcKCList: LgbaoSearcKCList
 
 }
