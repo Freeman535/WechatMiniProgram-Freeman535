@@ -239,6 +239,40 @@ Component({
             // utils.IfCodeLB()
           }
         })
+      }else if(this.data.back == 5){
+        var show_back_data = [0,0,0]
+        utils.LgbaoSearcFMLList(this.data.showText).then(res =>{
+          var back0 = res
+          console.log(back0)
+          that.setData({
+            back_list: back0
+          })
+          if(back0.length == 0){
+            wx.showToast({
+              title: '查询无结果',
+              icon: 'error',
+              duration: 2000
+            })            
+          }else{
+
+            for (var i in that.data.back_list){
+              if (utils.IfCodeLB(that.data.back_list[i]['NAME']) == 0){
+                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['YYE']
+                show_back_data[1] = show_back_data[1] + that.data.back_list[i]['YYE']
+              }else{
+                show_back_data[0] = show_back_data[0] + that.data.back_list[i]['YYE']
+                show_back_data[2] = show_back_data[2] + that.data.back_list[i]['YYE']
+              }
+            }
+            show_back_data[0] = show_back_data[0].toFixed(2)
+            show_back_data[1] = show_back_data[1].toFixed(2)
+            show_back_data[2] = show_back_data[2].toFixed(2)
+            that.setData({
+              back_list_yye: show_back_data
+            })
+            // utils.IfCodeLB()
+          }
+        })
       }
     },
 
