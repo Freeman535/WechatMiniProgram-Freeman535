@@ -40,7 +40,7 @@ Page({
 
   ifCanWeUse(openid) {
     var that =this
-    db.collection('UserOpenID').where({
+    db.collection('userlist').where({
       'openid': openid
     })
     .get({
@@ -48,7 +48,7 @@ Page({
         // res.data 是包含以上定义的两条记录的数组
         if (res.data.length > 0){
           // 用户信息全局化
-          app.globalData.userData['Grade'] = res.data[0]['Grade']
+         // app.globalData.userData['Grade'] = res.data[0]['Grade']
           app.globalData.userData['name'] = res.data[0]['name']
           app.globalData.userData['phonenumber'] = res.data[0]['phonenumber']
           app.globalData.userData['quyu'] = res.data[0]['quyu']

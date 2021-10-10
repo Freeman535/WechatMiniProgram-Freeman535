@@ -1,2 +1,30 @@
 <!--pages/urm/index.wxml-->
-<text>pages/urm/index.wxml</text>
+
+<picker bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{array}}">
+  <view>
+    选择用户：{{array[index]['name']}}
+  </view>
+</picker>
+
+<button bindtap="checkUser" type="primary">确定选择此用户</button>
+
+<view>
+
+  <view>
+    id：{{array[index]['_id']}}
+  </view>
+
+ 
+  <view>菜单选择</view>
+      <view>
+        <checkbox-group bindchange="checkboxChange">
+          <label wx:for="{{menus}}" wx:key="{{item.value}}">
+            <view>
+              <checkbox value="{{item.value}}" checked="{{item.checked}}"/>
+            </view>
+            <view >{{item.name}}</view>
+          </label>
+        </checkbox-group>
+      </view>
+
+</view>
