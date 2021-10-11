@@ -1,1 +1,15 @@
 /* pages/urm/index.wxss */
+.cla0{
+  display: block;
+  margin: auto;
+  width: 96%;
+  font-size: 20rpx;
+}
+.cla1{
+  display: inline-block;
+  width: 20%;
+}
+
+.cla2{
+  margin-bottom: 50rpx;
+}

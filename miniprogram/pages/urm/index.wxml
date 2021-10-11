@@ -8,23 +8,62 @@
 
 <button bindtap="checkUser" type="primary">确定选择此用户</button>
 
-<view>
+<view hidden="{{!showList}}"  class="cla0">
 
   <view>
     id：{{array[index]['_id']}}
   </view>
 
- 
-  <view>菜单选择</view>
+  <view class="cla2">
+    姓名：{{array[index]['name']}}
+  </view>
+
+
+  <!--快速分组选择器-->
+  <view>
+    <picker bindchange="bindPc" value="{{index0}}" range-key="name" range="{{rangelb}}">
       <view>
-        <checkbox-group bindchange="checkboxChange">
-          <label wx:for="{{menus}}" wx:key="{{item.value}}">
+        快速类别分组：{{rangelb[index0]['name']}}
+      </view>
+    </picker>
+  </view>
+
+  <view>
+    <input placeholder="{{quyu}}" bindinput="inputquyu" type="text"/>
+  </view>
+
+ 
+  <view >
+    <view style="    color: #2196F3;">菜单选择</view>
+      <view  class="cla2">
+        <checkbox-group  bindchange="checkboxChange">
+          <label class="cla1" wx:for="{{menus}}" wx:key="{{item.value}}">
             <view>
-              <checkbox value="{{item.value}}" checked="{{item.checked}}"/>
+              <checkbox disabled="{{dis0}}" value="{{item.value}}" checked="{{item.checked}}"/>
             </view>
             <view >{{item.name}}</view>
           </label>
         </checkbox-group>
+      </view>
+
+    <view style="    color: #2196F3;">功能选择</view>
+      <view  class="cla2">
+        <checkbox-group bindchange="checkboxChange">
+          <label class="cla1" wx:for="{{lists}}" wx:key="{{item.value}}">
+            <view>
+              <checkbox disabled="{{dis0}}" value="{{item.value}}" checked="{{item.checked}}"/>
+            </view>
+            <view >{{item.name}}</view>
+          </label>
+        </checkbox-group>
+      </view>
+  </view>
+
+
+
+      <view style="margin: auto;display: flex;">
+        <button class="mini-btn" style="width: 45%;" type="primary" size="mini">确认</button>
+        <button class="mini-btn" style="width: 45%;" type="warn" size="mini">取消</button>
       </view>
 
 </view>
