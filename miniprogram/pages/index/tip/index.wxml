@@ -15,6 +15,9 @@
         <view style="display: flex;justify-content: center;margin-top:50rpx;margin-bottom:50rpx">
           申请姓名与电话为：{{name}}{{phonenumber}}
         </view>
+        <view style="display: flex;justify-content: center;margin-top:100rpx">
+          开发者联系方式：freeman535@hotmail.com
+        </view>
       </view>
     </view>
   </view>

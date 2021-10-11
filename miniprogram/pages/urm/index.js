@@ -1,6 +1,7 @@
 // pages/urm/index.js
 const db = wx.cloud.database()
 const app = getApp()
+const _ = db.command
 const utils = require('../../utils/utils.js');
 const QRCode = require('../../utils/weapp-qrcode.js')
 Page({
@@ -52,6 +53,7 @@ Page({
       {value: 'personal', name: '请选择操作平台'},
       {value: 'PIM', name: '商品信息管理'}
     ],
+    index0: 0
     
 
   },
@@ -86,6 +88,19 @@ Page({
       }
     })
   },
+  changeboxlist(e){
+    var that = this
+    console.log(e)
+    if(e.currentTarget.dataset.id == 0){
+      that.setData({
+        PROP: e.detail.value
+      })
+    }else if(e.currentTarget.dataset.id == 1){
+      that.setData({
+        authority:e.detail.value
+      })
+    }
+  },
 
   bindPc(e){
     var that = this
@@ -113,7 +128,7 @@ Page({
       })
       this.setData({
         PROP: ['oy', 'ctrl'],
-        authority: ['personal', 'OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'ABOUT', 'InspectionReport', 'Public','ABOUT', 'ORDER',  'personal','MO',]
+        authority: ['personal', 'OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'InspectionReport', 'Public','ABOUT', 'ORDER','MO',]
       })
       that.reselist2()
     }else if(e.detail.value == 3){
@@ -122,7 +137,7 @@ Page({
       })
       this.setData({
         PROP: ['oy', 'ctrl'],
-        authority: ['personal', 'OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'ABOUT', 'InspectionReport', 'Public','ABOUT', 'ORDER',  'personal','MO','OY_Tools','OY_SALE2', 'OY_FML2']
+        authority: ['OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'InspectionReport', 'Public','ABOUT', 'ORDER',  'personal','MO','OY_Tools','OY_SALE2', 'OY_FML2']
       })
       that.reselist2()
     }else if(e.detail.value == 4){
@@ -131,7 +146,7 @@ Page({
       })
       this.setData({
         PROP: ['oy', 'ctrl'],
-        authority: ['personal', 'OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'ABOUT', 'InspectionReport', 'Public','ABOUT', 'ORDER',  'personal','MO','UO','OY_Tools','OY_SALE2', 'OY_FML2']
+        authority: ['OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'ABOUT', 'InspectionReport', 'Public', 'ORDER',  'personal','MO','UO','OY_Tools','OY_SALE2', 'OY_FML2']
       })
       that.reselist2()
     }
@@ -171,6 +186,98 @@ Page({
     })
     
   },
+  checklist(){
+    var that = this
+    if (that.data.index0 == 0){
+      for(var i in that.data.menus){
+        var tempPROP = that.data.PROP
+        if (that.data.menus[i]['checked'] == true){
+          tempPROP.push(that.data.menus[i]['value'])
+        }
+      }
+  
+      for(var x in that.data.lists){
+        var tempauthority = that.data.authority
+        if (that.data.lists[x]['checked'] == true){
+          tempauthority.push(that.data.lists[x]['value'])
+        }
+      }
+  
+      that.setData({
+        PROP: tempPROP,
+        authority: tempauthority
+      })
+    }
+    console.log('赋予' + that.data.array[that.data.index]['name'])
+    console.log(that.data.PROP)
+    console.log(that.data.authority)
+    db.collection('userlist').doc(that.data.array[that.data.index]['_id']).update({
+      // data 传入需要局部更新的数据
+      data: {
+        // 表示将 done 字段置为 true
+        PROP: _.set(that.data.PROP),
+        authority: _.set(that.data.authority)
+      },
+      success: function(res) {
+        console.log(res.data)
+        wx.showModal({
+          title: '提示',
+          content: '赋予:' + that.data.array[that.data.index]['name'] + '\n ' + that.data.PROP.toString() +  that.data.authority.toString(),
+          showCancel:false,
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              that.setData({
+                showList:false,
+                index0: 0
+              })
+              that.onLoad()
+            }
+          }
+        })
+        
+        
+
+      }
+    })
+
+    
+  },
+
+  delUser(){
+    var that = this
+
+    wx.showModal({
+      title: '提示',
+      content: '是否删除此用户',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          db.collection('userlist').doc(that.data.array[that.data.index]['_id']).remove({
+            success: function(res) {
+              console.log(res.data)
+              wx.showToast({
+                title: '成功',
+                icon: 'success',
+                duration: 2000
+              })
+              
+              
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+    
+    
+
+
+
+    
+    
+  },
 
   reselist2(){
     var that = this
@@ -207,6 +314,7 @@ Page({
       index: e.detail.value,
       showList:false
     })
+    this.checkUser()
   },
 
   checkUser(){

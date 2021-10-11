@@ -1,6 +1,6 @@
 <!--pages/urm/index.wxml-->
 
-<picker bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{array}}">
+<picker style="margin-bottom: 60rpx;" bindchange="bindPickerChange" value="{{index}}" range-key="name" range="{{array}}">
   <view>
     选择用户：{{array[index]['name']}}
   </view>
@@ -36,7 +36,7 @@
   <view >
     <view style="    color: #2196F3;">菜单选择</view>
       <view  class="cla2">
-        <checkbox-group  bindchange="checkboxChange">
+        <checkbox-group data-id="0"  bindchange="changeboxlist">
           <label class="cla1" wx:for="{{menus}}" wx:key="{{item.value}}">
             <view>
               <checkbox disabled="{{dis0}}" value="{{item.value}}" checked="{{item.checked}}"/>
@@ -48,10 +48,10 @@
 
     <view style="    color: #2196F3;">功能选择</view>
       <view  class="cla2">
-        <checkbox-group bindchange="checkboxChange">
+        <checkbox-group data-id="1" bindchange="changeboxlist">
           <label class="cla1" wx:for="{{lists}}" wx:key="{{item.value}}">
             <view>
-              <checkbox disabled="{{dis0}}" value="{{item.value}}" checked="{{item.checked}}"/>
+              <checkbox   disabled="{{dis0}}" value="{{item.value}}" checked="{{item.checked}}"/>
             </view>
             <view >{{item.name}}</view>
           </label>
@@ -62,8 +62,8 @@
 
 
       <view style="margin: auto;display: flex;">
-        <button class="mini-btn" style="width: 45%;" type="primary" size="mini">确认</button>
-        <button class="mini-btn" style="width: 45%;" type="warn" size="mini">取消</button>
+        <button bindtap="checklist" class="mini-btn" style="width: 45%;" type="primary" size="mini">变更权限</button>
+        <button bindtap="delUser" class="mini-btn" style="width: 45%;" type="warn" size="mini">删除用户</button>
       </view>
 
 </view>

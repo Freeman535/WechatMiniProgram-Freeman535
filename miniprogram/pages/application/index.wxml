@@ -1,2 +1,21 @@
 <!--pages/application/index.wxml-->
-<text>pages/application/index.wxml</text>
+<view style="font-size: 40rpx; padding: 10%; margin: auto;font-weight: bold;">
+  用户申请列表
+</view>
+
+<view class="c0" wx:for="{{array}}" data-id="{{item._id}}" data-openid="{{item._openid}}" data-name="{{item.name}}" data-phone="{{item.phoneNumber}}" wx:key="key" bindtap="checkcc">
+  <view class="c1">
+    <view class="c2">
+      姓名：{{item['name']}}
+    </view>
+    <view>
+      电话：{{item['phoneNumber']}}
+    </view>
+  </view>
+  <view>
+    备注：{{item['bz']}}
+  </view>
+  <view>
+    申请时间：{{item['due']}}
+  </view>
+</view>
