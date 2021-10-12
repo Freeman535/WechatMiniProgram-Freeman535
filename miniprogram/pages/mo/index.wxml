@@ -1,2 +1,99 @@
-<!--pages/mo/index.wxml-->
-<text>pages/mo/index.wxml</text>
+<!--pages/order/Make/Make.wxml-->
+<view>
+  
+  <view>
+    <view>目前选择的模式为：{{switchMsg}}</view>
+    <switch checked="{{switchChecked}}" bindchange="switchChange"></switch>
+  </view>
+
+  <view class="allss">
+
+    <view class="ddhv" wx:if="{{switchChecked == true}}">
+      <view>订单号：</view>
+      <input type="text" placeholder="请在此输入订单号" disabled="{{!switchChecked}}" bindblur="searchDd" value="{{ddh}}"/>
+    </view>
+
+    <view class="ddhv">
+      <view>门店名称：</view>
+      <input type="text" placeholder="手动模式下输入门店名称" id="0" value="{{shopName}}" bindblur="getShop" disabled="{{switchChecked}}"/>
+    </view>
+
+    <view class="ddhv">
+      <view>门店编码：</view>
+      <input type="text" placeholder="手动模式下输入门店名称" id="0" value="{{fdbh}}" bindinput="getShop" disabled="{{switchChecked}}"/>
+    </view>
+
+    <view class="lxrv">
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}" >
+        <view class="">联系人及电话选择：{{array[index]}}</view>
+      </picker>
+      <view wx:if="{{index < 1}}">
+        <input type="text" bindinput="getPeoN" value="{{peonum}}" placeholder="请在此输入门店联系人及电话："/>
+      </view>
+    </view>
+
+    <view class="mesv">
+      <view>销售单金额：{{xsdje}}元</view>
+    
+      <view>件数：{{jsnum}}件</view>
+    </view>
+
+  </view>
+
+  <view>
+    <view style="height:{{list_num*40}}px;" class="navbg">
+    <view  style="height:{{list_num*40}}px;" class="nav">
+     <scroll-view style="height:{{list_num*40}}px;" class="scroll-view_H" scroll-x="true">
+      <view class="scroll-view_H" wx:for="{{list_back}}" wx:for-item="item">
+        <view bindtap="delInput" style="width:30px; background:{{item['color']}};" class="normal"><input style="width:30px;" class="normal" id="13" data-index="{{index}}" type="text" value="{{item['del']}}" bindblur="getBindInput" disabled="true"/></view>
+        <view style="width:90px;" class="normal"><input style="width:90px;" class="normal" id="0" data-index="{{index}}" type="text"  value="{{item['code10']}}" bindblur="getBindInput" disabled="true"/></view>
+        <view style="width:115px;" class="normal"><input style="width:115px;" class="normal" id="1" data-index="{{index}}" type="text" value="{{item['code69']}}" bindblur="getBindInput69" placeholder="在此输入69码" /></view>
+        <view style="width:115px;" class="normal"><input style="width:115px;" class="normal" id="2" data-index="{{index}}" type="text" value="{{item['name']}}" bindblur="getBindInput" disabled="true"/></view>
+        <view style="width:40px;" class="normal"><input style="width:40px;" class="normal" id="3" data-index="{{index}}" type="text" value="{{item['gg']}}" bindblur="getBindInput" disabled="true" /></view>
+        <view style="width:40px;background:{{item['color']}};" class="normal"><input style="width:40px;" class="normal" id="4" data-index="{{index}}" type="text" value="{{item['js_num']}}" bindblur="getBindInputJs" placeholder="件数" /></view>
+        <view style="width:40px;" class="normal"><input style="width:40px;" class="normal" id="5" data-index="{{index}}" type="text" value="{{item['xs']}}" bindblur="getBindInput" disabled="true"/></view>
+        <view style="width:40px;background:{{item['color']}};" class="normal"><input style="width:40px;" class="normal" id="6" data-index="{{index}}" type="text" value="{{item['ddjj']}}" bindblur="getBindInput" placeholder="订单价"/></view>
+        <view style="width:40px;background:{{item['color']}};" class="normal"><input style="width:40px;" class="normal" id="7" data-index="{{index}}" type="text" value="{{item['xsdjj']}}" bindblur="getBindInput" placeholder="销售单价"/></view>
+        <view style="width:80px;" class="normal"><input style="width:60px;" class="normal" id="8" data-index="{{index}}" type="text" value="{{item['xj_1']}}" bindblur="getBindInput" disabled="true"/></view>
+        <view style="width:80px;" class="normal"><input style="width:70px;" class="normal" id="9" data-index="{{index}}" type="text" value="{{item['xj_2']}}" bindblur="getBindInput" disabled="true"/></view>
+        <view style="width:40px;background:{{item['color']}};" class="normal"><input style="width:40px;" class="normal" id="10" data-index="{{index}}" type="text" value="{{item['pp']}}" bindblur="getBindInput" placeholder="品牌" /></view>
+        <view style="width:115px;background:{{item['color']}};" class="normal"><input style="width:115px;" class="normal" id="11" data-index="{{index}}" type="text" value="{{item['ph']}}" bindblur="getBindInput" disabled="true"/></view>
+        <view style="width:40px;" class="normal"><input style="width:40px;" class="normal" id="12" data-index="{{index}}" type="text" value="{{item['bzq']}}" bindblur="getBindInput" placeholder="输入保质期" /></view>
+        </view>
+     </scroll-view>
+    </view>
+    
+  </view>
+  </view>
+
+  <view class="buttonbl" style="margin-top: 20px;">
+    <button style="margin-right:10px;margin-left: 10px;" type="primary" bindtap="addInput" plain="true">添加</button>
+    <button style="margin-right: 10px;" bindtap="check" type="primary" disabled="{{checked}}" plain="true">检查</button>
+    <button style="margin-right: 10px;" type="primary" plain="true" bindtap="pushData"  disabled="{{upchecked}}">提交</button>
+  </view>
+
+  
+</view>
+
+<view>
+<view class="page-section" bindtap="close2" wx:if="{{ showModeWindow }}"></view>
+  <view class="page-3" wx:if="{{ showModeWindow }}">
+      <view class="page-section-title">请选择目标条码</view>
+      <view class="weui-cells weui-cells_after-title">
+        <checkbox-group bindchange="checkboxChange">
+          <label style="display:flex;margin-top:15px;" class="weui-cell weui-check__label" wx:for="{{items69}}" wx:key="{{item.value}}">
+            <view class="weui-cell__hd">
+              <checkbox value="{{item.value}}" checked="{{item.checked}}"/>
+            </view>
+            <view class="weui-cell__bd">{{item.name}}</view>
+          </label>
+        </checkbox-group>
+      </view>
+    </view>
+  </view>
+
+  <view style="margin:20px;">
+    <text style="font-size:12px;COLOR: RED;">{{message}}</text>
+  </view>
+
+

@@ -15,6 +15,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setNavigationBarTitle({
+      title: "用户申请审批"
+    })
+    wx.hideHomeButton({
+      success: (res) => {},
+    })
     var that = this
     wx.cloud.callFunction({
       name: 'getAll',
