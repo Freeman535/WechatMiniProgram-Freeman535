@@ -29,7 +29,7 @@
   </view>
 
   <view>
-    <input placeholder="{{quyu}}" bindinput="inputquyu" type="text"/>
+    <input disabled="true" placeholder="{{quyu}}" bindinput="inputquyu" type="text"/>
   </view>
 
  

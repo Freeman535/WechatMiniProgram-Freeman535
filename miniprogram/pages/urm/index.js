@@ -184,29 +184,31 @@ Page({
     this.setData({
       lists:lists_temp
     })
+
+    for(var i in that.data.menus){
+      var tempPROP = that.data.PROP
+      if (that.data.menus[i]['checked'] == true){
+        tempPROP.push(that.data.menus[i]['value'])
+      }
+    }
+
+    for(var x in that.data.lists){
+      var tempauthority = that.data.authority
+      if (that.data.lists[x]['checked'] == true){
+        tempauthority.push(that.data.lists[x]['value'])
+      }
+    }
+
+    that.setData({
+      PROP: tempPROP,
+      authority: tempauthority
+    })
     
   },
   checklist(){
     var that = this
     if (that.data.index0 == 0){
-      for(var i in that.data.menus){
-        var tempPROP = that.data.PROP
-        if (that.data.menus[i]['checked'] == true){
-          tempPROP.push(that.data.menus[i]['value'])
-        }
-      }
-  
-      for(var x in that.data.lists){
-        var tempauthority = that.data.authority
-        if (that.data.lists[x]['checked'] == true){
-          tempauthority.push(that.data.lists[x]['value'])
-        }
-      }
-  
-      that.setData({
-        PROP: tempPROP,
-        authority: tempauthority
-      })
+
     }
     console.log('赋予' + that.data.array[that.data.index]['name'])
     console.log(that.data.PROP)
@@ -223,7 +225,7 @@ Page({
         wx.showModal({
           title: '提示',
           content: '赋予:' + that.data.array[that.data.index]['name'] + '\n ' + that.data.PROP.toString() +  that.data.authority.toString(),
-          showCancel:false,
+          showCancel:true,
           success (res) {
             if (res.confirm) {
               console.log('用户点击确定')
@@ -323,6 +325,7 @@ Page({
       showList:true
     })
     this.reselist()
+
   },
 
   /**
