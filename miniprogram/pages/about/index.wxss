@@ -1,1 +1,17 @@
 /* pages/about/index.wxss */
+.back0 {
+  width: 90%;
+  background: #bafbfb;
+  padding: 15rpx 15rpx 55rpx 15rpx;
+  margin: auto;
+  border-radius: 15rpx;
+  margin-bottom: 5%;
+
+}
+.title {
+  text-align: center;
+  font-size: 40rpx;
+  margin-top: 50rpx;
+  font-weight: bold;
+  margin-bottom: 50rpx;
+}
