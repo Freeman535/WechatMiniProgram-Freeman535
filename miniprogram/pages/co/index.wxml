@@ -1,2 +1,3 @@
 <!--pages/co/index.wxml-->
 <text>pages/co/index.wxml</text>
+<input type="number" bindblur="ddhInputOver"/>

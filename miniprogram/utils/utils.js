@@ -467,6 +467,27 @@ function LgbaoSearchDDMain(ddh){
   })
 }
 
+function LgbaoGetOneDHD(ddh){
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: 'https://lgb.oywanhao.com/bmcporasrv/prod/system/bh80/dhd/getOneDHD',
+      method: "POST",
+      header: {
+        'Host': 'lgb.oywanhao.com',
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json, text/javascript, */*; q=0.01',
+        'token': app.globalData.OyToken
+      },
+      data: {"JLBH":ddh,"SHOPCODE":"000003","DHDH":ddh},
+      success(res){
+
+        var back = res.data.data.data
+        resolve(back)
+      }
+    })
+  })
+}
+
 function LgbaoSearcJCDList(arrTemp){
   return new Promise((resolve, reject) => {
     wx.showLoading({title: '请稍等...',mask:true, icon: 'loading', duration: 10000});
@@ -747,6 +768,7 @@ module.exports = {
   LgbaoSearcSALEList: LgbaoSearcSALEList,
   IfCodeLB:IfCodeLB,
   LgbaoSearcFMLList: LgbaoSearcFMLList,
-  LgbaoSearcKCList: LgbaoSearcKCList
+  LgbaoSearcKCList: LgbaoSearcKCList,
+  LgbaoGetOneDHD: LgbaoGetOneDHD
 
 }
