@@ -748,6 +748,34 @@ function IfCodeLB(name){
   }
 }
 
+function backPp(name){
+  if(name.indexOf('雕')){
+    return '雕牌'
+  }else if(name.indexOf('超能')){
+    return '超能'
+  }else if(name.indexOf('动力')){
+    return '动力100'
+  }else if(name.indexOf('妙管家')){
+    return '妙管家'
+  }else if(name.indexOf('公道')){
+    return '公道先生'
+  }else if(name.indexOf('西亚斯')){
+    return '西亚斯'
+  }else if(name.indexOf('西丽')){
+    return '西丽'
+  }else if(name.indexOf('纳爱斯')){
+    return '纳爱斯'
+  }else if(name.indexOf('健爽白')){
+    return '健爽白'
+  }else if(name.indexOf('100年')){
+    return '100年润发'
+  }else if(name.indexOf('伢牙乐')){
+    return '伢牙乐'
+  }else{
+    return '纳爱斯'
+  }
+}
+
 
 
 module.exports = {
@@ -769,6 +797,7 @@ module.exports = {
   IfCodeLB:IfCodeLB,
   LgbaoSearcFMLList: LgbaoSearcFMLList,
   LgbaoSearcKCList: LgbaoSearcKCList,
-  LgbaoGetOneDHD: LgbaoGetOneDHD
+  LgbaoGetOneDHD: LgbaoGetOneDHD,
+  backPp:backPp
 
 }

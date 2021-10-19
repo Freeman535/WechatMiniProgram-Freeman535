@@ -58,7 +58,8 @@ Page({
     }
 
     this.setData({
-      returnList: returnList
+      returnList: returnList,
+      tip: ''
     })
 
   },
@@ -70,6 +71,7 @@ Page({
    */
 
    ddhInputOver(e){
+    this.reSetPage()
      var that = this
      var temp_backList = this.data.returnList
      utils.LgbaoGetOneDHD(e.detail.value).then(res =>{
@@ -83,12 +85,23 @@ Page({
         temp_backList['jsSum'] = 0
         temp_backList['jeSum'] = 0
 
+
+
+          for(var i in getAll){
+            that.auto_Back_single(getAll[i]['BARCODE'], getAll[i]['SPXS'], getAll[i]['JHDJ_HS']).then(res =>{
+             temp_backList['list'].push(res)
+             console.log(res)
+             // console.log(res)// 返回就操作
+             
+           }).catch(res =>{
+             console.log(res)
+           })
+       }
+      
+
         console.log(getOne, getAll)
       })
      })
-     
-
-  
    },
 
 
@@ -98,6 +111,203 @@ Page({
    changePhone(e){
 
    },
+
+   /**
+    * 自动时单条处理数据返回数组
+    */
+   auto_Back_single(barcode, number, jj){
+     var that = this
+     return new Promise((resolve, reject) => {
+      db.collection('pi').where({
+        code69: barcode
+      })
+      .get({
+        success: function(res) {
+          console.log(res.data)
+          
+          if((res.data.length) == 0){
+            var temp_tip = that.data.tip
+            temp_tip = '此条码数据库无结果：'+ barcode + '/n' + temp_tip
+            that.setData({
+              tip: temp_tip
+            })
+            reject('此条码数据库无结果：'+ barcode)
+            
+          }else if(res.data.length == 1){
+            if(res.data[0]['pc'] != 0){
+              that.auto_Back_single_2(res.data[0], number, jj).then(res =>{
+                resolve(res)
+              })
+              
+            }else{
+              var temp_tip = that.data.tip
+              temp_tip = '此条码无库存：'+ barcode + '/n' + temp_tip
+              that.setData({
+              tip: temp_tip
+            })
+            reject('此条码无库存：'+ barcode)
+            }
+          }else if(res.data.length > 1){
+
+           that.showActionSheet(res.data, number, jj).then(res => {
+              resolve(res)
+            })
+
+            // var itemList = []
+            // var res1 = res.data
+            // for(var i in res.data){
+            //   itemList.push(res.data[i]['code10'] + ' 库存数量：' + res.data[i]['pc'])
+            // }
+            //   wx.showActionSheet({
+            //     itemList: itemList,
+            //     // success (res) {
+            //     //   console.log(res.tapIndex)
+            //     //   if(res1[res.tapIndex]['pc'] == 0){
+            //     //     var temp_tip = that.data.tip
+            //     //     temp_tip = '此条码无库存：'+ barcode + '/n' + temp_tip
+            //     //     that.setData({
+            //     //     tip: temp_tip
+            //     //   })
+            //     //   }else{
+            //     //       that.auto_Back_single_2(res1[res.tapIndex], number, jj).then(res => {
+            //     //       console.log('2222222222222222')
+            //     //       resolve(res)
+            //     //     })
+                    
+            //     //   }
+            //     // }
+            // }).then(res => {
+            //   console.log(res.tapIndex)
+            //   if (res1[res.tapIndex]['pc'] == 0){
+            //     var temp_tip = that.data.tip
+            //     temp_tip = '此条码无库存：'+ barcode + '/n' + temp_tip
+            //     that.setData({
+            //            tip: temp_tip
+            //          })
+            //   }else{
+            //     that.auto_Back_single_2(res1[res.tapIndex], number, jj).then(res => {
+            //       console.log('2222222222222222')
+            //       resolve(res)
+            //     })
+                
+            //   }
+            // })
+
+          }
+        }
+      })
+    })
+   },
+
+   showActionSheet(res1, number, jj){
+     var that = this
+     return new Promise ((resolve, reject) => {
+      var itemList = []
+      for(var i in res1){
+        itemList.push(res1[i]['code10'] + ' 库存数量：' + res1[i]['pc'])
+      }
+       
+
+      var back1 = new Promise(function(resolve22, reject){
+
+        wx.showActionSheet({
+          itemList: itemList,
+          success(res){
+            console.log(res.tapIndex)
+            that.auto_Back_single_2(res1[res.tapIndex], number, jj).then(res => {
+              resolve22(res)
+              
+            }) 
+          },
+          fail(res){
+            reject(res)
+          }
+        })
+        
+      })
+      resolve(back1)
+      
+
+
+
+     })
+   },
+
+   /**
+    * 自动时单条处理数据返回数组2
+    */
+   auto_Back_single_2(arr, number, jj){
+
+     var that = this
+     var single = {
+        BARCODE:arr['code69'],
+        CODE:arr['code10'],
+        NAME:arr['name'],
+        GG:arr['gg3'],
+        JS:'',
+        XS:'',
+        DDJ_IN: jj, // 欧亚订单上的
+        DDJ_OUT:arr['bid'], // 返回的
+        DDJ_FIN:'', // FIN
+        XJ:'',
+        JE_SUM:'',
+        PP:'',
+        PH:''
+      }
+
+      return new Promise ((resolve, reject) => {
+        console.log('执行了auto_Back_single_2' + arr['code69'])
+                    // 数量篇
+                    var js = Math.floor(number/arr['gg3'])
+                    single['JS'] = js
+                    single['XS'] = js * arr['gg3']
+              
+                    if (js == 0){
+                      var temp_tip = that.data.tip
+                      temp_tip = '此条码细数不够一件，按0件算。'+ arr['code69'] +'/n' + temp_tip
+                      that.setData({
+                        tip: temp_tip
+                      })
+                    }
+        
+              // 进价篇
+              if(arr['bid'] == jj){
+                single['DDJ_FIN'] = jj
+                single['XJ'] = jj * arr['gg3']
+                single['JE_SUM'] = jj * arr['gg3'] * single['JS']
+              }else if (arr['bid'] == 0 ){
+                single['DDJ_FIN'] = jj
+                single['XJ'] = jj * arr['gg3']
+                single['JE_SUM'] = jj * arr['gg3'] * single['JS']
+                var temp_tip = that.data.tip
+                temp_tip = '此条码数据库无价格，并按订单价格出：'+ arr['code69'] + '/n' + temp_tip
+                that.setData({
+                  tip: temp_tip
+                })
+              }else if(arr['bid'] != 0 && arr['bid'] != jj){
+                single['DDJ_FIN'] = arr['bid']
+                single['XJ'] =  arr['bid'] * arr['gg3']
+                single['JE_SUM'] =  arr['bid'] * arr['gg3'] * single['JS']
+                var temp_tip = that.data.tip
+                temp_tip = '此条码数据库价格与订单价格不符：'+ arr['code69'] + '。数据库:'+ arr['bid'] + ';订单:' + jj + '/n' + temp_tip
+                that.setData({
+                  tip: temp_tip
+                })
+              }
+        
+              // 品牌 批号
+              if(arr['pc'] == 0){
+                single['PH'] = '1102111052'
+              }else{
+                single['PH'] = arr['pc']
+              }
+              single['PP'] = utils.backPp(single['NAME'])
+              resolve(single)
+      })
+    
+   },
+
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成
