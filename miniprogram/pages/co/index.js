@@ -76,7 +76,7 @@ Page({
      var temp_backList = this.data.returnList
      utils.LgbaoGetOneDHD(e.detail.value).then(res =>{
       var getOne = res
-      utils.LgbaoSearchDDMain(e.detail.value).then(res => {
+       utils.LgbaoSearchDDMain(e.detail.value).then (async(res) => {
         var getAll = res
         
 
@@ -88,14 +88,19 @@ Page({
 
 
           for(var i in getAll){
-            that.auto_Back_single(getAll[i]['BARCODE'], getAll[i]['SPXS'], getAll[i]['JHDJ_HS']).then(res =>{
-             temp_backList['list'].push(res)
-             console.log(res)
-             // console.log(res)// 返回就操作
-             
-           }).catch(res =>{
-             console.log(res)
-           })
+
+
+          let res = await that.auto_Back_single(getAll[i]['BARCODE'], getAll[i]['SPXS'], getAll[i]['JHDJ_HS'])
+          
+          if (typeof(res)=='object'){
+            
+            temp_backList['list'].push(res)
+            
+          }else{
+            console.log(res)
+          }
+
+           
        }
       
 
@@ -115,15 +120,15 @@ Page({
    /**
     * 自动时单条处理数据返回数组
     */
-   auto_Back_single(barcode, number, jj){
+   async auto_Back_single(barcode, number, jj){
      var that = this
      return new Promise((resolve, reject) => {
       db.collection('pi').where({
         code69: barcode
       })
       .get({
-        success: function(res) {
-          console.log(res.data)
+        success: async function(res) {
+          // console.log(res.data)
           
           if((res.data.length) == 0){
             var temp_tip = that.data.tip
@@ -131,7 +136,7 @@ Page({
             that.setData({
               tip: temp_tip
             })
-            reject('此条码数据库无结果：'+ barcode)
+            resolve('此条码数据库无结果：'+ barcode)
             
           }else if(res.data.length == 1){
             if(res.data[0]['pc'] != 0){
@@ -145,53 +150,18 @@ Page({
               that.setData({
               tip: temp_tip
             })
-            reject('此条码无库存：'+ barcode)
+            resolve('此条码无库存：'+ barcode)
             }
           }else if(res.data.length > 1){
+            var res1 = res.data
+            var itemList = []
+            for(var i in res1){
+             itemList.push(res1[i]['code10'] + ' 库存数量：' + res1[i]['pc'])
+            }
+            let num = await that.showActionSheet(res.data, number, jj,itemList)
+            let back0 = await that.auto_Back_single_2(res.data[num], number, jj)
+            resolve(back0)
 
-           that.showActionSheet(res.data, number, jj).then(res => {
-              resolve(res)
-            })
-
-            // var itemList = []
-            // var res1 = res.data
-            // for(var i in res.data){
-            //   itemList.push(res.data[i]['code10'] + ' 库存数量：' + res.data[i]['pc'])
-            // }
-            //   wx.showActionSheet({
-            //     itemList: itemList,
-            //     // success (res) {
-            //     //   console.log(res.tapIndex)
-            //     //   if(res1[res.tapIndex]['pc'] == 0){
-            //     //     var temp_tip = that.data.tip
-            //     //     temp_tip = '此条码无库存：'+ barcode + '/n' + temp_tip
-            //     //     that.setData({
-            //     //     tip: temp_tip
-            //     //   })
-            //     //   }else{
-            //     //       that.auto_Back_single_2(res1[res.tapIndex], number, jj).then(res => {
-            //     //       console.log('2222222222222222')
-            //     //       resolve(res)
-            //     //     })
-                    
-            //     //   }
-            //     // }
-            // }).then(res => {
-            //   console.log(res.tapIndex)
-            //   if (res1[res.tapIndex]['pc'] == 0){
-            //     var temp_tip = that.data.tip
-            //     temp_tip = '此条码无库存：'+ barcode + '/n' + temp_tip
-            //     that.setData({
-            //            tip: temp_tip
-            //          })
-            //   }else{
-            //     that.auto_Back_single_2(res1[res.tapIndex], number, jj).then(res => {
-            //       console.log('2222222222222222')
-            //       resolve(res)
-            //     })
-                
-            //   }
-            // })
 
           }
         }
@@ -199,38 +169,23 @@ Page({
     })
    },
 
-   showActionSheet(res1, number, jj){
-     var that = this
+   async showActionSheet(res1, number, jj,itemList){
+     
      return new Promise ((resolve, reject) => {
-      var itemList = []
-      for(var i in res1){
-        itemList.push(res1[i]['code10'] + ' 库存数量：' + res1[i]['pc'])
-      }
-       
-
-      var back1 = new Promise(function(resolve22, reject){
-
+    
         wx.showActionSheet({
           itemList: itemList,
-          success(res){
-            console.log(res.tapIndex)
-            that.auto_Back_single_2(res1[res.tapIndex], number, jj).then(res => {
-              resolve22(res)
+          alertText:res1[0]['name']
+          // success(res){
+          //   console.log(res.tapIndex)
+          //   that.auto_Back_single_2(res1[res.tapIndex], number, jj).then(res => {
+          //     resolve(res)
               
-            }) 
-          },
-          fail(res){
-            reject(res)
-          }
+          //   }) 
+          }).then(res=>{
+            resolve(res.tapIndex)
+          })
         })
-        
-      })
-      resolve(back1)
-      
-
-
-
-     })
    },
 
    /**
@@ -256,7 +211,7 @@ Page({
       }
 
       return new Promise ((resolve, reject) => {
-        console.log('执行了auto_Back_single_2' + arr['code69'])
+        // console.log('执行了auto_Back_single_2' + arr['code69'])
                     // 数量篇
                     var js = Math.floor(number/arr['gg3'])
                     single['JS'] = js
