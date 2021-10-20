@@ -8,7 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    pickerindex:0
   },
 
   /**
@@ -34,7 +34,7 @@ Page({
    */
   reSetPage(){
     var returnList = {
-      storeName:'',
+      storeName:'订单号输入完会自动获取门店名称',
       ddh:'',
       dgyPhone:'',
       jsSum:'',
@@ -59,8 +59,33 @@ Page({
 
     this.setData({
       returnList: returnList,
-      tip: ''
+      tip: '',
+      pickerindex:0,
+      checked:true,
+      upchecked:true
     })
+
+    var that = this
+    wx.cloud.callFunction({
+      name: 'getAll',
+      data: {
+        name: 'sgif'
+      },
+      success(res){
+
+        that.setData({
+          sarray: res.result.data,
+
+        })
+        var templist = that.data.returnList
+        templist['dgyPhone'] = that.data.sarray[that.data.pickerindex]['name'] + ' ' + that.data.sarray[that.data.pickerindex]['phonenumber']
+        that.setData({
+          returnList: templist
+        })
+      }
+    })
+    
+
 
   },
 
@@ -105,15 +130,29 @@ Page({
       
 
         console.log(getOne, getAll)
+        that.setData({
+          returnList: temp_backList,
+          checked:false
+        })
       })
      })
    },
-
 
    /**
     * 导购员及联系方式栏修改
     */
    changePhone(e){
+    console.log(e.detail.value)
+    this.setData({
+      pickerindex:e.detail.value,
+      
+    })
+    var templist = this.data.returnList
+    templist['dgyPhone'] = this.data.sarray[this.data.pickerindex]['name'] + ' ' + this.data.sarray[this.data.pickerindex]['phonenumber']
+    this.setData({
+      returnList: templist
+    })
+
 
    },
 
@@ -159,8 +198,15 @@ Page({
              itemList.push(res1[i]['code10'] + ' 库存数量：' + res1[i]['pc'])
             }
             let num = await that.showActionSheet(res.data, number, jj,itemList)
-            let back0 = await that.auto_Back_single_2(res.data[num], number, jj)
-            resolve(back0)
+            if (typeof(num) != 'object'){
+              let back0 = await that.auto_Back_single_2(res.data[num], number, jj)
+              resolve(back0)
+            }else{
+              num = 0
+              let back0 = await that.auto_Back_single_2(res.data[num], number, jj)
+              resolve(back0)
+            }
+
 
 
           }
@@ -184,7 +230,9 @@ Page({
           //   }) 
           }).then(res=>{
             resolve(res.tapIndex)
-          })
+          }).catch(res=>(
+            resolve(res)
+          ))
         })
    },
 
@@ -228,12 +276,12 @@ Page({
               // 进价篇
               if(arr['bid'] == jj){
                 single['DDJ_FIN'] = jj
-                single['XJ'] = jj * arr['gg3']
-                single['JE_SUM'] = jj * arr['gg3'] * single['JS']
+                single['XJ'] = Math.floor((jj * arr['gg3']) * 100 ) / 100
+                single['JE_SUM'] = Math.floor((jj * arr['gg3'] * single['JS']) * 100) / 100
               }else if (arr['bid'] == 0 ){
                 single['DDJ_FIN'] = jj
-                single['XJ'] = jj * arr['gg3']
-                single['JE_SUM'] = jj * arr['gg3'] * single['JS']
+                single['XJ'] = Math.floor((jj * arr['gg3']) * 100 ) / 100
+                single['JE_SUM'] = Math.floor((jj * arr['gg3'] * single['JS']) * 100) / 100
                 var temp_tip = that.data.tip
                 temp_tip = '此条码数据库无价格，并按订单价格出：'+ arr['code69'] + '/n' + temp_tip
                 that.setData({
@@ -241,8 +289,8 @@ Page({
                 })
               }else if(arr['bid'] != 0 && arr['bid'] != jj){
                 single['DDJ_FIN'] = arr['bid']
-                single['XJ'] =  arr['bid'] * arr['gg3']
-                single['JE_SUM'] =  arr['bid'] * arr['gg3'] * single['JS']
+                single['XJ'] =  Math.floor(((arr['bid'] * arr['gg3'])) * 100) / 100
+                single['JE_SUM'] =  Math.floor((arr['bid'] * arr['gg3'] * single['JS']) * 100) / 100
                 var temp_tip = that.data.tip
                 temp_tip = '此条码数据库价格与订单价格不符：'+ arr['code69'] + '。数据库:'+ arr['bid'] + ';订单:' + jj + '/n' + temp_tip
                 that.setData({
@@ -262,7 +310,92 @@ Page({
     
    },
 
+   /**
+    * 门店名称更改
+    */
+   storeInputOver(e){
+    console.log(e)
+    var that = this
+    if (e.detail.value == ''){
+      var temp = this.data.returnList
+      temp['storeName'] = e.detail.value
+      that.setData({
+        returnList: temp
+      })
+    }
+   },
 
+   /**
+    * 删除单条信息
+    */
+   delsingle(e){
+     console.log(e.target.id)
+     var that = this
+     
+     wx.showModal({
+      title: '提示',
+      content: '是否删除该行？',
+      success (res) {
+        if (res.confirm) {
+          var temp = that.data.returnList
+          temp['list'].splice(e.target.id, 1)
+          that.setData({
+            returnList: temp
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+    
+    
+
+
+
+   },
+
+   /**
+    * check
+    */
+   check(){
+    var arr_temp = this.data.returnList
+    var that = this
+
+    for (var i in arr_temp['list']){
+      if( arr_temp['list'][i]['DDJ_FIN'] != arr_temp['list'][i]['DDJ_IN']){
+        arr_temp['list'][i]['color'] = 'red'
+      }else if (arr_temp['list'][i]['JS'] == 0){
+        arr_temp['list'][i]['color'] = 'red'
+      }
+      arr_temp['jeSum'] = Math.floor((arr_temp['jeSum'] + arr_temp['list'][i]['JE_SUM']) * 100) / 100
+      arr_temp['jsSum'] = Math.floor((arr_temp['jsSum'] + arr_temp['list'][i]['JS']) * 100) / 100
+    }
+    this.setData({
+      returnList: arr_temp,
+      upchecked: false
+    })
+
+    // 此代码为清空库存数量
+
+    // wx.cloud.callFunction({
+    //   name: 'cleanKc',
+    //   data: {},
+    //   success(res){
+    //     console.log(res)
+    //   }
+    // })
+
+    wx.showModal({
+      title: '提示',
+      content: '如果有变红色的行请关注！',
+      showCancel:false,
+      success (res) {}
+    })
+    
+    
+
+
+   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

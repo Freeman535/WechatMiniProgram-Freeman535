@@ -480,10 +480,21 @@ function LgbaoGetOneDHD(ddh){
       },
       data: {"JLBH":ddh,"SHOPCODE":"000003","DHDH":ddh},
       success(res){
+        if(res.data.data == 'null'){
+            wx.showToast({
+              title: '订单号无效',
+              icon: 'error',
+              duration: 2000,
+              mask: true
+            })
+        }else{
 
         var back = res.data.data.data
         resolve(back)
-      }
+        }
+
+      },
+
     })
   })
 }
