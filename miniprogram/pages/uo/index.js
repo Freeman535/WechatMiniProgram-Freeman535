@@ -21,12 +21,12 @@ Page({
     const db = wx.cloud.database()
     const _ = db.command
     var that = this
-    db.collection('cc_kc').where({
-      'Date':_.neq('')
+    db.collection('pi').where({
+      _id:'f4ef47fd616e1df301aa74852f21cee1'
     })
     .get({
       success:function(res){
-        console.log(res)
+        // console.log(res)
         that.setData({
           mes_date:String(res.data[0]['Date'])
         })
@@ -56,56 +56,38 @@ Page({
         'Content-Type':'application/json'
       },
       data:goUrl,
-      success: function(res){
+      success: async function(res){
         that.setData({
           
-          mes:'Excel上传完毕，正在送往数据库...'
+          mes:'Excel正在送往数据库...'
         })
         console.log(res)
         for (var i in res.data){
-
+          var len_all = res.data.length
           var tempL = res.data[i]
+          let id_back = await that.searchid(res.data[i]['10code'])
+          if (id_back.length != 0){
+            let l2 = await that.changeid(id_back[0]['_id'], tempL['number'])
+            console.log(l2)
+          }else{
+            var temp_errmes = that.data.errmes
+            temp_errmes.push((tempL['10code'] + ' ' + tempL['name'] + ' 在数据库无记录，无法添加库存！'))
+            that.setData({
+              errmes: temp_errmes
+            })
+          }
+            that.setData({
+              percent: Math.floor(((Number(i) + Number(1)) / len_all ) * 10000) / 100
+            })
+          if (String(Number(i) + Number(1)) == len_all){
+            db.collection('pi').doc('f4ef47fd616e1df301aa74852f21cee1').update({
+              data: {
+                kc: _.set(0),
+                Date: new Date()
+              },
+              complete: function(res) {}
 
-          that.searchid(tempL['10code']).then(res =>{
-            if (res != 0){
-              that.changeid(res, tempL['number']).then(res => {
-                console.log(res)
-              })
-            }
-          })
-
-          // console.log(tempL)
-          // db.collection('pi').where({
-          //   code10: res.data[i]['10code']
-          // }).get({
-          //   success:function(res){
-          //     if (res.data.length != 0){
-          //       var _id = res.data[0]['_id']
-          //       db.collection('pi').doc(_id).update({
-          //         data: {
-          //           kc: _.set(Number(tempL['number'])),
-          //           Date: new Date()
-          //         },
-          //         success: function(res) {
-          //         }
-          //       })
-          //     }else{
-          //      var errtemp =  that.data.errmes
-          //      console.log(tempL['name'])
-          //      errtemp = tempL['name'] + '\n' + errtemp
-          //      that.setData({
-          //        errmes: errtemp
-          //      })
-          //     }
-          //   }
-          // })
-
-
-
-          that.setData({
-            mes:'正在上传第 ' + String(Number(i) + Number(1)) + ' 个，共 ' + res.data.length + ' 个。'
-          })
-          if (String(Number(i) + Number(1)) == res.data.length){
+            })
             that.setData({
               mes:'上传完成！'
             })
@@ -128,17 +110,7 @@ Page({
         code10:code10
       }).get({
         success:function(res){
-          if (res.data.length != 0){
-            resolve(res.data[0]['_id'])
-          }else{
-                           var errtemp =  that.data.errmes
-               console.log(tempL['name'])
-               errtemp = tempL['name'] + '\n' + errtemp
-               that.setData({
-                 errmes: errtemp
-               })
-            resolve(0)
-          }
+          resolve(res.data)
         }
       })
     })
@@ -152,48 +124,51 @@ Page({
           kc: _.set(number),
           Date: new Date()
         },
-        success: function(res) {
+        complete: function(res) {
+          suc(0)
         }
+        
+
       })
     })
   },
 
-
-
   upload(){
     var that = this
-    this.setData({
-      errmes: ''
-    })
-    // let that = this;
+    this.setData({errmes: [],percent:0})
     // 选择一张图片
-
-
     wx.chooseMessageFile({
       count: 1,
       type: 'file',
       success (res) {
+        that.setData({mes:'正在抹去之前库存信息。'})
         // tempFilePath可以作为img标签的src属性显示图片
-        console.log(res.tempFiles[0]['path'])
-        that.uploadFile(res.tempFiles[0]['path'])
+        var pathfile = res.tempFiles[0]['path']
+        console.log(pathfile)
+            // 此代码为清空库存数量
+        wx.cloud.callFunction({
+          name: 'cleanKc',
+          data: {},
+          success(res){
+            console.log(res)
+            console.log('库存清空完毕！')
+            that.setData({
+              mes:'库存清空完毕！'
+            })
+            that.uploadFile(pathfile)
+          }
+        })
+        
       }
     })
-    // wx.chooseImage({
-    //   count: 1,
-    //   sizeType: ['original', 'compressed'],
-    //   sourceType: ['album', 'camera'],
-    //   success: (res) => {
-    //     // tempFilePath可以作为img标签的src属性显示图片
-    //     const tempFilePaths = res.tempFilePaths[0]
-    //     // that.uploadFile(tempFilePaths) 如果这里不是=>函数
-    //     //则使用上面的that = this
-    //     this.uploadFile(tempFilePaths) 
-    //   },
-    // })
   },
+
   //上传操作
   uploadFile(filePath) {
     var that = this
+    that.setData({
+      mes:'正在上传excel到云端'
+    })
     wx.cloud.uploadFile({
       cloudPath: 'kc/' + (new Date()).valueOf()+'.xls', // 文件名
       filePath: filePath, // 文件路径
@@ -212,6 +187,9 @@ Page({
             // }]
             
             console.log(res.fileList[0]['tempFileURL'])
+            that.setData({
+              mes:'excel上传完毕'
+            })
             that.runCloudSCF(res.fileList[0]['tempFileURL'])
           },
           fail: console.error
@@ -240,52 +218,4 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

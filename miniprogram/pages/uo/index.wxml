@@ -1,5 +1,13 @@
 <!--pages/order/searchCode/searchCode.wxml-->
+<view style="color: red;margin-top: 25rpx;margin-bottom: 25rpx;margin-left: auto;margin-right: auto;">库存更新上传更新时不得离开界面</view>
 <button bindtap="upload" disabled="{{button_dis}}" type="primary"> 上传 </button>
 <view hidden="{{mes_hide}}">{{mes}}</view>
+<view class="progress-box">
+  <progress percent="{{percent}}" show-info stroke-width="3"/>
+</view>
 <view>库存上次更新时间为：{{mes_date}}</view>
+<view style="margin-top: 25rpx;"> 
+  <text class="text1" wx:for="{{errmes}}" style="color: coral;">{{item}} </text>
+</view>
+
 
