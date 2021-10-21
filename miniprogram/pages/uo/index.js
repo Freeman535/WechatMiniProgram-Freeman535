@@ -1,4 +1,8 @@
 // pages/order/searchCode/searchCode.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
+const _ = db.command
 Page({
 
   /**
@@ -8,7 +12,8 @@ Page({
     mes:'文件正在上传中...',
     mes_hide:true,
     button_dis:false,
-    mes_date:null
+    mes_date:null,
+
 
   },
 
@@ -58,20 +63,45 @@ Page({
         })
         console.log(res)
         for (var i in res.data){
-          db.collection('cc_kc').add({
-            // data 字段表示需新增的 JSON 数据
-            data: {
-              // _id: 'todo-identifiant-aleatoire', // 可选自定义 _id，在此处场景下用数据库自动分配的就可以了
-              '10code': res.data[i]['10code'],
-              'name': res.data[i]['name'],
-              'number':res.data[i]['number'],
-              'Date':new Date()
-            },
-            success: function(res) {
-             
-              console.log(res)
+
+          var tempL = res.data[i]
+
+          that.searchid(tempL['10code']).then(res =>{
+            if (res != 0){
+              that.changeid(res, tempL['number']).then(res => {
+                console.log(res)
+              })
             }
           })
+
+          // console.log(tempL)
+          // db.collection('pi').where({
+          //   code10: res.data[i]['10code']
+          // }).get({
+          //   success:function(res){
+          //     if (res.data.length != 0){
+          //       var _id = res.data[0]['_id']
+          //       db.collection('pi').doc(_id).update({
+          //         data: {
+          //           kc: _.set(Number(tempL['number'])),
+          //           Date: new Date()
+          //         },
+          //         success: function(res) {
+          //         }
+          //       })
+          //     }else{
+          //      var errtemp =  that.data.errmes
+          //      console.log(tempL['name'])
+          //      errtemp = tempL['name'] + '\n' + errtemp
+          //      that.setData({
+          //        errmes: errtemp
+          //      })
+          //     }
+          //   }
+          // })
+
+
+
           that.setData({
             mes:'正在上传第 ' + String(Number(i) + Number(1)) + ' 个，共 ' + res.data.length + ' 个。'
           })
@@ -91,8 +121,50 @@ Page({
     })
   },
 
+  searchid(code10){
+
+    return new Promise ((resolve, reject) => {
+      db.collection('pi').where({
+        code10:code10
+      }).get({
+        success:function(res){
+          if (res.data.length != 0){
+            resolve(res.data[0]['_id'])
+          }else{
+                           var errtemp =  that.data.errmes
+               console.log(tempL['name'])
+               errtemp = tempL['name'] + '\n' + errtemp
+               that.setData({
+                 errmes: errtemp
+               })
+            resolve(0)
+          }
+        }
+      })
+    })
+
+  },
+
+  changeid(id, number){
+    return new Promise ((suc, fai) => {
+      db.collection('pi').doc(id).update({
+        data: {
+          kc: _.set(number),
+          Date: new Date()
+        },
+        success: function(res) {
+        }
+      })
+    })
+  },
+
+
+
   upload(){
     var that = this
+    this.setData({
+      errmes: ''
+    })
     // let that = this;
     // 选择一张图片
 
