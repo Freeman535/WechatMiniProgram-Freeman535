@@ -1,3 +1,43 @@
 <!--pages/co/index.wxml-->
-<text>pages/co/index.wxml</text>
-<input type="number" bindblur="ddhInputOver"/>
+
+<!-- 单号 分店名称 收货人信息 合计金额 合计件数-->
+<view class="top-main">
+  <input id="0" placeholder="在此处输入订单号" type="number" bindblur="ddhInputOver"/>
+  <input id="1" placeholder="{{returnList['storeName']}}" type="text" bindblur="storeInputOver"/>
+  <picker bindchange="changePhone" value="{{pickerindex}}" range-key="name" range="{{sarray}}" >
+    <view class="picker">
+      当前联系人：{{returnList['dgyPhone']}}
+    </view>
+  </picker>
+  <view>合计金额：{{returnList['jeSum']}}</view>
+  <view>合计件数：{{returnList['jsSum']}}</view>
+</view>
+<view class="b-all">
+  <!-- 由两部分组成 1、删除-条码-名称 2、编码-订单单价-参考单价-最终单价-件数-->
+  <view style="width: 50%;">
+    <view wx:for="{{returnList['list']}}">
+      <view class="left-x" style="background-color: {{item['color']}}">
+        <view bindtap="delsingle" id="{{index}}" class="left-x-x">X</view>
+        <view class="left-x-code">{{item['BARCODE']}}</view>
+        <view class="left-x-name">{{item['NAME']}}</view>
+      </view>
+   </view>
+  </view>
+
+  <view style="width: 50%;font-size: 29rpx;text-align: center;" class="right-x">
+    <scroll-view wx:for="{{returnList['list']}}" class="scroll-view_H" scroll-x="true" bindscroll="scroll" style="height: 80rpx;margin-bottom: 15rpx;">
+          <view class="right-x-x" style="width: 50%;">{{item['CODE']}}</view>
+          <view class="right-x-x" style="width: 25%;">{{item['DDJ_FIN']}}</view>
+          <view class="right-x-x" style="width: 25%;">{{item['JS']}}</view>
+          <view class="right-x-x" style="width: 25%;">{{item['DDJ_IN']}}</view>
+          <view class="right-x-x" style="width: 25%;">{{item['DDJ_OUT']}}</view>
+    </scroll-view>
+  </view>
+
+</view>
+
+<view style="margin-top: 20px;display: flex;">
+    <button style="margin-right:10px;margin-left: 10px;" type="primary" bindtap="addInput" disabled="true" plain="true">添加</button>
+    <button style="margin-right: 10px;" bindtap="check" type="primary" disabled="{{checked}}" plain="true">检查</button>
+    <button style="margin-right: 10px;" type="primary" plain="true" bindtap="pushData" disabled="{{upchecked}}">提交</button>
+  </view>

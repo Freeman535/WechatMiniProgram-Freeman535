@@ -34,9 +34,7 @@
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
-    "disableUseStrict": false,
-    "showES6CompileOption": false,
-    "useCompilerPlugins": false
+    "showES6CompileOption": false
   },
   "appid": "wxc8ccd8502e356bdf",
   "projectname": "FREEMAN535_ALL",
