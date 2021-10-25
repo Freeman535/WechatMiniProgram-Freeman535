@@ -459,9 +459,11 @@ function LgbaoSearchDDMain(ddh){
       },
       data: 'JLBH=' + ddh + '&SHOPCODE=000003&DHDH='+ ddh,
       success(res){
+          var back = res.data.data.data.list
+          resolve(back)
 
-        var back = res.data.data.data.list
-        resolve(back)
+
+
       }
     })
   })
@@ -480,7 +482,12 @@ function LgbaoGetOneDHD(ddh){
       },
       data: {"JLBH":ddh,"SHOPCODE":"000003","DHDH":ddh},
       success(res){
-        if(res.data.data == 'null'){
+        console.log(String(res.data.data.data))
+        console.log(res)
+        if(String(res.data.data.data) == ('null')){
+            wx.hideToast({
+              success: (res) => {},
+            })
             wx.showToast({
               title: '订单号无效',
               icon: 'error',

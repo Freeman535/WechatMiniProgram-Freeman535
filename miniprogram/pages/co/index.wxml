@@ -41,3 +41,7 @@
     <button style="margin-right: 10px;" bindtap="check" type="primary" disabled="{{checked}}" plain="true">检查</button>
     <button style="margin-right: 10px;" type="primary" plain="true" bindtap="pushData" disabled="{{upchecked}}">提交</button>
   </view>
+
+<view>
+  <text style="font-size:20rpx;color: red;">{{tip}}</text>
+</view>
