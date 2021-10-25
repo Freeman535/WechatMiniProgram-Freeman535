@@ -300,12 +300,12 @@ Page({
             // 进价篇
     if(arr['bid'] == jj){
       single['DDJ_FIN'] = jj
-      single['XJ'] = Math.floor((jj * arr['gg3']) * 100 ) / 100
-      single['JE_SUM'] = Math.floor((jj * arr['gg3'] * single['JS']) * 100) / 100
+      single['XJ'] = (jj * arr['gg3'])
+      single['JE_SUM'] = single['XJ'] * single['JS']
     }else if (arr['bid'] == 0 ){
       single['DDJ_FIN'] = jj
-      single['XJ'] = Math.floor((jj * arr['gg3']) * 100 ) / 100
-      single['JE_SUM'] = Math.floor((jj * arr['gg3'] * single['JS']) * 100) / 100
+      single['XJ'] = (jj * arr['gg3'])
+      single['JE_SUM'] = single['XJ'] * single['JS']
       var temp_tip = that.data.tip
       temp_tip = '此条码数据库无价格，并按订单价格出：'+ arr['code69'] + '\n' + temp_tip
       that.setData({
@@ -313,8 +313,8 @@ Page({
       })
     }else if(arr['bid'] != 0 && arr['bid'] != jj){
       single['DDJ_FIN'] = arr['bid']
-      single['XJ'] =  Math.floor(((arr['bid'] * arr['gg3'])) * 100) / 100
-      single['JE_SUM'] =  Math.floor((arr['bid'] * arr['gg3'] * single['JS']) * 100) / 100
+      single['XJ'] =  (arr['bid'] * arr['gg3'])
+      single['JE_SUM'] =  single['XJ'] * single['JS']
       var temp_tip = that.data.tip
       temp_tip = '此条码数据库价格与订单价格不符：'+ arr['code69'] + '。数据库:'+ arr['bid'] + ';订单:' + jj + '\n' + temp_tip
       that.setData({
@@ -335,12 +335,12 @@ Page({
             // 进价篇
     if(arr['bid'] == jj){
       single['DDJ_FIN'] = jj
-      single['XJ'] = Math.floor((jj * arr['gg3']) * 100 ) / 100
-      single['JE_SUM'] = Math.floor((jj * arr['gg3'] * single['JS']) * 100) / 100
+      single['XJ'] = (jj * arr['gg3'])
+      single['JE_SUM'] = single['XJ'] * single['JS']
     }else if (arr['bid'] == 0 ){
       single['DDJ_FIN'] = jj
-      single['XJ'] = Math.floor((jj * arr['gg3']) * 100 ) / 100
-      single['JE_SUM'] = Math.floor((jj * arr['gg3'] * single['JS']) * 100) / 100
+      single['XJ'] = (jj * arr['gg3'])
+      single['JE_SUM'] = single['XJ'] * single['JS']
       var temp_tip = that.data.tip
       temp_tip = '此条码数据库无价格，并按订单价格出：'+ arr['code69'] + '\n' + temp_tip
       that.setData({
@@ -348,8 +348,8 @@ Page({
       })
     }else if(arr['bid'] != 0 && arr['bid'] != jj){
       single['DDJ_FIN'] = arr['bid']
-      single['XJ'] =  Math.floor(((arr['bid'] * arr['gg3'])) * 100) / 100
-      single['JE_SUM'] =  Math.floor((arr['bid'] * arr['gg3'] * single['JS']) * 100) / 100
+      single['XJ'] =  (arr['bid'] * arr['gg3'])
+      single['JE_SUM'] = single['XJ'] * single['JS']
       var temp_tip = that.data.tip
       temp_tip = '此条码数据库价格与订单价格不符：'+ arr['code69'] + '。数据库:'+ arr['bid'] + ';订单:' + jj + '\n' + temp_tip
       that.setData({
@@ -426,6 +426,8 @@ Page({
     */
    check(){
     var arr_temp = this.data.returnList
+    arr_temp['jeSum'] = 0
+    arr_temp['jsSum'] = 0
     var that = this
 
     for (var i in arr_temp['list']){
