@@ -1,0 +1,108 @@
+/* pages/mo/index.wxss */
+/* pages/order/Make/Make.wxss */
+.scroll-view-item_H_1{
+  display: inline-block;
+  height: 30px;
+  width: 60px;
+  text-align:center;
+  align-items: center; /**子view垂直居中*/
+  vertical-align: center; /**垂直居中*/
+  font-size: 11px;
+  justify-content: center;
+  overflow: hidden;
+  flex-direction: row; 
+ 
+}
+
+.navbg{
+  background-color: #F6F5F3;
+
+  color: #000000;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.nav{
+  width: 100%;
+  
+}
+.add{
+  width: 15%;
+  height: 50px;
+  line-height: 50px;
+  text-align: right;
+  margin-right: 10px;
+  font-size: 50px;
+}
+.scroll-view_H{
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 5px;
+}
+.normal{
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 14px;
+}
+.select{
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: skyblue;
+}
+
+.buttonbl{
+  display: flex;
+}
+
+.ddhv{
+  display: flex;
+  margin: 5px 5px 5px 5px ;
+  border-bottom: #000000 solid 1px;
+}
+
+.lxrv{
+  margin: 5px 5px 5px 5px ;
+  border-bottom: #000000 solid 1px;
+}
+
+.allss{
+  margin: 5px 5px 5px 5px ;
+  border-style:solid;
+  border-color:#00000093;
+  border-width:1px;
+}
+.mesv{
+  display: flow-root;
+  align-items: center;
+  text-align: center;
+}
+.page-section{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background:rgba(0,0,0,.8);
+  z-index: 99999;
+  
+}
+.page-3{
+  position: fixed;
+  top: 10%;
+  width: 85%;
+  position: absolute;
+  left: 6%;
+  z-index: 999999;
+  background-color: white;
+  border-radius: 30rpx;
+  flex-wrap: wrap-reverse;
+}
