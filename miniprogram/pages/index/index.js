@@ -108,6 +108,15 @@ Page({
     })
   },
 
+  report(){
+    wx.navigateTo({
+      url: '../inspectionreport/index',
+      events: {},
+      success: function(res) {
+      }
+    })
+  },
+
   DBGetUserInfo(e){
     var that = this
     console.log(this.data.rName,this.data.rPhone,this.data.rBz,)

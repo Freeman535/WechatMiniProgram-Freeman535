@@ -47,7 +47,12 @@
 
 .bottom {
   border-radius: 80rpx;
-  margin: 70rpx 50rpx;
+  margin: 0rpx 0rpx 30rpx 0rpx;
+  font-size: 35rpx;
+}
+.bottom-2 {
+  border-radius: 80rpx;
+
   font-size: 35rpx;
 }
 
