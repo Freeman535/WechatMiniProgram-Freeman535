@@ -8,7 +8,83 @@ Page({
    * 页面的初始数据
    */
   data: {
-    pickerindex:0
+    pickerindex:0,
+    isShowModal: false,
+    isShowTitle:true,
+    modalTitle:'',
+    inputType:'',
+    isShowInput:true,
+    inputVal:''
+  },
+  customBindInput(e){
+    console.log(e.detail)
+    this.setData({
+      inputVal: e.detail
+    })
+  },
+  async confirm(){
+     var that = this
+    // 确认键
+    this.setData({
+      isShowModal: false
+    })
+    var barcode = (this.data.inputVal).split('+')[0]
+    var js_number = (this.data.inputVal).split('+')[1]
+    var check_if = false
+    for(var i in that.data.returnList['list']){
+      if( that.data.returnList['list'][i]['BARCODE'] == barcode){
+        check_if = true
+      }
+    }
+    if(js_number == '' || js_number == 0){
+      wx.showToast({
+        title: '请认真填写！',
+        icon: 'error',
+        duration: 2000
+      })
+    }else if(check_if){
+      wx.showToast({
+        title: '与上面重复！',
+        icon: 'error',
+        duration: 2000
+      })
+    }else{
+     let back_s = await that.auto_Back_single(barcode, js_number, 0)
+     console.log(back_s)
+     var templist = that.data.returnList
+     templist['list'].push(back_s)
+     that.setData({
+       returnList: templist,
+       checked:false
+
+     })
+
+    }
+
+    
+
+  },
+  cancle(){
+    // 取消键
+    this.setData({
+      isShowModal: false,
+      isShowTitle:true,
+      isShowInput:true,
+      inputVal:''
+    })
+  },
+  addInput(){
+    this.setData({
+      isShowInput:true,
+      modalTitle:'请输入条码 + 细数',
+      inputType:'text',
+      isShowInput:true,
+      inputVal:'',
+      showDesc:'例如：6910019014575+8',
+      isShowModal: true,
+      isShowTitle:true,
+      
+    })
   },
 
   /**
@@ -311,7 +387,12 @@ Page({
       that.setData({
         tip: temp_tip
       })
-    }else if(arr['bid'] != 0 && arr['bid'] != jj){
+    }else if(arr['bid'] != 0 && jj == 0){
+      single['DDJ_FIN'] = arr['bid']
+      single['XJ'] =  (arr['bid'] * arr['gg3'])
+      single['JE_SUM'] =  single['XJ'] * single['JS']
+    }
+    else if(arr['bid'] != 0 && arr['bid'] != jj){
       single['DDJ_FIN'] = arr['bid']
       single['XJ'] =  (arr['bid'] * arr['gg3'])
       single['JE_SUM'] =  single['XJ'] * single['JS']
@@ -346,6 +427,10 @@ Page({
       that.setData({
         tip: temp_tip
       })
+    }else if(arr['bid'] != 0 && jj == 0){
+      single['DDJ_FIN'] = arr['bid']
+      single['XJ'] =  (arr['bid'] * arr['gg3'])
+      single['JE_SUM'] =  single['XJ'] * single['JS']
     }else if(arr['bid'] != 0 && arr['bid'] != jj){
       single['DDJ_FIN'] = arr['bid']
       single['XJ'] =  (arr['bid'] * arr['gg3'])
@@ -367,11 +452,6 @@ Page({
     resolve(single)
           }
         }
-
-                    
-        
-              
-              
       })
     
    },

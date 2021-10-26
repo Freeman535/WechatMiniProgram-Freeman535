@@ -1,0 +1,17 @@
+<view class="modal-con" wx:if="{{isShowModal}}">
+    <view class="modal-mask">
+        <view class="modal-box" style="width:80%;padding-top:{{isShowTitle ? '' : '50rpx'}} ">
+            <view class="modal-box-title" style="padding:30rpx 0" wx:if="{{isShowTitle}}">{{modalTitle}}</view>
+            <input type="{{inputType}}" wx:if="{{isShowInput}}" class="modal-box-input {{isfous ? 'border' : ''}}" value='{{inputVal}}' placeholder='{{placeholder}}' bindfocus="bindFous" bindblur="bindBlur" bindinput="_bindInput"></input>
+            <view class="show-desc" wx:if="{{showDesc}}" style="font-size:{{isShowInput ? 26 : 35 }}rpx;text-align:{{isShowInput ? 'left' : 'center' }}">{{showDesc}}</view>
+            <view class="flex btn-con" style="margin-top:60rpx;display: flex">
+                <button type="default" class="flex-1 btn cancle-btn" catchtap='cancle'>
+                    取消
+                </button>
+                <button type="default" class="flex-1 btn confirm-btn" catchtap='_confirm'>
+                    确定
+                </button>
+            </view>
+        </view>
+    </view>
+</view>

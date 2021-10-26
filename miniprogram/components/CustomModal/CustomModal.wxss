@@ -1,0 +1,11 @@
+.modal-con { position: fixed; top: 0; bottom: 0; width: 100%; height: 100%; z-index: 999; }
+.modal-con .modal-mask { position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 999; }
+.modal-con .modal-box { position: absolute; top: 50%; left: 50%; z-index: 1000; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); width: 80%; background-color: #fff; border-radius: 10rpx; text-align: center; overflow: hidden;  }
+.modal-con .modal-box .modal-box-input { font-size: 28rpx; width: 80%; margin: 20rpx auto; border: 1px solid #dddd; padding: 15rpx 10rpx; border-radius: 10rpx; }
+.modal-con .modal-box .show-desc { text-align:left;width:80%;margin:0 auto;font-size:26rpx;color:#666;word-break:break-all }
+.modal-con .modal-box .modal-box-input.border { border: 1px solid #2F94FA; box-shadow: 0 0 3px #2f94f4; }
+
+.modal-con .modal-box .btn-con { margin-top: 50rx; }
+.modal-box  .btn-con  .btn { background-color: #fff; color: #444; }
+.modal-box  .btn-con  .confirm-btn { color: #2F94FA; }
+.modal-box  .btn-con .button-hover { border: none; background-color: #ccc !important }
