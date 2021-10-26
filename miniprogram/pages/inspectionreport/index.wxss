@@ -1,1 +1,19 @@
-/* pages/inspectionreport/index.wxss */
+/* pages/co/index.wxss */
+.list1{
+  padding-bottom: 20rpx;
+}
+
+.list0{
+  margin: 15rpx;
+  font-size: 28rpx;
+  
+}
+
+.list2 {
+
+    border-left-color: #4393f9;
+    border-left-style: solid;
+    border-left-width: 5px;
+    padding-left: 10rpx;
+    background-color: #c4e9fd;
+}

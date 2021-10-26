@@ -1,2 +1,9 @@
-<!--pages/inspectionreport/index.wxml-->
-<text>正在开发中...</text>
+<!--pages/co/index.wxml-->
+
+<view class="list0">
+  <view  class="list1" wx:for="{{dic}}">
+    <view data-id="{{index}}" data-add="{{item}}" class="list2" bindtap="bind">
+      {{item}}
+    </view>
+  </view>
+</view>
