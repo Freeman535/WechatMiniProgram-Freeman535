@@ -18,7 +18,50 @@ Page({
     wx.hideHomeButton({
       success: (res) => {},
     })
+    wx.showLoading({
+      title: '正在初始...',
+      mask: true
+    })
+    this.onloadpi()
 
+  },
+
+  onloadpi(){
+    var that = this
+    wx.cloud.callFunction({
+      name: 'getAll',
+      data: {
+        name: 'pi'
+      },
+      success(res){
+        var arr = res.result.data
+        var tempAllList = []
+        var tempAllList1 = {}
+        var tempAllList2 = {}
+        var tempAllList3 = {}
+        for (var i in arr){
+          
+          if (arr[i]['_id'] != 'f4ef47fd616e1df301aa74852f21cee1'){
+            
+            if (tempAllList.includes(arr[i]['lb2']) == false){
+              
+              tempAllList.push()
+                
+              
+            }
+          }
+        }
+        that.setData({
+          alllist: tempAllList
+        })
+        wx.hideLoading({})
+        console.log(res)
+
+        // that.setData({
+        //   array: res.result.data
+        // })
+      }
+    })
   },
 
   /**
