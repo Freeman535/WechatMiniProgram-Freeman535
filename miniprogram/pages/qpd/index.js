@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    useProgess:true,
     cateItems: [],
     curNav: 1,
     curIndex: 0
@@ -28,6 +28,15 @@ Page({
     })
     this.onloadpi()
 
+  },
+
+  viewList(e){
+    // console.log((e.currentTarget.dataset.index1), (e.currentTarget.dataset.index2), (e.currentTarget.dataset.index3))
+    var temp = this.data.cateItems[e.currentTarget.dataset.index1]['children'][e.currentTarget.dataset.index2]['children_2'][e.currentTarget.dataset.index3]['children_3']
+    //console.log(temp)
+    wx.navigateTo({
+      url: 'viewList/index?model=' + JSON.stringify(temp),
+    })
   },
 
   

@@ -19,6 +19,9 @@ page{
   /*主盒子设置背景色为灰色*/  
   background: #f5f5f5;  
   text-align: center;  
+  position: fixed;
+	overflow: auto;
+	
 }  
 /*左侧栏list的item*/  
 .nav_left .nav_left_items{  
@@ -86,8 +89,28 @@ page{
   text-align: center;  
 } 
 .box1 {
-  display: flex
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .box2{
   font-size: large;
+  width: 50%;
+  height: 240rpx;
+  text-align: center;
+  font-size: 25rpx;
+  margin-bottom: 20rpx;
+
+}
+.textib{
+  text-align:center;
+  margin-bottom: 15rpx;
+  padding-bottom: 8px;
+  border-bottom: 3px solid #5a73ffcf;
+  font-weight: bold;
+}
+.progessc{
+  width: 80%;
+  margin: auto;
+
 }

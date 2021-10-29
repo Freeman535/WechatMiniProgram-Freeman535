@@ -12,13 +12,18 @@
   <view class="nav_right">
     <!--如果有数据，才遍历项-->
     <view wx:if="{{cateItems[curIndex].ishaveChild}}">
-      <block wx:for="{{cateItems[curIndex].children}}">
+      <block wx:for="{{cateItems[curIndex].children}}" wx:for-index="index2">
 
-        <view>
-          <view>{{item.cate_2_name}}</view>
+        <view style="margin-top: 30rpx;margin-bottom: 15rpx;">
+          <view class="textib">{{item.cate_2_name}}</view>
           <view class="box1">
-            <view class="box2" wx:for="{{item['children_2']}}" wx:for-item="item1" >
-               <view>{{item1.cate_3_name}}</view>
+            <view bindtap="viewList" class="box2" wx:for="{{item['children_2']}}" wx:for-item="item1" wx:for-index="index3" data-index1="{{curIndex}}" data-index2="{{index2}}" data-index3="{{index3}}">
+              <image style="width: 100%; height: 200rpx; background-color: #eeeeee;" mode="aspectFill" src="../../images/logo.png"></image>
+              <view class="progessc" wx:if="{{useProgess}}">
+                <progress percent="{{item1.progess}}" active stroke-width="3" />
+              </view>
+              
+              <view>{{item1.cate_3_name}}</view>
             </view>
           </view>
         </view>

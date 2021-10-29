@@ -1,0 +1,65 @@
+<!--pages/qpd/viewList/index.wxml-->
+
+
+<view class='list'>
+  <block wx:for='{{tempList}}'>
+  <view class="list_item">
+  
+      <view class='img' >
+        <image bindtap="preview" wx:if="{{item.pic_address != ''}}" src="{{item.pic_address}}" data-src="{{item.pic_address}}"  mode="aspectFill"/>
+        <image bindtap="preview" wx:else src="../../../images/logo.png" data-src="../../../images/logo.png"  mode="aspectFit"/>
+        <view class="test">
+          <view style="width:30px"  class="bgc" wx:if="{{item.kckc > 0}}">{{item.kc}}</view>
+          
+        
+          
+
+        </view>
+      
+      </view>
+      <view class='info'>
+
+        <scroll-view scroll-x="true" class='title'>{{item.name}}</scroll-view>
+
+
+        <view class='price'>{{item.code69}}</view>
+
+
+        <view style="display:flex" class="num2">
+          <view wx:if="{{item.gg1 != ''}}">规格：{{item.gg1}}</view>
+          <view wx:else>规格：暂无</view>
+
+          <view style="width: 10px"> </view>
+          <view wx:if="{{item.kc != 0}}" style="color:Magenta">可供{{item.kc}}</view>
+          <view wx:else style="color:Magenta">无库存</view>
+        </view>
+
+
+        <view style="display:flex" class="num">
+          <view wx:if="{{item.bid != ''}}">进价：{{item.bid}}</view>
+          <view wx:else>进价：暂无 </view>
+
+          <view style="width: 10px"> </view>
+          
+
+          <view wx:if="{{item.sale != ''}}">售价：{{item.sale}}</view>
+          <view wx:else>售价：暂无 </view>
+        </view>
+
+
+        <view style="display:flex;margin-top: 3px;font-size:12px;color:red" class="num2">
+          <view wx:if="{{item.bz != ''}}">{{item.bz}}</view>
+          
+        </view>
+        
+        
+        
+      </view>
+      
+  
+      <view class='clear'></view>
+  </view>
+  </block>
+</view>
+
+

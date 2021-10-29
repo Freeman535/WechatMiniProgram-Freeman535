@@ -13,6 +13,7 @@
     "pages/oy_fml/index",
     "pages/oy_kc/index",
     "pages/qpd/index",
+    "pages/qpd/viewList/index",
     "pages/about/index",
     "pages/order/index",
     "pages/mo/index",
