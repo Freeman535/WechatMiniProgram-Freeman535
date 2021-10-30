@@ -794,6 +794,87 @@ function backPp(name){
   }
 }
 
+async function anaKc(fdbm){
+  /**
+   * 输入门店编码，输出字典  条码：备注+个数
+   */
+  var kc_dic = {} // kc:number
+  var jhtj = {} //进货推荐
+  var sale60_num = {} // 60天销售数量
+  var sale30_arr = []
+  var sale60_arr = []
+  var back_dic = {}
+
+  var dateTime = new Date()
+  var ndt = FormaDatetime('YY-mm-dd', new Date(dateTime.setDate(dateTime.getDate()-1)))
+  var ndt30 = FormaDatetime('YY-mm-dd', new Date(dateTime.setDate(dateTime.getDate()-30)))
+  var ndt60 = FormaDatetime('YY-mm-dd', new Date(dateTime.setDate(dateTime.getDate()-60)))
+
+  var kc_get = [fdbm, ndt, '', '', '', '', '', '']
+  var kc_list = await LgbaoSearcKCList(kc_get)
+  for (var kci in kc_list){
+    if (kc_list[kci]['HSFS'] == 0){
+      kc_dic[kc_list[kci]['BARCODE']] = kc_list[kci]['JCSL']
+    }
+  }
+
+  var sale30_get = [fdbm, ndt30, ndt, '', '', '', '', '']
+  var sale30 = await LgbaoSearcSALEList(sale30_get)
+  for (var sale30i in sale30){
+    if (sale30[sale30i]['HSFS'] == 0){
+      sale30_arr.push(sale30[sale30i]['BARCODE'])
+    }
+  }
+  
+  var sale60_get = [fdbm, ndt60, ndt, '', '', '', '', '']
+  var sale60 = await LgbaoSearcSALEList(sale60_get)
+  for (var sale60i in sale60){
+    if (sale60[sale60i]['HSFS'] == 0){
+      sale60_num[sale60[sale60i]['BARCODE']] = sale60[sale60i]['XSSL']
+      sale60_arr.push(sale60[sale60i]['BARCODE'])
+    }
+  }
+
+  for( var i in kc_dic){
+    
+    if (sale30_arr.indexOf(i) != -1){
+      back_dic[i] = String(kc_dic[i]) + ' 个。正常销售产品。'
+      if (kc_dic[i]/sale60_num[i] < 1){
+        jhtj[i] = '60天销售'+ String(sale60_num[i]) + ' 个，推荐进货。'
+      }
+    }else if(sale60_arr.indexOf(i) != -1){
+      back_dic[i] = String(kc_dic[i]) + ' 个。不动销大于30天，小于60天。'
+      if (kc_dic[i]/sale60_num[i] < 1){
+        jhtj[i] = '60天销售'+ String(sale60_num[i]) + ' 个，推荐进货。'
+      }
+    }else{
+      back_dic[i] = String(kc_dic[i]) + ' 个。不动销大于60天'
+    }
+  }
+
+  for(var x in sale30_arr){
+    if (back_dic.hasOwnProperty(sale30_arr[x]) == false){
+      back_dic[sale30_arr[x]] = '无库存。但30天内有销售'
+      jhtj[sale30_arr[x]] = '60天销售'+ String(sale60_num[sale30_arr[x]]) + ' 个，适当进货。'
+    }
+  }
+
+  for(var y in sale60_arr){
+    if (back_dic.hasOwnProperty(sale60_arr[y]) == false){
+      back_dic[sale60_arr[y]] = '无库存。60天内有销售，断货30天了，'
+      jhtj[sale60_arr[y]] = '60天销售'+ String(sale60_num[sale60_arr[y]]) + ' 个，适当进货。'
+    }
+  }
+  var back_all = [back_dic, jhtj ]
+  return back_all
+
+
+
+  
+
+
+}
+
 
 
 module.exports = {
@@ -816,6 +897,7 @@ module.exports = {
   LgbaoSearcFMLList: LgbaoSearcFMLList,
   LgbaoSearcKCList: LgbaoSearcKCList,
   LgbaoGetOneDHD: LgbaoGetOneDHD,
-  backPp:backPp
+  backPp: backPp,
+  anaKc: anaKc
 
 }

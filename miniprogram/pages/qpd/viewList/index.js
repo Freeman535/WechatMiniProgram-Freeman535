@@ -1,4 +1,7 @@
 // pages/qpd/viewList/index.js
+const db = wx.cloud.database()
+const app = getApp()
+
 Page({
 
   /**
@@ -13,9 +16,13 @@ Page({
    */
   onLoad: function (options) {
     var temp = JSON.parse(options.model)
+    var tjjh = JSON.parse(options.tjjh)
+    var tjbz = JSON.parse(options.tjbz)
     console.log(temp)
     this.setData({
-      tempList: temp
+      tempList: temp,
+      tjjh:tjjh,
+      tjbz:tjbz
     })
   },
 

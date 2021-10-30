@@ -8,7 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list_PROP : {"ctrl":"内部工具集","oy":"欧亚工具集"}
+    list_PROP : {"ctrl":"内部工具集","oy":"欧亚工具集"},
+    tip:''
 
   },
 
@@ -26,6 +27,24 @@ Page({
     this.setData({
       ud:app.globalData['userData']['PROP'],
     })
+    
+
+    const db = wx.cloud.database()
+    const _ = db.command
+    var that = this
+    db.collection('AppData').where({
+      _id:'app_set'
+    })
+    .get({
+      success:function(res){
+        
+        that.setData({
+          tip:String(res.data[0]['tip'])
+        })
+
+      }
+    })
+  
   },
 
   /**

@@ -1,21 +1,46 @@
 // pages/qpd/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    useProgess:true,
+    useProgess:false,
     cateItems: [],
     curNav: 1,
-    curIndex: 0
+    curIndex: 0,
+    showMDText:''
 
+  },
+  getKcUpTime(){
+    const db = wx.cloud.database()
+    const _ = db.command
+    var that = this
+    db.collection('pi').where({
+      _id:'f4ef47fd616e1df301aa74852f21cee1'
+    })
+    .get({
+      success:function(res){
+        // console.log(res)
+        that.setData({
+          mes_date:String(res.data[0]['Date'])
+        })
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      fdarray:app.globalData.OyFDH,
+      dis_picker:false
+    })
+    this.getKcUpTime()
     wx.setNavigationBarTitle({
       title: "全品单"
     })
@@ -33,10 +58,52 @@ Page({
   viewList(e){
     // console.log((e.currentTarget.dataset.index1), (e.currentTarget.dataset.index2), (e.currentTarget.dataset.index3))
     var temp = this.data.cateItems[e.currentTarget.dataset.index1]['children'][e.currentTarget.dataset.index2]['children_2'][e.currentTarget.dataset.index3]['children_3']
+    
     //console.log(temp)
     wx.navigateTo({
-      url: 'viewList/index?model=' + JSON.stringify(temp),
+      url: 'viewList/index?model=' + JSON.stringify(temp) + '&tjjh=' + JSON.stringify(this.data.tjjh) + '&tjbz=' + JSON.stringify(this.data.tjbz),
     })
+  },
+
+  // 选择门店
+  checkStore(e){
+    var that = this
+    console.log(e)
+    var tempShow = this.data.fdarray[e.detail.value]['FDBH']
+    this.setData({
+      showMDText: tempShow,
+      fdbh_in:e.detail.value,
+      dis_picker:true,
+      useProgess:true
+    })
+    utils.anaKc(tempShow).then(res => {
+      that.setData({
+        tjjh : res[1],
+        tjbz : res[0]
+      })
+      var templ = that.data.cateItems
+      for( var a in templ){ // 2ji
+        for( var b in templ[a]['children']){ //3ji
+          for (var c in templ[a]['children'][b]['children_2']){ //4ji
+            templ[a]['children'][b]['children_2'][c]['progess'] = 0
+            var tempnum = 0
+            for (var d in templ[a]['children'][b]['children_2'][c]['children_3']){
+              if (that.data.tjbz.hasOwnProperty(templ[a]['children'][b]['children_2'][c]['children_3'][d]['code69'])){
+                if(that.data.tjbz[templ[a]['children'][b]['children_2'][c]['children_3'][d]['code69']].indexOf('无库存') == -1){
+                  templ[a]['children'][b]['children_2'][c]['progess'] = ( (tempnum + 1)/templ[a]['children'][b]['children_2'][c]['children_3'].length) * 100
+                  tempnum = tempnum + 1
+                }
+              }
+            }
+          }
+        }
+      }
+      that.setData({
+        cateItems: templ
+      })
+    })
+
+
   },
 
   

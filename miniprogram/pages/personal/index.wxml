@@ -11,6 +11,8 @@
   </block>
 </view>
 
+<view style="margin: auto;padding-top: 40px;color: red;font-weight: bold;" wx:if="{{tip != 'undefined'}}">{{tip}}</view>
+
 
 
 

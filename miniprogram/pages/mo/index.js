@@ -16,6 +16,33 @@ Page({
     isShowInput:true,
     inputVal:''
   },
+  
+  getKcUpTime(){
+    const db = wx.cloud.database()
+    const _ = db.command
+    var that = this
+    db.collection('pi').where({
+      _id:'f4ef47fd616e1df301aa74852f21cee1'
+    })
+    .get({
+      success:function(res){
+        // console.log(res)
+        that.setData({
+          mes_date:String(res.data[0]['Date'])
+        })
+        wx.showModal({
+          title: '库存更新时间',
+          content: that.data.mes_date,
+          showCancel:false,
+          success (res) {
+            if (res.confirm) {
+        
+            }
+          }
+        })
+      }
+    })
+  },
   customBindInput(e){
     console.log(e.detail)
     this.setData({
@@ -91,6 +118,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.getKcUpTime()
 
     wx.setNavigationBarTitle({
       title: "修改库存及进价（目前开发做订单MO）"

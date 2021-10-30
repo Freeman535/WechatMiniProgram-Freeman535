@@ -114,3 +114,26 @@ page{
   margin: auto;
 
 }
+.ttt{
+  display: flex;
+
+}
+.bin-add{
+  width: 50%;
+  text-align: center;
+  align-content: center;
+  height: 60rpx;
+  background-color: #90ddff;
+  font-size: 40rpx;
+}
+
+.bin-text
+{
+  width: 50%;
+  text-align: center;
+  align-content: center;
+  height: 60rpx;
+  background-color: #90ddff66;
+  font-size: 25rpx;
+  word-wrap: break-word;
+}

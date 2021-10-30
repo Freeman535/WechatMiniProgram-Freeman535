@@ -1,6 +1,5 @@
 <!--pages/qpd/viewList/index.wxml-->
 
-
 <view class='list'>
   <block wx:for='{{tempList}}'>
   <view class="list_item">
@@ -46,10 +45,11 @@
           <view wx:else>售价：暂无 </view>
         </view>
 
-
+        <view style="display:flex;margin-top: 3px;font-size:12px;color:rgb(3, 169, 244)" class="num2">
+          <view>{{tjbz[item.code69]}}</view>
+        </view>
         <view style="display:flex;margin-top: 3px;font-size:12px;color:red" class="num2">
-          <view wx:if="{{item.bz != ''}}">{{item.bz}}</view>
-          
+          <view>{{tjjh[item.code69]}}</view>
         </view>
         
         

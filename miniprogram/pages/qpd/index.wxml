@@ -1,4 +1,11 @@
+<view class="ttt" >
+  <picker disabled="{{dis_picker}}" class="bin-add" wx:if="{{showMDText != ''}}" data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC"> {{fdarray[fdbh_in]['FDMC']}}</picker>
+  <picker disabled="{{dis_picker}}" class="bin-add" wx:else data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC"> 选择分析门店</picker>
+  <view class="bin-text">库存更新日期：{{mes_date}}</view>
+</view>
+
 <!--主盒子-->
+
 <view class="container">
   <!--左侧栏-->
   <view class="nav_left">
