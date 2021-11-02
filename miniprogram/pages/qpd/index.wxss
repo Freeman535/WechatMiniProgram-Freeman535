@@ -15,6 +15,7 @@ page{
   /*设置行内块级元素（没使用定位）*/  
   display: inline-block;  
   width: 25%;  
+  top: 60rpx;
   height: 100%;  
   /*主盒子设置背景色为灰色*/  
   background: #f5f5f5;  
@@ -46,7 +47,7 @@ page{
 .nav_right{  
   /*右侧盒子使用了绝对定位*/  
   position: absolute;  
-  top: 0;  
+  top: 60rpx;  
   right: 0;  
   flex: 1;  
   /*宽度75%，高度占满，并使用百分比布局*/  
@@ -116,10 +117,14 @@ page{
 }
 .ttt{
   display: flex;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
 
 }
 .bin-add{
-  width: 50%;
+  width: 600rpx;
   text-align: center;
   align-content: center;
   height: 60rpx;
@@ -133,7 +138,12 @@ page{
   text-align: center;
   align-content: center;
   height: 60rpx;
-  background-color: #90ddff66;
+  background-color: #39c2fd;
   font-size: 25rpx;
   word-wrap: break-word;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }

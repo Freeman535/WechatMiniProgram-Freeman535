@@ -27,8 +27,11 @@ Page({
     .get({
       success:function(res){
         // console.log(res)
+        
+        var d = (new Date(res.data[0]['Date']))
+        var youWant = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
         that.setData({
-          mes_date:String(res.data[0]['Date'])
+          mes_date:String(youWant)
         })
       }
     })

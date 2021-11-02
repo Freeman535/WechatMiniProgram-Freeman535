@@ -30,9 +30,12 @@ Page({
         that.setData({
           mes_date:String(res.data[0]['Date'])
         })
+        
+        var d = (new Date(res.data[0]['Date']))
+        var youWant = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
         wx.showModal({
           title: '库存更新时间',
-          content: that.data.mes_date,
+          content: youWant,
           showCancel:false,
           success (res) {
             if (res.confirm) {

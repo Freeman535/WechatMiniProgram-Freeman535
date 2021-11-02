@@ -1,10 +1,14 @@
+
 <view class="ttt" >
   <picker disabled="{{dis_picker}}" class="bin-add" wx:if="{{showMDText != ''}}" data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC"> {{fdarray[fdbh_in]['FDMC']}}</picker>
   <picker disabled="{{dis_picker}}" class="bin-add" wx:else data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC"> 选择分析门店</picker>
-  <view class="bin-text">库存更新日期：{{mes_date}}</view>
+  <view style="    width: 50%;" class="bin-text">长春库存更新时间{{mes_date}}</view>
+  <image bindtap="searchbin" src="../../images/search.png" mode="aspectFit" style="height: 60rpx; width: 20%;   background-color: white;"></image>
 </view>
 
 <!--主盒子-->
+<view>
+  
 
 <view class="container">
   <!--左侧栏-->
@@ -41,3 +45,15 @@
     <view class="nodata_text" wx:else>该分类暂无数据</view>
   </view>
 </view>
+</view>
+
+<modal 	isShowModal="{{isShowModal}}" 
+		inputVal="{{inputVal}}" 
+		modalTitle="请输入要查找的条码或名称"
+		placeholder=""
+		inputType="{{inputType}}"
+		showDesc="" 
+		bindcustomBindInput="customBindInput" 
+		bindconfirm="confirm"
+		bindcancle="cancle">
+</modal>

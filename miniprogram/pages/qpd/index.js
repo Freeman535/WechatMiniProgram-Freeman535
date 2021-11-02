@@ -12,7 +12,10 @@ Page({
     cateItems: [],
     curNav: 1,
     curIndex: 0,
-    showMDText:''
+    showMDText:'',
+    isShowModal:false,
+    inputVal:'',
+    inputType:'text',
 
   },
   getKcUpTime(){
@@ -25,8 +28,10 @@ Page({
     .get({
       success:function(res){
         // console.log(res)
+        var d = (new Date(res.data[0]['Date']))
+        var youWant = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
         that.setData({
-          mes_date:String(res.data[0]['Date'])
+          mes_date:String(youWant)
         })
       }
     })
@@ -59,9 +64,102 @@ Page({
     // console.log((e.currentTarget.dataset.index1), (e.currentTarget.dataset.index2), (e.currentTarget.dataset.index3))
     var temp = this.data.cateItems[e.currentTarget.dataset.index1]['children'][e.currentTarget.dataset.index2]['children_2'][e.currentTarget.dataset.index3]['children_3']
     
-    //console.log(temp)
-    wx.navigateTo({
-      url: 'viewList/index?model=' + JSON.stringify(temp) + '&tjjh=' + JSON.stringify(this.data.tjjh) + '&tjbz=' + JSON.stringify(this.data.tjbz),
+
+    if(this.data.dis_picker == true){
+          //console.log(temp)
+      wx.navigateTo({
+        url: 'viewList/index?model=' + JSON.stringify(temp) + '&tjjh=' + JSON.stringify(this.data.tjjh) + '&tjbz=' + JSON.stringify(this.data.tjbz),
+      })
+    }else{
+      wx.navigateTo({
+        url: 'viewList/index?model=' + JSON.stringify(temp) + '&tjjh=&tjbz=',
+      })
+    }
+    
+  },
+  searchbin(){
+    this.setData({
+      isShowModal:true,
+      inputVal:''
+      
+    })
+  },
+  customBindInput(e){
+    //console.log(e.detail)
+    this.setData({
+      inputVal: e.detail
+    })
+  },
+  confirm(){
+    var inp = this.data.inputVal
+    this.setData({
+      isShowModal:false
+    })
+    if ( inp != ''){
+
+      wx.showToast({
+        title: 'Searching...',
+        icon: 'loading',
+        mask: true
+      })
+      
+      
+
+  
+      var items = this.data.cateItems
+      var searchResult = []
+      for (var a in items){
+        for (var b in items[a]['children']){
+          for (var c in items[a]['children'][b]['children_2']){
+            for (var d in items[a]['children'][b]['children_2'][c]['children_3']){
+  
+              if(items[a]['children'][b]['children_2'][c]['children_3'][d]['code69'].indexOf(inp) != -1 || items[a]['children'][b]['children_2'][c]['children_3'][d]['name'].indexOf(inp) != -1 ){
+                searchResult.push(items[a]['children'][b]['children_2'][c]['children_3'][d])
+              }
+     
+            }
+          }
+        }
+      }
+      wx.hideToast()
+      console.log(searchResult)
+      if( searchResult.length <= 0){
+        wx.showModal({
+          title: '提示',
+          content: '查无此结果',
+          showCancel: false,
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+        
+        
+      }else{
+        if(this.data.dis_picker == true){
+          //console.log(temp)
+      wx.navigateTo({
+        url: 'viewList/index?model=' + JSON.stringify(searchResult) + '&tjjh=' + JSON.stringify(this.data.tjjh) + '&tjbz=' + JSON.stringify(this.data.tjbz),
+      })
+    }else{
+      wx.navigateTo({
+        url: 'viewList/index?model=' + JSON.stringify(searchResult) + '&tjjh=&tjbz=',
+      })
+    }
+      }
+
+    }
+
+
+  },
+  cancle(){
+    // 取消键
+    this.setData({
+      isShowModal: false,
+      inputVal:''
     })
   },
 

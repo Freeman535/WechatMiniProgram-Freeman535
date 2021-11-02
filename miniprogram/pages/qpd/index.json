@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "searchbar": "../../components/SearchBar/SearchBar",
+    "modal": "../../components/CustomModal/CustomModal"
+  }
 }

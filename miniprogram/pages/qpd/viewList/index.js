@@ -15,14 +15,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options)
+    if (options.tjbz!= '' && options.tjjh != ''){
+      var tjjh = JSON.parse(options.tjjh)
+      var tjbz = JSON.parse(options.tjbz)
+      this.setData({
+        tjjh: tjjh,
+        tjbz: tjbz
+      })
+    }
+
     var temp = JSON.parse(options.model)
-    var tjjh = JSON.parse(options.tjjh)
-    var tjbz = JSON.parse(options.tjbz)
-    console.log(temp)
     this.setData({
-      tempList: temp,
-      tjjh:tjjh,
-      tjbz:tjbz
+      tempList: temp
     })
   },
 
