@@ -1,0 +1,35 @@
+/* pages/UpOrder/index.wxss */
+.label-1, .label-2{
+  margin: 30rpx 0;
+}
+.label-3-text{
+  color: #576B95;
+  font-size: 28rpx;
+}
+.checkbox-3{
+  display: block;
+  margin: 30rpx 0;
+}
+
+.i-box0{
+  margin-top: 1px;
+}
+.i-box1{
+  DISPLAY: FLEX;
+    WIDTH: 150%;
+    ALIGN-CONTENT: CENTER;
+    TEXT-ALIGN: CENTER;
+    margin-bottom: 20rpx;
+}
+.singlet{
+  margin: auto;
+  word-wrap: break-word;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.single{
+  margin: auto;
+}

@@ -10,7 +10,7 @@ Page({
   data: {
     verifycode: false,
     src: '', 
-    menu_all: ['personal', 'OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'ABOUT', 'InspectionReport', 'Public'],
+    menu_all: ['UpOrder', 'personal', 'OY_DD', 'OY_JCD', 'OY_FCD', 'OY_BJD', 'OY_SALE', 'OY_FML', 'OY_KC', 'QPD', 'ABOUT', 'InspectionReport', 'Public'],
     arrList:[
 
       ],

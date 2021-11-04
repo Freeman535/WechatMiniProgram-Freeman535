@@ -32,6 +32,7 @@ Page({
       {value: 'OY_FML', name: '欧亚负毛利'},
       {value: 'OY_KC', name: '欧亚库存'},
       {value: 'QPD', name: '全品单'},
+      {value: 'UpOrder', name:'商都系统传订单'},
       {value: 'ABOUT', name: '关于'},
       {value: 'MO', name: '制作订单'},
       {value: 'UO', name: '上传长春库存'},

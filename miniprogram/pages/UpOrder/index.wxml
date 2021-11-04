@@ -1,0 +1,45 @@
+<!--pages/UpOrder/index.wxml-->
+<!-- 选择门店，-->
+<view>
+  <picker class="bin-add" data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC">当前门店： {{fdarray[fdbh_in]['FDMC']}}</picker>
+
+  <view>
+    <view class="page-section-title">商品分类</view>
+      <radio-group class="group" bindchange="radioChange">
+        <view class="label-2" wx:for="{{radioItems}}">
+          <radio id="{{item.name}}" value="{{item.name}}" checked="{{item.checked}}"></radio>
+          <label class="label-2-text" for="{{item.name}}"><text>{{item.name}}</text></label>
+        </view>
+      </radio-group>
+  </view>
+</view>
+
+<view style="display: flex;margin-bottom: 20px;">
+  <button bindtap="btncheck" class="mini-btn" type="primary" size="mini">检查</button>
+  <button bindtap="postitems" disabled="{{check}}" class="mini-btn" type="warn" size="mini">提交</button>
+</view>
+<view class="i-box0">
+  <scroll-view style="height:{{listnum*40}}px;" class="scroll-view_H" scroll-x="true">
+    <view class="i-box1">
+      <view style="width:20rpx;" class="single" ></view>
+      <view style="width:230rpx;" class="single">条码</view>
+      <view style="width:230rpx;" class="singlet">名称 </view>
+      <view style="width:50rpx;" class="single">件数</view>
+      <view style="width:60rpx;" class="single">细数</view>
+      <view style="width:80rpx;" class="single">含税进货价</view>
+      <view style="width:50rpx;" class="single">商品含量</view>
+    </view>
+    <view class="i-box1" wx:for="{{item['Items']}}">
+      <view style="width:20rpx;" class="single" bindtap="delInput" data-id="{{index}}">X</view>
+      <input bindinput="bindKeyInputcode" bindblur="bindInputcode" type="number" style="width:230rpx;" class="single" value="{{item['BARCODE']}}" placeholder="请在此输入条码"/>
+      <view style="width:230rpx;" class="singlet">{{item['NAME']}}</view>
+      <input bindblur="bindInputjs" data-id="{{index}}" style="width:50rpx;" type="number" class="single" value="{{item['SPJS']}}" placeholder="件数" />
+      <view style="width:60rpx;" class="single">{{item['SPXS']}}</view>
+      <input bindblur="bindInputjhdj" data-id="{{index}}" style="width:80rpx;" type="number" class="single" data-id="{{index}}" value="{{item['JHDJ_HS']}}" placeholder=""/>
+      <view style="width:50rpx;" class="single">{{item['BZHL']}}</view>
+    </view>
+  </scroll-view>
+</view>
+
+
+

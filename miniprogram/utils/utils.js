@@ -200,6 +200,11 @@ var all_menu = [
       name:'特价公示',
       gt: '../../pages/publicS/index'
     },
+    'UpOrder':{
+      pic:'../../images/QPD.png',
+      name:'商都系统传订单',
+      gt: '../../pages/UpOrder/index'
+    },
   
     'ORDER':{
       pic:'../../images/MO.png',
