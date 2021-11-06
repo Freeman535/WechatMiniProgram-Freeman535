@@ -274,9 +274,53 @@ Page({
   },
 
   postitems(){
-    var tempitem = this.data.item
-    tempitem['Items'].pop()
-    console.log(tempitem)
+    var that = this
+
+    wx.showModal({
+      title: '提示',
+      content: '确定提交吗？',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          var tempitem = that.data.item
+          tempitem['Items'].pop()
+          console.log(tempitem)
+          db.collection('OrderRequest').add({
+            // data 字段表示需新增的 JSON 数据
+            data: {
+              // _id: 'todo-identifiant-aleatoire', // 可选自定义 _id，在此处场景下用数据库自动分配的就可以了
+              name: app.globalData.userData.name,
+              due: utils.formatDateTime('YY-mm-dd', new Date()),
+              item: tempitem
+            },
+            success: function(res) {
+              // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+              console.log(res)
+              wx.showModal({
+                title: '请联系超市经理审核。',
+                content: '_id是：' + res['_id'],
+                showCancel:false,
+                success (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                    wx.redirectTo({
+                      url: '../../pages/oy/index'
+                    })
+                  } else if (res.cancel) {
+                    console.log('用户点击取消')
+                  }
+                }
+              })
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
+
+
   },
 
   /**

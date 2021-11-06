@@ -223,6 +223,14 @@ var all_menu = [
       name:'商品信息管理',
       gt: '../../pages/pim/pim'
     },
+
+    
+
+    'VettingOrders':{
+      pic:'../../images/MO.png',
+      name:'审核订单',
+      gt: '../../pages/VettingOrders/index'
+    },
   
     'OY_Tools':{
       pic:'../../images/MO.png',

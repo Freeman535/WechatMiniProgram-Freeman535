@@ -19,7 +19,7 @@
   <button bindtap="postitems" disabled="{{check}}" class="mini-btn" type="warn" size="mini">提交</button>
 </view>
 <view class="i-box0">
-  <scroll-view style="height:{{listnum*40}}px;" class="scroll-view_H" scroll-x="true">
+  <scroll-view style="height:auto" class="scroll-view_H" scroll-x="true">
     <view class="i-box1">
       <view style="width:20rpx;" class="single" ></view>
       <view style="width:230rpx;" class="single">条码</view>

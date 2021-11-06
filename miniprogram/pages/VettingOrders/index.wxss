@@ -1,0 +1,8 @@
+/* pages/VettingOrders/index.wxss */
+.title1{
+  margin: auto;
+  text-align: center;
+  font-size: 50rpx;
+  margin-bottom: 50rpx;
+  margin-top: 50rpx;
+}

@@ -1,0 +1,11 @@
+<!--pages/VettingOrders/index.wxml-->
+<view>
+  <view class="title1">申请单与列表</view>
+  <view  style="display: flex; margin-top: 20rpx; border-bottom: blue solid 2px; padding-bottom: 10rpx;" wx:for="{{item}}">
+    <view style="width: 100%; display: flex;" data-id="{{item['_id']}}" bindtap="getmain">
+      <view style="width: 30%;">申请人：{{item.name}}</view>
+      <view style="width: 40%;">日期：{{item.due}}</view>
+      <view style="width: 30%;">分店编号：{{item.item.FDBH}}</view>
+    </view>
+  </view>
+</view>

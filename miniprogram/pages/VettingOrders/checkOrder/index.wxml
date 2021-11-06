@@ -1,0 +1,31 @@
+<!--pages/VettingOrders/checkOrder/index.wxml-->
+<view style="display: flex; margin-top: 20rpx;margin-bottom: 20rpx;">
+  <view style="width: 30%;">申请人：{{item['name']}}</view>
+  <view style="width: 30%;">门店编码：{{item.item['FDBH']}}</view>
+  <view style="width: 40%;">日期：{{item['due']}}</view>
+</view>
+<view style="display: flex;">
+  <button bindtap="check" class="mini-btn" type="primary" size="mini">检查</button>
+  <button bindtap="postid" class="mini-btn" type="default" size="mini">提交</button>
+  <button bindtap="del_id" class="mini-btn" type="warn" size="mini">删除</button>
+</view>
+<view style="text-align: center;">
+  <view class="ali">
+    <view style="display: flex;">
+      <view style="width: 250rpx;">条码</view>
+      <view style="width: 280rpx;">名称</view>
+      <view style="width: 60rpx;">件数</view>
+      <view style="width: 80rpx;">上传的进价</view>
+      <view style="width: 80rpx;">参考进价</view>
+    </view>
+  </view>
+  <view class="ali" wx:for="{{item.item.Items}}">
+    <view style="display: flex; background-color: {{item['COLOR']}};" >
+      <view data-id="{{index}}" bindtap="delsingle" style="width: 250rpx;">{{item['BARCODE']}}</view>
+      <view style="width: 280rpx;">{{item['NAME']}}</view>
+      <input data-id="{{index}}" bindblur="spjschange" style="width: 60rpx;" value="{{item['SPJS']}}"/>
+      <input data-id="{{index}}" bindblur="jhdjchange" style="width: 80rpx;"value="{{item['JHDJ_HS']}}"/>
+      <view style="width: 80rpx;">{{item['CK']}}</view>
+    </view>
+  </view>
+</view>

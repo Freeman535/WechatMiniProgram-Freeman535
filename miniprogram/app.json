@@ -21,6 +21,8 @@
     "pages/uo/index",
     "pages/co/index",
     "pages/um/index",
+    "pages/VettingOrders/index",
+    "pages/VettingOrders/checkOrder/index",
     "pages/application/index",
     "pages/urm/index",
     "pages/inspectionreport/index",

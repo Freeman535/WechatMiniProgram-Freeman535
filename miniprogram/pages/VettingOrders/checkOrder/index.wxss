@@ -1,0 +1,5 @@
+/* pages/VettingOrders/checkOrder/index.wxss */
+.ali{
+  margin-top: 20rpx;
+  margin-bottom: 10rpx;
+}
