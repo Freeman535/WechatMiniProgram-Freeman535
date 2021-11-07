@@ -200,9 +200,23 @@ Page({
             success(res){
               console.log(res)
               // 之后需要找 返回的单号，返回成功才能去数据库删除对应id
-              wx.redirectTo({
-                url: '../../VettingOrders/index'
+
+              wx.showModal({
+                title: '提示',
+                content: JSON.stringify(res),
+                showCancel:false,
+                success (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                    wx.redirectTo({
+                      url: '../../VettingOrders/index'
+                    })
+                  } else if (res.cancel) {
+                    console.log('用户点击取消')
+                  }
+                }
               })
+
             }
           })
 
