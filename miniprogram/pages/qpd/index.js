@@ -237,7 +237,7 @@ Page({
             // 存在类别2
             if(templb2.indexOf(arr[i]['lb3']) != -1){
               // 存在类别3
-              if (templb3.indexOf(arr[i]['lb4']) != -1){
+              if (templb3.indexOf(String(arr[i]['lb3'] + arr[i]['lb4'])) != -1){
                 // 存在类别4
                 if (tempcode.indexOf(arr[i]['code69']) != -1 && arr[i]['kc'] > 0){
                   // 存在条码 且 库存大于0
@@ -308,7 +308,7 @@ Page({
                             sale:arr[i]['sale']
                           }]
                         }) // ---------
-                        templb3.push(arr[i]['lb4'])
+                        templb3.push(String(arr[i]['lb3']+arr[i]['lb4']))
                         tempcode.push(arr[i]['code69'])
                         break
 

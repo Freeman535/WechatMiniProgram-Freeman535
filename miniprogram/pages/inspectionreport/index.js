@@ -33,6 +33,18 @@ Page({
         address: 'Quality/'
       },
       success(res){
+        wx.showModal({
+          title: '提示',
+          content: '点击想要查看的文件名称，会自动下载并打开，文件下载连接也会自动复制到剪切板上，方便没有自动打开PDF的用户自行下载。',
+          showCancel: false,
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
         wx.hideLoading({
           success: (res) => {},
         })
@@ -89,7 +101,17 @@ Page({
       success: res => {
         
         console.log(res.fileList[0]['tempFileURL'])
-
+        var fileurl = res.fileList[0]['tempFileURL']
+        wx.setClipboardData({
+          data: fileurl,
+          success (res) {
+            wx.getClipboardData({
+              success (res) {
+                console.log(res.data) // data
+              }
+            })
+          }
+        })
 
         wx.downloadFile({
           url: (res.fileList[0]['tempFileURL']),
