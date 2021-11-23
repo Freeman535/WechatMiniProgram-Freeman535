@@ -1,0 +1,61 @@
+<!--pages/UploadProblem/main/index.wxml-->
+<view class="box-0">
+  <view class="box-01">
+    <picker class="bin-add" data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC">当前门店： {{fdarray[fdbh_in]['FDMC']}}</picker>
+
+    <view>制单人：{{arr['ZXR']}}</view>
+    <view>上一次更新日期：{{arr['DATE']}}</view>
+    <view style="text-align: center;">
+    <text style="white-space:pre-wrap">过期{{arr['GQ_JE']}}元   预过期{{arr['YGQ_JE']}}元   丢失{{arr['DS_JE']}}元</text>
+    </view>
+  </view>
+
+  <VIEw class="button-sp-area"> 
+    <button class="mini-btn" type="primary" size="mini">检查</button>
+    <button class="mini-btn" type="default" size="mini">提交</button>
+    <button class="mini-btn" type="warn" size="mini">删除</button>
+  </VIEw>
+  <button type="primary" plain="true">添加行</button>
+
+  <view class="box-02" wx:for="{{arr['LIST']}}">
+    <view style="width: 10%;margin: auto;height: 70rpx;">删除</view>
+    <view style="width: 40%;">
+      <input value="{{item['BARCODE']}}" placeholder="69码" type="number"/>
+      <text>{{item['NAME']}}</text>
+    </view>
+
+
+
+    <view style="width: 20%;">
+      <input value="{{item['GQ_SL']}}" placeholder="69码" type="number"/>
+      <picker style="font-size: 25rpx;margin: 10rpx 0;" mode="date" value="{{item['GQ_DATE']}}" start="2015-09-01" end="2027-09-01" bindchange="bindDateChange">
+        <view class="picker">
+          {{item['GQ_DATE']}}
+        </view>
+      </picker>
+      <view>{{item['GQ_JE']}}</view>
+    </view>
+
+
+
+    <view style="width: 20%;">
+      <input value="{{item['YGQ_SL']}}" placeholder="69码" type="number"/>
+      <picker style="font-size: 25rpx;margin: 10rpx 0;" mode="date" value="{{item['YGQ_DATE']}}" start="2015-09-01" end="2027-09-01" bindchange="bindDateChange">
+        <view class="picker">
+          {{item['YGQ_DATE']}}
+        </view>
+      </picker>
+      <view>{{item['YGQ_JE']}}</view>
+    </view>
+
+    <view style="width: 10%;">
+      <input style="margin-bottom: 30rpx;" value="{{item['DS_SL']}}" placeholder="69码" type="number"/>
+      <view >{{item['DS_JE']}}</view>
+    </view>
+
+
+  </view>
+
+
+
+</view>

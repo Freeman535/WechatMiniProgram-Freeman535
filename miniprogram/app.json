@@ -14,6 +14,8 @@
     "pages/oy_kc/index",
     "pages/qpd/index",
     "pages/qpd/viewList/index",
+    "pages/UploadProblem/index",
+    "pages/UploadProblem/main/index",
     "pages/UpOrder/index",
     "pages/about/index",
     "pages/order/index",
