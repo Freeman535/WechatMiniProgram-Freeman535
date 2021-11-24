@@ -1,0 +1,24 @@
+<!--pages/UploadProblem/index.wxml-->
+<view>
+  <view>我的单据</view>
+  <view wx:if="{{showlist}}">暂无门店单据明细，请点击下方【上传门店新单】</view>
+  <view wx:else >
+    <view wx:for="{{list}}">
+      <view>
+        <view>门店名称：{{item['FDMC']}}</view>
+        <view>操作人：{{item['ZXR']}}</view>
+      </view>
+      <view>
+        <view>过期金额：{{item['GQ_JE']}}</view>
+        <view>丢失金额：{{item['DS_JE']}}</view>
+      </view>
+      <view>预过期金额：{{item['YGQ_JE']}}</view>
+      <view>更新时间：{{item['DATE']}}</view>
+    </view>
+  </view>
+  <button class="mini-btn" type="primary" size="mini" bindtap="callpage2">上传门店新单</button>
+  <text style="white-space:pre-wrap">
+    此功能仅作为随时抽取门店问题使用，所以有过期、预过期要及时上传，更新频率要保证在一个月一次。\n
+    如果之前传的问题这个月解决了也要进行修改，保证数据的真实性、准确性。
+  </text>
+</view>

@@ -204,6 +204,11 @@ var all_menu = [
       pic:'../../images/QPD.png',
       name:'商都系统传订单',
       gt: '../../pages/UpOrder/index'
+    }, 
+    'UpProblem':{
+      pic:'../../images/QPD.png',
+      name:'欧亚上传问题',
+      gt: '../../pages/UploadProblem/index'
     },
   
     'ORDER':{

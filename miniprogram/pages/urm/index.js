@@ -53,7 +53,8 @@ Page({
       {value: 'OY_FML2', name: 'OY_FML2'},
       {value: 'OY_ANA_KC', name: 'OY_ANA_KC'},
       {value: 'personal', name: '请选择操作平台'},
-      {value: 'PIM', name: '商品信息管理'}
+      {value: 'PIM', name: '商品信息管理'},
+      {value: 'UpProblem', name: 'OY上传问题'}
     ],
     index0: 0
     
