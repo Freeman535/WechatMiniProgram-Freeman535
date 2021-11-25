@@ -1,7 +1,7 @@
 <!--pages/UploadProblem/main/index.wxml-->
 <view class="box-0">
-  <view class="box-01">
-    <picker style="    background-color: #ffbbbb;" class="bin-add" data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC">当前门店： {{fdarray[fdbh_in]['FDMC']}}</picker>
+  <view  class="box-01">
+    <picker disabled="{{dispic}}" style="    background-color: #ffbbbb;" class="bin-add" data-id="0" bindchange="checkStore" value="{{index}}" range="{{fdarray}}" range-key="FDMC">当前门店： {{arr['FDMC']}}</picker>
 
     <view>制单人：{{arr['ZXR']}}</view>
     <view>上一次更新日期：{{arr['DATE']}}</view>
@@ -13,23 +13,64 @@
   <VIEw class="button-sp-area"> 
     <button bindtap="checkall" class="mini-btn" type="primary" size="mini">检查</button>
     <button bindtap="postbin" disabled="{{dispost}}" class="mini-btn" type="default" size="mini">提交</button>
-    <button disabled="{{disdel}}" class="mini-btn" type="warn" size="mini">删除</button>
+    <button bindtap="delbin" disabled="{{disdel}}" class="mini-btn" type="warn" size="mini">删除</button>
   </VIEw>
   <button bindtap="addsig" type="primary" plain="true">添加行</button>
 
-  <view class="box-02" wx:for="{{arr['LIST']}}">
-    <view data-id="{{index}}"  bindtap="delsig" style="width: 10%;margin: auto;height: 70rpx;">删除</view>
+  <view style="background-color: #a3b9ff;font-size: 25rpx;" class="box-02" >
+    <view data-id="{{index}}"   style="width: 10%;margin: auto;height: 70rpx;"></view>
     <view style="width: 40%;">
-      <input value="{{item['BARCODE']}}" data-id="{{index}}" bindblur="searchcode" placeholder="69码" type="number"/>
+      <input data-id="{{index}}" disabled="true" value="69码" type="number"/>
+      <text>名称</text>
+    </view>
+
+
+
+    <view style="width: 20%;">
+      <input  value="过期数量" data-id="{{index}}" disabled="true" type="number"/>
+      
+        <view class="picker">
+          到期日
+        </view>
+
+      <view>金额</view>
+    </view>
+
+
+
+    <view style="width: 20%;">
+      <input value="预过期数量" data-id="{{index}}" disabled="true" type="number"/>
+
+        <view class="picker">
+          到期日
+        </view>
+
+      <view>金额</view>
+    </view>
+
+    <view style="width: 10%;">
+      <input disabled="true" style="margin-bottom: 30rpx;" data-id="{{index}}"  value="丢失数量" type="number"/>
+      <view >金额</view>
+    </view>
+
+
+  </view>
+
+  <!-- 上方是标题-->
+
+  <view class="box-02" wx:for="{{arr['LIST']}}">
+    <view data-id="{{index}}"  bindtap="delsig" style="color: red;width: 10%;margin: auto;height: 70rpx;">删除</view>
+    <view style="width: 40%;">
+      <input value="{{item['BARCODE']}}" data-id="{{index}}" style="color: red;" bindblur="searchcode" placeholder="在此输69码" type="number"/>
       <text>{{item['NAME']}}</text>
     </view>
 
 
 
     <view style="width: 20%;">
-      <input value="{{item['GQ_SL']}}" data-id="{{index}}" bindblur="inputgqsl" placeholder="69码" type="number"/>
+      <input value="{{item['GQ_SL']}}" data-id="{{index}}" style="color: red;" bindblur="inputgqsl" placeholder="69码" type="number"/>
       <picker style="font-size: 25rpx;margin: 10rpx 0;" mode="date" data-id="{{index}}" value="{{item['GQ_DATE']}}" start="2015-09-01" end="{{yearstoday}}" bindchange="bindDateChangegq">
-        <view class="picker">
+        <view style="color: red;" class="picker">
           {{item['GQ_DATE']}}
         </view>
       </picker>
@@ -39,9 +80,9 @@
 
 
     <view style="width: 20%;">
-      <input value="{{item['YGQ_SL']}}" data-id="{{index}}" bindblur="inputygqsl" placeholder="69码" type="number"/>
+      <input style="color: red;" value="{{item['YGQ_SL']}}" data-id="{{index}}" bindblur="inputygqsl" placeholder="69码" type="number"/>
       <picker style="font-size: 25rpx;margin: 10rpx 0;" mode="date"  data-id="{{index}}" value="{{item['YGQ_DATE']}}" start="{{yearstoday}}" end="2027-09-01" bindchange="bindDateChangeygq">
-        <view class="picker">
+        <view style="color: red;" class="picker">
           {{item['YGQ_DATE']}}
         </view>
       </picker>
@@ -49,7 +90,7 @@
     </view>
 
     <view style="width: 10%;">
-      <input style="margin-bottom: 30rpx;" data-id="{{index}}" bindblur="inputdssl" value="{{item['DS_SL']}}" placeholder="69码" type="number"/>
+      <input  style="margin-bottom: 30rpx;color: red;" data-id="{{index}}" bindblur="inputdssl" value="{{item['DS_SL']}}" placeholder="69码" type="number"/>
       <view >{{item['DS_JE']}}</view>
     </view>
 

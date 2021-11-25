@@ -20,29 +20,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showModal({
-      title: '提示',
-      content: '检查的时候如果单行被删除，是因为此单行无上传意义或者输入总数量超过库存数量。',
-      showCancel: false,
-      success (res) {
-        if (res.confirm) {
-          console.log('用户点击确定')
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
     this.setData({
-      fdarray:app.globalData.OyFDH
+      fdarray:app.globalData.OyFDH,
+      id:options.id
     })
-    var id = 0
+    var id = options.id
     var that = this
     /**
      * 如果id=0，表示新建订单，门店可选择，不可删除
      */
     if (id == 0) {
       var temp_arr = {
-        id : '0',
         FDMC:'',
         FDBH:0,
         ZXR:app.globalData.userData.name,
@@ -78,15 +66,58 @@ Page({
         disdel:true
       })
 
+    }else{
+      that.setData({dispic:true})
+      db.collection('Problem').doc(id).get({
+        success: function(res) {
+          // res.data 包含该记录的数据
+
+          // that.setData({arr:res.data.main})
+          that.resetlisthas(res.data.main)
+        }
+      })
     }
 
   },
+
+  async resetlisthas(list){
+    var that = this
+    var tempfdbh = this.data.fdbh_in
+    var kclist = await utils.LgbaoSearcKCList([list['FDBH'], this.data.yearstoday, '', '', '', '', ''])
+    
+    this.setData({kclist:kclist})
+
+    var temparr = list
+    temparr['DATE'] = this.data.todaydate
+    temparr['DS_JE'] = 0
+    temparr['GQ_JE'] = 0
+    temparr['YGQ_JE'] = 0
+    for( var i in temparr['LIST']){
+      var tempmx =  await this.returnCodeMain2(temparr['LIST'][i]['BARCODE'])
+      if (tempmx[2] == 0){
+        temparr['LIST'][i]['ALL_JE'] = 0
+        temparr['LIST'][i]['ALL_SL'] = 0
+        temparr['LIST'][i]['UPLOADLDATE'] = that.data.todaydate
+      }else{
+        console.log(tempmx)
+        temparr['LIST'][i]['ALL_JE'] = tempmx[3]
+        temparr['LIST'][i]['ALL_SL'] = tempmx[2]
+        temparr['LIST'][i]['UPLOADLDATE'] = that.data.todaydate
+      }
+    }
+
+    that.setData({arr: temparr})
+
+
+  },
+
   checkStore(e){
     console.log(e)
     var that = this
     var temp_fdbh_in = e.detail.value
     var tempitem = this.data.arr
     tempitem['FDBH'] = String(this.data.fdarray[temp_fdbh_in]['FDBH'])
+    tempitem['FDMC'] = this.data.fdarray[temp_fdbh_in]['FDMC']
 
     db.collection('Problem').where({
       FDBH: tempitem['FDBH']
@@ -127,6 +158,28 @@ Page({
 
 
   },
+  delbin(){
+    var id = this.data.id
+    wx.showModal({
+      title: '提示',
+      content: '是否删除本单据？删除后不可恢复！',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          db.collection('Problem').doc(id).remove({
+            success: function(res) {
+              console.log(res.data)
+              wx.redirectTo({
+                url: '../../../pages/oy/index',
+              })
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
   async downloadKc(){
     var tempfdbh = this.data.fdbh_in
     var kclist = await utils.LgbaoSearcKCList([tempfdbh, this.data.yearstoday, '', '', '', '', ''])
@@ -160,19 +213,35 @@ Page({
     this.setData({arr: templist})
   },
   async searchcode(e){
+
+
     var code = (e.detail.value)
     var id = e.target.dataset.id 
-    var backmain =await this.returnCodeMain(code ,id)
     var temparr = this.data.arr
-    temparr['LIST'][id]['BARCODE'] = backmain[0]
-    temparr['LIST'][id]['NAME'] = backmain[1]
-    temparr['LIST'][id]['ALL_SL'] = backmain[2]
-    temparr['LIST'][id]['ALL_JE'] = backmain[3]
-    temparr['LIST'][id]['UPLOADLDATE'] = this.data.todaydate
-    this.setData({
-      arr: temparr,
-      dispost: true,
-    })
+    for (var i in temparr['LIST']){
+      if( temparr['LIST'][i]['BARCODE'] == code){
+        wx.showToast({
+          title: '条码重复',
+          icon: 'error',
+          duration: 2000
+        })
+        break
+      }else if(i== temparr['LIST'].length-1 ){
+        var backmain =await this.returnCodeMain(code ,id)
+
+        temparr['LIST'][id]['BARCODE'] = backmain[0]
+        temparr['LIST'][id]['NAME'] = backmain[1]
+        temparr['LIST'][id]['ALL_SL'] = backmain[2]
+        temparr['LIST'][id]['ALL_JE'] = backmain[3]
+        temparr['LIST'][id]['UPLOADLDATE'] = this.data.todaydate
+        this.setData({
+          arr: temparr,
+          dispost: true,
+        })
+      }
+    }
+
+
   },
   returnCodeMain(code ,id){
     var kclist = this.data.kclist
@@ -221,6 +290,29 @@ Page({
               }
             }
           })
+        }
+      }
+
+    })
+
+  },
+
+  returnCodeMain2(code){
+    var kclist = this.data.kclist
+    var that = this
+    console.log(kclist.length)
+    return new Promise((resolve, reject) => {
+
+      for (var i in kclist){
+
+        if( code == kclist[i]['BARCODE'] && kclist[i]['HSFS'] == 0){
+          console.log('success')
+          var backl = [code, kclist[i]['NAME'], kclist[i]['JCSL'], Math.floor(((kclist[i]['JCJE'])*1.13)*100)/100]
+          resolve (backl)
+          break
+        }else if(i== kclist.length-1){
+          var backl = [code, '', 0, 0]
+          resolve (backl)
         }
       }
 
@@ -347,9 +439,6 @@ Page({
     }
   },
 
-
-
-
   addsig(){
     var temparr = this.data.arr
     var sig = {
@@ -397,7 +486,8 @@ Page({
       console.log(x)
       console.log(temparr2['LIST'][x]['BARCODE'] )
       if (temparr2['LIST'][x]['BARCODE'] == '' || (temparr2['LIST'][x]['GQ_SL'] == 0 && temparr2['LIST'][x]['YGQ_SL'] == 0 && temparr2['LIST'][x]['DS_SL'] == 0) || (Number(temparr2['LIST'][x]['GQ_SL']) + Number(temparr2['LIST'][x]['YGQ_SL']) + Number(temparr2['LIST'][x]['DS_SL'])) > temparr2['LIST'][x]['ALL_SL']){
-        temparr2['LIST'].splice(x, 1)
+        // temparr2['LIST'].splice(x, 1)
+        note = note + ',' +  String(Number(x) + 1)
       }else if(temparr2['LIST'][x]['BARCODE'] != '' && (temparr2['LIST'][x]['GQ_SL'] != 0 || temparr2['LIST'][x]['YGQ_SL'] != 0 || temparr2['LIST'][x]['DS_SL'] != 0) ){
         gqje = temparr2['LIST'][x]['GQ_JE'] + gqje
         ygqje = temparr2['LIST'][x]['YGQ_JE'] + ygqje
@@ -405,9 +495,9 @@ Page({
       }
       temparr2['DATE'] = this.data.todaydate
       temparr2['DS_JE'] = dsje
-      temparr2['GQ_JE'] = gqje
-      temparr2['YGQ_JE'] = ygqje
-      temparr2['FDMC'] = this.data.fdarray[this.data.fdbh_in]['FDMC']
+      temparr2['GQ_JE'] = Math.floor(gqje * 100) / 100
+      temparr2['YGQ_JE'] = Math.floor(ygqje * 100) / 100
+
 
       
     }
@@ -415,9 +505,25 @@ Page({
       arr:temparr2,
       dispost: false,
     })
+
+    if (note!=''){
+      this.setData({dispost:true})
+      wx.showModal({
+        title: '提示',
+        content: '以下几行数据无意义或报备数量大于库存数量！分别是' + note + '行。请更正数据或把无意义删除。',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
   },
 
   postbin(){
+    var that = this
     var arr = this.data.arr
     if (arr['LIST'].length == 0 || arr['LIST'][0]['NAME'] == '' || arr['FDMC'] == ''){
       wx.showModal({
@@ -433,7 +539,7 @@ Page({
       })
     }else{
       console.log(arr)
-      if(arr['id'] == '0'){
+      if(that.data.id == '0'){
         db.collection('Problem').add({
           // data 字段表示需新增的 JSON 数据
           data: {
@@ -461,6 +567,31 @@ Page({
               }
             })
 
+          }
+        })
+      }else{
+        db.collection('Problem').doc(this.data.id).set({
+          data: {
+            FDBH : this.data.arr['FDBH'],
+            main: this.data.arr
+          },
+          success: function(res) {
+            console.log(res.data)
+            wx.showModal({
+              title: '提示',
+              content: '提交成功',
+              showCancel:false,
+              success (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                  wx.redirectTo({
+                    url: '../../../pages/UploadProblem/index',
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
           }
         })
       }

@@ -1,4 +1,8 @@
 // pages/UploadProblem/index.js
+const db = wx.cloud.database()
+const app = getApp()
+const utils = require('../../utils/utils.js');
+var dateTime = new Date()
 Page({
 
   /**
@@ -12,8 +16,72 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.returnList()
+  },
+
+  returnList(){
+    var that = this
+
+    if(app.globalData.userData.OpenID == 'oXr805Y3UMz49YczL0-Hb4-FaihA'){
+
+      console.log('管理员模式查看全部上传问题。')
+      const _ = db.command
+      db.collection('Problem').where({
+        _openid: _.neq('')
+      })
+      .get({
+        success: function(res) {
+          // res.data 是包含以上定义的两条记录的数组
+          console.log(res.data)
+          if(res.data.length > 0){
+            var list = []
+            for (var i in res.data){
+              var tempm = {
+                id: res.data[i]['_id'],
+                FDMC:res.data[i]['main']['FDMC'],
+                ZXR:res.data[i]['main']['ZXR'],
+                GQ_JE:res.data[i]['main']['GQ_JE'],
+                DS_JE:res.data[i]['main']['DS_JE'],
+                YGQ_JE:res.data[i]['main']['YGQ_JE'],
+                DATE:res.data[i]['main']['DATE']
+              }
+              list.push(tempm)
+              that.setData({list: list, showlist:false})
+            }
+          }
+        }
+      })
+    }else{
+      db.collection('Problem').where({
+        _openid: app.globalData.userData.OpenID
+      })
+      .get({
+        success: function(res) {
+          // res.data 是包含以上定义的两条记录的数组
+          console.log(res.data)
+          if(res.data.length > 0){
+            var list = []
+            for (var i in res.data){
+              var tempm = {
+                id: res.data[i]['_id'],
+                FDMC:res.data[i]['main']['FDMC'],
+                ZXR:res.data[i]['main']['ZXR'],
+                GQ_JE:res.data[i]['main']['GQ_JE'],
+                DS_JE:res.data[i]['main']['DS_JE'],
+                YGQ_JE:res.data[i]['main']['YGQ_JE'],
+                DATE:res.data[i]['main']['DATE']
+              }
+              list.push(tempm)
+              that.setData({list: list, showlist:false})
+            }
+          }
+        }
+      })
+    }
+    
 
   },
+
   callpage2(e){
     /**
      * 
@@ -38,8 +106,15 @@ Page({
      * }]
      * }
      */
+    console.log(e)
+    var id = '0'
+    id = e.currentTarget.dataset.id
+    if (id == undefined){
+      id = '0'
+    }
+    console.log(id)
     wx.navigateTo({
-      url: 'main/index?id=0',
+      url: 'main/index?id=' + id,
     })
   },
 
