@@ -40,6 +40,7 @@ Page({
       {value: 'ORDER', name: '销售单相关'},
       {value: 'UM', name: '用户管理'},
       {value: 'VettingOrders', name: '审核订单'},
+      {value: 'downDB', name: '数据库下载'},
       {value: 'Application', name: '用户注册审批'},
       {value: 'URM', name: '用户权限修改'},
       {value: 'InspectionReport', name: '质检报告'},

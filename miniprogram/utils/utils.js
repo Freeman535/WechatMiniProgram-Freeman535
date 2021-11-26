@@ -229,7 +229,11 @@ var all_menu = [
       gt: '../../pages/pim/pim'
     },
 
-    
+    'downDB':{
+      pic:'../../images/MO.png',
+      name:'数据库下载',
+      gt: '../../pages/downDB/index'
+    },
 
     'VettingOrders':{
       pic:'../../images/MO.png',

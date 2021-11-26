@@ -1,0 +1,20 @@
+/* pages/downDB/index.wxss */
+button{
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
+.button-sp-area{
+  margin: 0 auto;
+  width: 60%;
+}
+.mini-btn{
+  margin-right: 10rpx;
+}
+
+.tit{
+  margin: 50rpx auto;
+  text-align: center;
+  font-size: 50rpx;
+  font-weight: bold;
+  color: #64b7ff;
+}

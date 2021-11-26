@@ -1,0 +1,14 @@
+<!--pages/downDB/index.wxml-->
+<view>
+  <view>
+    <view class="tit">选择要下载的数据库</view>
+    <picker style="font-size: 40rpx;" bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+      <view class="picker">
+        当前选择：{{array[index]}}
+      </view>
+    </picker>
+
+    <button bindtap="downdb" style="width: 50%;margin-top: 30rpx;" type="primary">确认下载</button>
+
+  </view>
+</view>

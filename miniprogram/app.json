@@ -23,6 +23,7 @@
     "pages/uo/index",
     "pages/co/index",
     "pages/um/index",
+    "pages/downDB/index",
     "pages/VettingOrders/index",
     "pages/VettingOrders/checkOrder/index",
     "pages/application/index",
