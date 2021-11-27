@@ -27,8 +27,7 @@ Page({
     })
   },
 
-
- downdb(){
+  downdb(){
     var that = this
      wx.showModal({
       title: '提示',
@@ -36,6 +35,10 @@ Page({
       async success (res) {
         if (res.confirm) {
           console.log('用户点击确定')
+          wx.showLoading({
+            title: '正在处理中...',
+            mask: true
+          })
 
           var m = await that.maindown()
           console.log(m)
@@ -108,10 +111,6 @@ Page({
               })
             }
           })
-
-
-
-
         } else if (res.cancel) {
           console.log('用户点击取消')
         }

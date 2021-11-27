@@ -328,7 +328,7 @@ Page({
     if (temparr['LIST'][id]['BARCODE'] != ''){
       var aveje = Math.floor((temparr['LIST'][id]['ALL_JE'] / temparr['LIST'][id]['ALL_SL']) * 100) / 100
 
-      temparr['LIST'][id]['GQ_SL'] = value
+      temparr['LIST'][id]['GQ_SL'] = Number(value)
       temparr['LIST'][id]['GQ_JE'] = Math.floor((value * aveje) * 100) / 100
       temparr['LIST'][id]['UPLOADLDATE'] = this.data.todaydate
       this.setData({
@@ -355,7 +355,7 @@ Page({
     if (temparr['LIST'][id]['BARCODE'] != ''){
       var aveje = Math.floor((temparr['LIST'][id]['ALL_JE'] / temparr['LIST'][id]['ALL_SL']) * 100) / 100
 
-      temparr['LIST'][id]['YGQ_SL'] = value
+      temparr['LIST'][id]['YGQ_SL'] = Number(value)
       temparr['LIST'][id]['YGQ_JE'] = Math.floor((value * aveje) * 100) / 100
       temparr['LIST'][id]['UPLOADLDATE'] = this.data.todaydate
       this.setData({
@@ -380,7 +380,7 @@ Page({
     if (temparr['LIST'][id]['BARCODE'] != ''){
       var aveje = Math.floor((temparr['LIST'][id]['ALL_JE'] / temparr['LIST'][id]['ALL_SL']) * 100) / 100
 
-      temparr['LIST'][id]['DS_SL'] = value
+      temparr['LIST'][id]['DS_SL'] = Number(value)
       temparr['LIST'][id]['DS_JE'] = Math.floor((value * aveje) * 100) / 100
       temparr['LIST'][id]['UPLOADLDATE'] = this.data.todaydate
       this.setData({
