@@ -81,6 +81,7 @@ Page({
   },
 
   async resetlisthas(list){
+    
     var that = this
     var tempfdbh = this.data.fdbh_in
     var kclist = await utils.LgbaoSearcKCList([list['FDBH'], this.data.yearstoday, '', '', '', '', ''])
@@ -116,7 +117,9 @@ Page({
     var that = this
     var temp_fdbh_in = e.detail.value
     var tempitem = this.data.arr
+
     tempitem['FDBH'] = String(this.data.fdarray[temp_fdbh_in]['FDBH'])
+    console.log(tempitem['FDBH'])
     tempitem['FDMC'] = this.data.fdarray[temp_fdbh_in]['FDMC']
 
     db.collection('Problem').where({
@@ -181,7 +184,7 @@ Page({
     })
   },
   async downloadKc(){
-    var tempfdbh = this.data.fdbh_in
+    var tempfdbh = this.data.arr['FDBH']
     var kclist = await utils.LgbaoSearcKCList([tempfdbh, this.data.yearstoday, '', '', '', '', ''])
     
     this.setData({kclist:kclist})
