@@ -699,13 +699,13 @@ function LgbaoSearcSALEList(arrTemp){
       method:"POST",
       header: {
         'Host': 'lgb.oywanhao.com',
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Content-Type': 'application/json',
         'token': app.globalData.OyToken,
         'Accept': 'application/json, text/javascript, */*; q=0.01',
         'shopCode':''
       },
+      data:{"SHOPAndGHS":"000003_000376","BMDM":"","BMJB":"1","FDBH":arrTemp[0],"SP_SB":"","HTH":"全部","SP_NAME":arrTemp[6],"SPCODE":arrTemp[5],"SP_BARCODE":arrTemp[4],"SP_JHDJ":"","SP_HH":"","SP_GG":"","RQ_S":arrTemp[1],"RQ_E":arrTemp[2],"SPFL":"","HZFS":"5","HSFS":"0,1,3,5,4,6,","SHOPCODE":"000003","GHDWDM":"000376","page":1,"rows":10000000},
       
-      data:'SHOPAndGHS=000003_000376&BMDM=&BMJB=1&FDBH='+arrTemp[0]+'&SP_SB=&HTH=%E5%85%A8%E9%83%A8&SP_NAME='+arrTemp[6]+'&SPCODE='+arrTemp[5]+'&SP_BARCODE='+arrTemp[4]+'&SP_JHDJ=&SP_HH=&SP_GG=&RQ_S='+arrTemp[1]+'&RQ_E='+arrTemp[2]+'&SPFL=&HZFS=5&HSFS=0%2C1%2C3%2C5%2C4%2C6%2C&SHOPCODE=000003&GHDWDM=000376&page=1&rows=1000000000',
       success(res){
         wx.hideLoading()
         var back = (res.data.data.data.list)
